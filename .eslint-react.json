@@ -1,0 +1,36 @@
+{
+  "extends": [
+    "./.eslintrc.json",
+    "plugin:jsx-a11y/recommended",
+    "plugin:react/recommended"
+  ],
+  "plugins": [
+    "jsx-a11y",
+    "react",
+    "react-hooks",
+    "emotion"
+  ],
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
+  "rules": {
+    "@typescript-eslint/no-unused-vars": [
+      "error",
+      {
+        "varsIgnorePattern": "^jsx$"
+      }
+    ],
+    "react/prop-types": "off",
+    "react/react-in-jsx-scope": "off",
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
+    "emotion/jsx-import": "error",
+    "emotion/no-vanilla": "error",
+    "emotion/syntax-preference": [
+      "error",
+      "string"
+    ]
+  }
+}
