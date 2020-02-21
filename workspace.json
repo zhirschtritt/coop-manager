@@ -1,25 +1,58 @@
 {
   "version": 1,
   "projects": {
-    "frontend": {
-      "root": "apps/frontend",
-      "sourceRoot": "apps/frontend/src",
+    "common": {
+      "root": "libs/common",
+      "sourceRoot": "libs/common/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@nrwl/linter:lint",
+          "options": {
+            "linter": "eslint",
+            "config": "libs/common/.eslintrc",
+            "tsConfig": [
+              "libs/common/tsconfig.lib.json",
+              "libs/common/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/common/**"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/common/jest.config.js",
+            "tsConfig": "libs/common/tsconfig.spec.json",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "staff-app": {
+      "root": "apps/staff-app",
+      "sourceRoot": "apps/staff-app/src",
       "projectType": "application",
       "schematics": {},
       "architect": {
         "build": {
           "builder": "@nrwl/web:build",
           "options": {
-            "outputPath": "dist/apps/frontend",
-            "index": "apps/frontend/src/index.html",
-            "main": "apps/frontend/src/main.tsx",
-            "polyfills": "apps/frontend/src/polyfills.ts",
-            "tsConfig": "apps/frontend/tsconfig.app.json",
+            "outputPath": "dist/apps/staff-app",
+            "index": "apps/staff-app/src/index.html",
+            "main": "apps/staff-app/src/main.tsx",
+            "polyfills": "apps/staff-app/src/polyfills.ts",
+            "tsConfig": "apps/staff-app/tsconfig.app.json",
             "assets": [
-              "apps/frontend/src/favicon.ico",
-              "apps/frontend/src/assets"
+              "apps/staff-app/src/favicon.ico",
+              "apps/staff-app/src/assets"
             ],
-            "styles": ["apps/frontend/src/styles.less"],
+            "styles": [
+              "apps/staff-app/src/styles.less"
+            ],
             "scripts": [],
             "webpackConfig": "@nrwl/react/plugins/webpack"
           },
@@ -27,8 +60,8 @@
             "production": {
               "fileReplacements": [
                 {
-                  "replace": "apps/frontend/src/environments/environment.ts",
-                  "with": "apps/frontend/src/environments/environment.prod.ts"
+                  "replace": "apps/staff-app/src/environments/environment.ts",
+                  "with": "apps/staff-app/src/environments/environment.prod.ts"
                 }
               ],
               "optimization": true,
@@ -51,12 +84,12 @@
         "serve": {
           "builder": "@nrwl/web:dev-server",
           "options": {
-            "buildTarget": "frontend:build",
-            "proxyConfig": "apps/frontend/proxy.conf.json"
+            "buildTarget": "staff-app:build",
+            "proxyConfig": "apps/staff-app/proxy.conf.json"
           },
           "configurations": {
             "production": {
-              "buildTarget": "frontend:build:production"
+              "buildTarget": "staff-app:build:production"
             }
           }
         },
@@ -64,39 +97,42 @@
           "builder": "@nrwl/linter:lint",
           "options": {
             "linter": "eslint",
-            "config": "apps/frontend/.eslintrc",
+            "config": "apps/staff-app/.eslintrc",
             "tsConfig": [
-              "apps/frontend/tsconfig.app.json",
-              "apps/frontend/tsconfig.spec.json"
+              "apps/staff-app/tsconfig.app.json",
+              "apps/staff-app/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!apps/frontend/**"]
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/staff-app/**"
+            ]
           }
         },
         "test": {
           "builder": "@nrwl/jest:jest",
           "options": {
-            "jestConfig": "apps/frontend/jest.config.js",
-            "tsConfig": "apps/frontend/tsconfig.spec.json",
+            "jestConfig": "apps/staff-app/jest.config.js",
+            "tsConfig": "apps/staff-app/tsconfig.spec.json",
             "passWithNoTests": true
           }
         }
       }
     },
-    "frontend-e2e": {
-      "root": "apps/frontend-e2e",
-      "sourceRoot": "apps/frontend-e2e/src",
+    "staff-app-e2e": {
+      "root": "apps/staff-app-e2e",
+      "sourceRoot": "apps/staff-app-e2e/src",
       "projectType": "application",
       "architect": {
         "e2e": {
           "builder": "@nrwl/cypress:cypress",
           "options": {
-            "cypressConfig": "apps/frontend-e2e/cypress.json",
-            "tsConfig": "apps/frontend-e2e/tsconfig.e2e.json",
-            "devServerTarget": "frontend:serve"
+            "cypressConfig": "apps/staff-app-e2e/cypress.json",
+            "tsConfig": "apps/staff-app-e2e/tsconfig.e2e.json",
+            "devServerTarget": "staff-app:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "frontend:serve:production"
+              "devServerTarget": "staff-app:serve:production"
             }
           }
         },
@@ -104,16 +140,21 @@
           "builder": "@nrwl/linter:lint",
           "options": {
             "linter": "eslint",
-            "config": "apps/frontend-e2e/.eslintrc",
-            "tsConfig": ["apps/frontend-e2e/tsconfig.e2e.json"],
-            "exclude": ["**/node_modules/**", "!apps/frontend-e2e/**"]
+            "config": "apps/staff-app-e2e/.eslintrc",
+            "tsConfig": [
+              "apps/staff-app-e2e/tsconfig.e2e.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/staff-app-e2e/**"
+            ]
           }
         }
       }
     },
-    "backend": {
-      "root": "apps/backend",
-      "sourceRoot": "apps/backend/src",
+    "api": {
+      "root": "apps/api",
+      "sourceRoot": "apps/api/src",
       "projectType": "application",
       "prefix": "backend",
       "schematics": {},
@@ -121,10 +162,12 @@
         "build": {
           "builder": "@nrwl/node:build",
           "options": {
-            "outputPath": "dist/apps/backend",
-            "main": "apps/backend/src/main.ts",
-            "tsConfig": "apps/backend/tsconfig.app.json",
-            "assets": ["apps/backend/src/assets"]
+            "outputPath": "dist/apps/api",
+            "main": "apps/api/src/main.ts",
+            "tsConfig": "apps/api/tsconfig.app.json",
+            "assets": [
+              "apps/api/src/assets"
+            ]
           },
           "configurations": {
             "production": {
@@ -133,8 +176,8 @@
               "inspect": false,
               "fileReplacements": [
                 {
-                  "replace": "apps/backend/src/environments/environment.ts",
-                  "with": "apps/backend/src/environments/environment.prod.ts"
+                  "replace": "apps/api/src/environments/environment.ts",
+                  "with": "apps/api/src/environments/environment.prod.ts"
                 }
               ]
             }
@@ -143,54 +186,29 @@
         "serve": {
           "builder": "@nrwl/node:execute",
           "options": {
-            "buildTarget": "backend:build"
+            "buildTarget": "api:build"
           }
         },
         "lint": {
           "builder": "@nrwl/linter:lint",
           "options": {
             "linter": "eslint",
-            "config": "apps/backend/.eslintrc",
+            "config": "apps/api/.eslintrc",
             "tsConfig": [
-              "apps/backend/tsconfig.app.json",
-              "apps/backend/tsconfig.spec.json"
+              "apps/api/tsconfig.app.json",
+              "apps/api/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!apps/backend/**"]
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/api/**"
+            ]
           }
         },
         "test": {
           "builder": "@nrwl/jest:jest",
           "options": {
-            "jestConfig": "apps/backend/jest.config.js",
-            "tsConfig": "apps/backend/tsconfig.spec.json",
-            "passWithNoTests": true
-          }
-        }
-      }
-    },
-    "common": {
-      "root": "libs/common",
-      "sourceRoot": "libs/common/src",
-      "projectType": "library",
-      "schematics": {},
-      "architect": {
-        "lint": {
-          "builder": "@nrwl/linter:lint",
-          "options": {
-            "linter": "eslint",
-            "config": "libs/common/.eslintrc",
-            "tsConfig": [
-              "libs/common/tsconfig.lib.json",
-              "libs/common/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**", "!libs/common/**"]
-          }
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "options": {
-            "jestConfig": "libs/common/jest.config.js",
-            "tsConfig": "libs/common/tsconfig.spec.json",
+            "jestConfig": "apps/api/jest.config.js",
+            "tsConfig": "apps/api/tsconfig.spec.json",
             "passWithNoTests": true
           }
         }
@@ -259,5 +277,5 @@
       }
     }
   },
-  "defaultProject": "frontend"
+  "defaultProject": "staff-app"
 }

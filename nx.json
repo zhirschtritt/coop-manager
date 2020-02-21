@@ -11,17 +11,19 @@
     "nx.json": "*"
   },
   "projects": {
-    "frontend": {
-      "tags": []
-    },
-    "frontend-e2e": {
-      "tags": [],
-      "implicitDependencies": ["frontend"]
-    },
-    "backend": {
-      "tags": []
-    },
     "common": {
+      "tags": []
+    },
+    "staff-app": {
+      "tags": []
+    },
+    "staff-app-e2e": {
+      "tags": [],
+      "implicitDependencies": [
+        "staff-app"
+      ]
+    },
+    "api": {
       "tags": []
     }
   }
