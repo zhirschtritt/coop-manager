@@ -16,10 +16,7 @@
               "libs/common/tsconfig.lib.json",
               "libs/common/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**",
-              "!libs/common/**"
-            ]
+            "exclude": ["**/node_modules/**", "!libs/common/**"]
           }
         },
         "test": {
@@ -50,9 +47,7 @@
               "apps/staff-app/src/favicon.ico",
               "apps/staff-app/src/assets"
             ],
-            "styles": [
-              "apps/staff-app/src/styles.less"
-            ],
+            "styles": ["apps/staff-app/src/styles.less"],
             "scripts": [],
             "webpackConfig": "@nrwl/react/plugins/webpack"
           },
@@ -102,10 +97,7 @@
               "apps/staff-app/tsconfig.app.json",
               "apps/staff-app/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**",
-              "!apps/staff-app/**"
-            ]
+            "exclude": ["**/node_modules/**", "!apps/staff-app/**"]
           }
         },
         "test": {
@@ -141,13 +133,8 @@
           "options": {
             "linter": "eslint",
             "config": "apps/staff-app-e2e/.eslintrc",
-            "tsConfig": [
-              "apps/staff-app-e2e/tsconfig.e2e.json"
-            ],
-            "exclude": [
-              "**/node_modules/**",
-              "!apps/staff-app-e2e/**"
-            ]
+            "tsConfig": ["apps/staff-app-e2e/tsconfig.e2e.json"],
+            "exclude": ["**/node_modules/**", "!apps/staff-app-e2e/**"]
           }
         }
       }
@@ -165,9 +152,7 @@
             "outputPath": "dist/apps/api",
             "main": "apps/api/src/main.ts",
             "tsConfig": "apps/api/tsconfig.app.json",
-            "assets": [
-              "apps/api/src/assets"
-            ]
+            "assets": ["apps/api/src/assets"]
           },
           "configurations": {
             "production": {
@@ -198,10 +183,7 @@
               "apps/api/tsconfig.app.json",
               "apps/api/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**",
-              "!apps/api/**"
-            ]
+            "exclude": ["**/node_modules/**", "!apps/api/**"]
           }
         },
         "test": {

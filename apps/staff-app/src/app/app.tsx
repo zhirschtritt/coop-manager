@@ -1,4 +1,5 @@
-import React, {useState, useEffect, useImperativeHandle} from 'react';
+import React, {useState, useEffect} from 'react';
+import axios from 'axios';
 import {StyledFirebaseAuth} from 'react-firebaseui';
 import {
   BrowserRouter as Router,
@@ -13,9 +14,8 @@ import * as firebase from 'firebase';
 
 firebase.initializeApp(firebaseConfig);
 
-const PrivateRoute = ({...props}) => {
+function PrivateRoute({...props}) {
   if (props.loggedIn) {
-    console.log('LOGGED IN ROUTE');
     return <Route {...props} />;
   }
   return <Redirect to="/login" />;
@@ -33,14 +33,18 @@ export default function App() {
   const [loggedIn, setLoggedIn] = useState(false);
 
   useEffect(() => {
-    const unregister = firebase.auth().onAuthStateChanged((user: firebase.User) => {
+    const checkAuthorized = async (user: firebase.User) => {
       if (user && !store.get('currentUser')) {
-        store.set('currentUser')(user);
-        setLoggedIn(true);
-      } else if (!user) {
-        store.set('currentUser')(undefined);
+        const userToken = await user.getIdToken();
+        const res = await axios.get(`/api/members/auth`, {params: {userToken}});
+        if (res?.data?.isAuthorized) {
+          store.set('currentUser')(user);
+          setLoggedIn(true);
+        }
       }
-    });
+    };
+
+    const unregister = firebase.auth().onAuthStateChanged(checkAuthorized);
 
     return unregister;
   }, [store, loggedIn]);
