@@ -10,9 +10,9 @@ import {
 import Home from './home';
 import {firebaseUiConfig, firebaseConfig} from './firebaseAuth';
 import {Store} from './store';
-import * as firebase from 'firebase';
+import {initializeApp as initializeFirebaseApp, auth as firebaseAuth} from 'firebase';
 
-firebase.initializeApp(firebaseConfig);
+initializeFirebaseApp(firebaseConfig);
 
 function PrivateRoute({...props}) {
   if (props.loggedIn) {
@@ -25,7 +25,7 @@ function LogIn({loggedIn}) {
   if (loggedIn) {
     return <Redirect to='/' />;
   }
-  return <StyledFirebaseAuth uiConfig={firebaseUiConfig(() => false)} firebaseAuth={firebase.auth()} />;
+  return <StyledFirebaseAuth uiConfig={firebaseUiConfig(() => false)} firebaseAuth={firebaseAuth()} />;
 };
 
 export default function App() {
@@ -35,8 +35,9 @@ export default function App() {
   useEffect(() => {
     const checkAuthorized = async (user: firebase.User) => {
       if (user && !store.get('currentUser')) {
-        const userToken = await user.getIdToken();
-        const res = await axios.get(`/api/members/auth`, {params: {userToken}});
+        const token = await user.getIdToken();
+        // TODO: wrap in api layer and use common types for req body
+        const res = await axios.post(`/api/auth/login`, null, {params: {token}});
         if (res?.data?.isAuthorized) {
           store.set('currentUser')(user);
           setLoggedIn(true);
@@ -44,7 +45,7 @@ export default function App() {
       }
     };
 
-    const unregister = firebase.auth().onAuthStateChanged(checkAuthorized);
+    const unregister = firebaseAuth().onAuthStateChanged(checkAuthorized);
 
     return unregister;
   }, [store, loggedIn]);
