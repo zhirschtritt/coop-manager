@@ -19,9 +19,7 @@
     },
     "staff-app-e2e": {
       "tags": [],
-      "implicitDependencies": [
-        "staff-app"
-      ]
+      "implicitDependencies": ["staff-app"]
     },
     "api": {
       "tags": []
