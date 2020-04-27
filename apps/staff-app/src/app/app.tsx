@@ -1,11 +1,11 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import axios from 'axios';
 import {StyledFirebaseAuth} from 'react-firebaseui';
 import {
-  BrowserRouter as Router,
   Switch,
   Route,
   Redirect,
+  BrowserRouter,
 } from "react-router-dom";
 import Home from './home';
 import {firebaseUiConfig, firebaseConfig} from './firebaseAuth';
@@ -15,22 +15,24 @@ import {initializeApp as initializeFirebaseApp, auth as firebaseAuth} from 'fire
 initializeFirebaseApp(firebaseConfig);
 
 function PrivateRoute({...props}) {
-  if (props.loggedIn) {
+  const store = Store.useStore();
+  if (store.get('currentUser')) {
     return <Route {...props} />;
   }
   return <Redirect to="/login" />;
 };
 
-function LogIn({loggedIn}) {
-  if (loggedIn) {
+function LogIn() {
+  const store = Store.useStore();
+  if (store.get('currentUser')) {
     return <Redirect to='/' />;
   }
+
   return <StyledFirebaseAuth uiConfig={firebaseUiConfig(() => false)} firebaseAuth={firebaseAuth()} />;
 };
 
 export default function App() {
   const store = Store.useStore();
-  const [loggedIn, setLoggedIn] = useState(false);
 
   useEffect(() => {
     const checkAuthorized = async (user: firebase.User) => {
@@ -40,7 +42,6 @@ export default function App() {
         const res = await axios.post(`/api/auth/login`, null, {params: {token}});
         if (res?.data?.isAuthorized) {
           store.set('currentUser')(user);
-          setLoggedIn(true);
         }
       }
     };
@@ -48,16 +49,16 @@ export default function App() {
     const unregister = firebaseAuth().onAuthStateChanged(checkAuthorized);
 
     return unregister;
-  }, [store, loggedIn]);
+  }, [store]);
 
   return (
-      <Router>
+      <BrowserRouter>
         <Switch>
+          <PrivateRoute path="/" exact component={Home} />
           <Route path='/login'>
-            <LogIn loggedIn={loggedIn} />
+            <LogIn />
           </Route>
-          <PrivateRoute path="/" loggedIn={loggedIn} component={Home} />
         </Switch>
-      </Router>
+      </BrowserRouter>
   );
 }

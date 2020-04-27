@@ -39,6 +39,7 @@
     "firebase-admin": "^8.9.2",
     "firebaseui": "^4.4.0",
     "fireorm": "0.13.2",
+    "history": "^4.10.1",
     "nestjs-pino": "^1.2.0",
     "pino-pretty": "^4.0.0",
     "react": "16.12.0",
@@ -48,6 +49,9 @@
     "react-router-dom": "^5.1.2",
     "reflect-metadata": "^0.1.13",
     "rrule": "^2.6.4",
+    "semantic-ui-css": "^2.4.1",
+    "semantic-ui-less": "^2.4.1",
+    "semantic-ui-react": "^0.88.2",
     "undux": "^5.2.0"
   },
   "devDependencies": {

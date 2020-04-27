@@ -20,6 +20,7 @@ export const firebaseUiConfig = (signInSuccessWithAuthResult?: SignInSuccessCall
     signInOptions: [
       firebase.auth.GoogleAuthProvider.PROVIDER_ID,
       firebase.auth.EmailAuthProvider.PROVIDER_ID,
+      firebase.auth.GithubAuthProvider.PROVIDER_ID,
     ],
     // TODO: terms of service url....
     tosUrl: '<your-tos-url>',
