@@ -1,4 +1,4 @@
-import {Controller, UseGuards, Inject, Post, UnauthorizedException, Query} from '@nestjs/common';
+import {Controller, UseGuards, Inject, Post, UnauthorizedException, Query, HttpStatus} from '@nestjs/common';
 import {PinoLogger} from 'nestjs-pino';
 import {BaseFirestoreRepository} from 'fireorm';
 import {MemberTypes} from '@bike-coop/common';
@@ -23,12 +23,12 @@ export class AuthController {
 
   @Post('login')
   @Roles('staff')
-  async login(@Query('token') token: string): Promise<{isAuthorized: boolean}> {
+  async login(@Query('token') token: string): Promise<void> {
     // FIXME: we've already done this check in the guard, but we do it again here
     // might not be an issue since login should happen relatively infrequently
     const claims = await firebaseAuth().verifyIdToken(token);
     if (claims.staff) {
-      return {isAuthorized: true};
+      return;
     }
 
     const staffEmails = this.configService.get<string[]>('members.staffEmails');
@@ -40,7 +40,7 @@ export class AuthController {
       // wait for member creation before assigning user claim
       await this.setCustomClaim(user);
 
-      return {isAuthorized: true};
+      return;
     } else {
       throw new UnauthorizedException(
         'User is not registered to this app, contact admin if you believe this is a mistake',

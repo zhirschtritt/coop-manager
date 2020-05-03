@@ -34,21 +34,32 @@ function LogIn() {
 export default function App() {
   const store = Store.useStore();
 
+  // TODO: make in to useAuth hook (eg. https://dev.to/bmcmahen/using-firebase-with-react-hooks-21ap)
   useEffect(() => {
-    const checkAuthorized = async (user: firebase.User) => {
+    async function checkAuthorized(user: firebase.User) {
       if (user && !store.get('currentUser')) {
-        const token = await user.getIdToken();
-        // TODO: wrap in api layer and use common types for req body
-        const res = await axios.post(`/api/auth/login`, null, {params: {token}});
-        if (res?.data?.isAuthorized) {
+        const {token, claims} = await user.getIdTokenResult();
+
+        // if user has correct privileges, don't recheck on server
+        if (claims.staff) {
           store.set('currentUser')(user);
+          return;
+        }
+
+        try {
+          await axios.post(`/api/auth/login`, null, {params: {token}});
+          store.set('currentUser')(user);
+        } catch (err) {
+          // TODO: create error module or snackbar
+          if (err.response.status === 401) {
+            console.error(err.response, 'not authorized');
+          }
+          console.error(err, 'unknown err');
         }
       }
     };
 
-    const unregister = firebaseAuth().onAuthStateChanged(checkAuthorized);
-
-    return unregister;
+    return firebaseAuth().onAuthStateChanged(checkAuthorized.bind(this)).bind(this);
   }, [store]);
 
   return (
