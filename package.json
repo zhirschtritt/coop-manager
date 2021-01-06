@@ -33,7 +33,7 @@
     "@nestjs/config": "^0.4.0",
     "@nestjs/core": "^6.8.3",
     "@nestjs/platform-express": "^6.8.3",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "document-register-element": "1.13.1",
     "firebase": "^7.9.1",
     "firebase-admin": "^8.9.2",
