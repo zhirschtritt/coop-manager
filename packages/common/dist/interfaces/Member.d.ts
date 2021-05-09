@@ -1,14 +1,7 @@
-export declare const MemberTypes: Readonly<{
-    STAFF: "staff";
-    /** Designates a member who is *not* a staff member */
-    BASE_MEMBER: "base-member";
-    /** Designates an disabled member (either staff or base) */
-    INACTIVE: "inactive";
-}>;
-export declare type MemberType = typeof MemberTypes[keyof typeof MemberTypes];
-export interface Member {
+import { Timestamped } from './Timestamped';
+export interface Member extends Timestamped {
     id: string;
-    type: MemberType;
-    name: string;
+    firstName: string;
+    lastName: string;
     email: string;
 }

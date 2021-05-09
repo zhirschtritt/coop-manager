@@ -1,12 +1,11 @@
-export interface Term {
+import { Timestamped } from './Timestamped';
+export interface ShiftTerm extends Timestamped {
     id: string;
     startDate: Date;
     endDate: Date;
     lengthInDays: number;
-    /** rrule string */
+    /** rrule string, see: https://github.com/jakubroztocil/rrule */
     pattern: string;
-    /** these are document reference strings in firestore */
-    shiftRefs: string[];
 }
 export interface Shift {
     id: string;
@@ -14,15 +13,10 @@ export interface Shift {
     date: Date;
     /** Shop could be closed */
     status: 'staffed' | 'open' | 'shop-closed';
-    /** this is a document reference string in firestore */
-    termRef: string;
+    shiftTermId: string;
 }
-export interface StaffShift {
+export interface ShiftAssignment extends Timestamped {
     id: string;
-    /** fkey on Member with type 'staff'.
-    * this is a document reference string in firestore */
-    staffMemberRef: string;
-    /** fkey on Shift.
-     * * this is a document reference string in firestore */
+    memberId: string;
     shiftId: string;
 }

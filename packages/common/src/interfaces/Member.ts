@@ -1,18 +1,8 @@
-export const MemberTypes = Object.freeze({
-  STAFF: 'staff' as const,
+import {Timestamped} from './Timestamped';
 
-  /** Designates a member who is *not* a staff member */
-  BASE_MEMBER: 'base-member' as const,
-
-  /** Designates an disabled member (either staff or base) */
-  INACTIVE: 'inactive' as const,
-});
-
-export type MemberType = typeof MemberTypes[keyof typeof MemberTypes]
-
-export interface Member {
+export interface Member extends Timestamped {
   id: string;
-  type: MemberType;
-  name: string;
+  firstName: string;
+  lastName: string;
   email: string;
 }

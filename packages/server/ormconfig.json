@@ -7,13 +7,10 @@
 	"database": "bike_coop_manager_development",
 	"synchronize": false,
 	"logging": true,
-	"entities": [
-		"dist/**/*.entity.js"
-	],
+  "entities": ["dist/**/*.entity{ .ts,.js}"],
 	"cli": {
-		"migrationsDir": "migrations"
+		"migrationsDir": "src/migrations"
 	},
-	"migrations": [
-		"dist/migrations/*.js"
-	]
+  "migrations": ["dist/src/migrations/**/*.js"],
+  "migrationsRun": true
 }

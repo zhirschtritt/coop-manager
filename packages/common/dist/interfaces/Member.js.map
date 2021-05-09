@@ -1,1 +1,1 @@
-{"version":3,"file":"Member.js","sourceRoot":"","sources":["../../src/interfaces/Member.ts"],"names":[],"mappings":";;;AAAa,QAAA,WAAW,GAAG,MAAM,CAAC,MAAM,CAAC;IACvC,KAAK,EAAE,OAAgB;IAEvB,sDAAsD;IACtD,WAAW,EAAE,aAAsB;IAEnC,2DAA2D;IAC3D,QAAQ,EAAE,UAAmB;CAC9B,CAAC,CAAC"}
+{"version":3,"file":"Member.js","sourceRoot":"","sources":["../../src/interfaces/Member.ts"],"names":[],"mappings":""}
