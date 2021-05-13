@@ -3,7 +3,7 @@ import {Module} from '@nestjs/common';
 import {TypeOrmModule} from '@nestjs/typeorm';
 import {AppController} from './app.controller';
 import {AppService} from './app.service';
-import { MembershipsModule } from './memberships/memberships.module';
+import {MembershipsModule} from './memberships/memberships.module';
 
 @Module({
   imports: [
@@ -19,4 +19,3 @@ import { MembershipsModule } from './memberships/memberships.module';
   providers: [AppService],
 })
 export class AppModule {}
-

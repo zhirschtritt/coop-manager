@@ -1,16 +1,11 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
+    "allowJs": true,
     "rootDir": ".",
     "outDir": "dist"
   },
-  "include": [
-		"src",
-		"test"
-	],
-  "types": [
-    "node",
-    "jest"
-  ],
-  "references": [{ "path": "../common" }]
+  "include": ["src", "test"],
+  "types": ["node", "jest"],
+  "references": [{"path": "../common"}]
 }

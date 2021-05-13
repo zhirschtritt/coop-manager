@@ -197,8 +197,8 @@
         "affectsGlobalScope": false
       },
       "./src/interfaces/Membership.ts": {
-        "version": "7f6f6209b8a689117af164a8d67318c3ef172ace015e2cad4d7c888a8bc81fbe",
-        "signature": "b16f86a326240a8a2e54d2ad367fcf8d69724b23b0364e479839b9e77f11b6a5",
+        "version": "fb8394081da8c0f546f9c387f20e97e712a0e8bee3146b48598606aade0ca8ef",
+        "signature": "6ab3c458948c8c3b064273c411b063952afc4f1aa5d222ec9f09c975c4921d17",
         "affectsGlobalScope": false
       },
       "./src/interfaces/Shift.ts": {
@@ -451,16 +451,6 @@
         "signature": "6738101ae8e56cd3879ab3f99630ada7d78097fc9fd334df7e766216778ca219",
         "affectsGlobalScope": false
       },
-      "../../node_modules/@types/anymatch/index.d.ts": {
-        "version": "48b52264fa193879a074197839dbb4796fa07e86350ff888e5361e06aa46df76",
-        "signature": "48b52264fa193879a074197839dbb4796fa07e86350ff888e5361e06aa46df76",
-        "affectsGlobalScope": false
-      },
-      "../../node_modules/@types/aria-query/index.d.ts": {
-        "version": "e51e34b4d8bd97569a7101c1b77234f6a1272cbb5bd50ed649b1da3f71070300",
-        "signature": "e51e34b4d8bd97569a7101c1b77234f6a1272cbb5bd50ed649b1da3f71070300",
-        "affectsGlobalScope": false
-      },
       "../../node_modules/@babel/types/lib/index.d.ts": {
         "version": "b668b7fb7c52a05fb9233a27ba5099a73cd8e157b037d67399336635495ab483",
         "signature": "b668b7fb7c52a05fb9233a27ba5099a73cd8e157b037d67399336635495ab483",
@@ -591,24 +581,9 @@
         "signature": "ca106dc27136bcfabaf1e0b261e9721e7c8119c7ff9dfd5c96ec2211cff926bd",
         "affectsGlobalScope": false
       },
-      "../../node_modules/@types/minimatch/index.d.ts": {
-        "version": "95c22bc19835e28e2e524a4bb8898eb5f2107b640d7279a6d3aade261916bbf2",
-        "signature": "95c22bc19835e28e2e524a4bb8898eb5f2107b640d7279a6d3aade261916bbf2",
-        "affectsGlobalScope": false
-      },
-      "../../node_modules/@types/glob/index.d.ts": {
-        "version": "393137c76bd922ba70a2f8bf1ade4f59a16171a02fb25918c168d48875b0cfb0",
-        "signature": "393137c76bd922ba70a2f8bf1ade4f59a16171a02fb25918c168d48875b0cfb0",
-        "affectsGlobalScope": false
-      },
       "../../node_modules/@types/graceful-fs/index.d.ts": {
         "version": "3ebae8c00411116a66fca65b08228ea0cf0b72724701f9b854442100aab55aba",
         "signature": "3ebae8c00411116a66fca65b08228ea0cf0b72724701f9b854442100aab55aba",
-        "affectsGlobalScope": false
-      },
-      "../../node_modules/@types/html-minifier-terser/index.d.ts": {
-        "version": "6767cce098e1e6369c26258b7a1f9e569c5467d501a47a090136d5ea6e80ae6d",
-        "signature": "6767cce098e1e6369c26258b7a1f9e569c5467d501a47a090136d5ea6e80ae6d",
         "affectsGlobalScope": false
       },
       "../../node_modules/@types/http-assert/index.d.ts": {
@@ -766,6 +741,11 @@
         "signature": "e8465811693dfe4e96ef2b3dffda539d6edfe896961b7af37b44db2c0e48532b",
         "affectsGlobalScope": false
       },
+      "../../node_modules/@types/minimatch/index.d.ts": {
+        "version": "95c22bc19835e28e2e524a4bb8898eb5f2107b640d7279a6d3aade261916bbf2",
+        "signature": "95c22bc19835e28e2e524a4bb8898eb5f2107b640d7279a6d3aade261916bbf2",
+        "affectsGlobalScope": false
+      },
       "../../node_modules/@types/minimist/index.d.ts": {
         "version": "e437d83044ba17246a861aa9691aa14223ff4a9d6f338ab1269c41c758586a88",
         "signature": "e437d83044ba17246a861aa9691aa14223ff4a9d6f338ab1269c41c758586a88",
@@ -806,11 +786,6 @@
         "signature": "a7e32dcb90bf0c1b7a1e4ac89b0f7747cbcba25e7beddc1ebf17be1e161842ad",
         "affectsGlobalScope": false
       },
-      "../../node_modules/@types/q/index.d.ts": {
-        "version": "f9a2dd6a6084665f093ed0e9664b8e673be2a45e342a59dd4e0e4e552e68a9ad",
-        "signature": "f9a2dd6a6084665f093ed0e9664b8e673be2a45e342a59dd4e0e4e552e68a9ad",
-        "affectsGlobalScope": false
-      },
       "../../node_modules/@types/react/global.d.ts": {
         "version": "ecf78e637f710f340ec08d5d92b3f31b134a46a4fcf2e758690d8c46ce62cba6",
         "signature": "ecf78e637f710f340ec08d5d92b3f31b134a46a4fcf2e758690d8c46ce62cba6",
@@ -831,24 +806,9 @@
         "signature": "5d708266116e778d6a4140fca2ac36f71d99b4c68bc3be63a45ba8bf5ade5348",
         "affectsGlobalScope": true
       },
-      "../../node_modules/@types/react-dom/index.d.ts": {
-        "version": "ee7266c6f312a6bf9612691b7fff1dfde32a609d150521c1f20d3f7972bc7586",
-        "signature": "ee7266c6f312a6bf9612691b7fff1dfde32a609d150521c1f20d3f7972bc7586",
-        "affectsGlobalScope": false
-      },
-      "../../node_modules/@types/resolve/index.d.ts": {
-        "version": "2880728492d6a6baa55411d14cc42fa55714a24b1d1d27ff9a8a610abd47c761",
-        "signature": "2880728492d6a6baa55411d14cc42fa55714a24b1d1d27ff9a8a610abd47c761",
-        "affectsGlobalScope": false
-      },
       "../../node_modules/@types/scheduler/index.d.ts": {
         "version": "3169db033165677f1d414baf0c82ba27801089ca1b66d97af464512a47df31b5",
         "signature": "3169db033165677f1d414baf0c82ba27801089ca1b66d97af464512a47df31b5",
-        "affectsGlobalScope": false
-      },
-      "../../node_modules/@types/source-list-map/index.d.ts": {
-        "version": "67fc055eb86a0632e2e072838f889ffe1754083cb13c8c80a06a7d895d877aae",
-        "signature": "67fc055eb86a0632e2e072838f889ffe1754083cb13c8c80a06a7d895d877aae",
         "affectsGlobalScope": false
       },
       "../../node_modules/@types/stack-utils/index.d.ts": {
@@ -866,29 +826,9 @@
         "signature": "e57360b3f53ec41ed30cfb0eaed6e689be92bf311d7c25175a4e127f46158079",
         "affectsGlobalScope": false
       },
-      "../../node_modules/@types/tapable/index.d.ts": {
-        "version": "d558a0fe921ebcc88d3212c2c42108abf9f0d694d67ebdeba37d7728c044f579",
-        "signature": "d558a0fe921ebcc88d3212c2c42108abf9f0d694d67ebdeba37d7728c044f579",
-        "affectsGlobalScope": false
-      },
-      "../../node_modules/@types/testing-library__jest-dom/index.d.ts": {
-        "version": "d196da9c61a0bec85db6f6ee9b1f46781d25e0627b1d2bedcaeea8ebb1749559",
-        "signature": "d196da9c61a0bec85db6f6ee9b1f46781d25e0627b1d2bedcaeea8ebb1749559",
-        "affectsGlobalScope": true
-      },
       "../../node_modules/@types/tinycolor2/index.d.ts": {
         "version": "27bd05635cf2be7e3f75f375de542eab00cbb24c6b9961d37a0bf99fd344d1fc",
         "signature": "27bd05635cf2be7e3f75f375de542eab00cbb24c6b9961d37a0bf99fd344d1fc",
-        "affectsGlobalScope": false
-      },
-      "../../node_modules/source-map/source-map.d.ts": {
-        "version": "2887592574fcdfd087647c539dcb0fbe5af2521270dad4a37f9d17c16190d579",
-        "signature": "2887592574fcdfd087647c539dcb0fbe5af2521270dad4a37f9d17c16190d579",
-        "affectsGlobalScope": false
-      },
-      "../../node_modules/@types/uglify-js/index.d.ts": {
-        "version": "bee79f5862fe1278d2ba275298862bce3f7abf1e59d9c669c4b9a4b2bba96956",
-        "signature": "bee79f5862fe1278d2ba275298862bce3f7abf1e59d9c669c4b9a4b2bba96956",
         "affectsGlobalScope": false
       },
       "../../node_modules/@types/validator/index.d.ts": {
@@ -899,81 +839,6 @@
       "../../node_modules/@types/warning/index.d.ts": {
         "version": "abd79d61be476addd783d0e0bace2e3c02bb3e38ec23bdfd236adc421b038939",
         "signature": "abd79d61be476addd783d0e0bace2e3c02bb3e38ec23bdfd236adc421b038939",
-        "affectsGlobalScope": false
-      },
-      "../../node_modules/anymatch/index.d.ts": {
-        "version": "4fb0b7d532aa6fb850b6cd2f1ee4f00802d877b5c66a51903bc1fb0624126349",
-        "signature": "4fb0b7d532aa6fb850b6cd2f1ee4f00802d877b5c66a51903bc1fb0624126349",
-        "affectsGlobalScope": false
-      },
-      "../../node_modules/@types/webpack-sources/node_modules/source-map/source-map.d.ts": {
-        "version": "b90c59ac4682368a01c83881b814738eb151de8a58f52eb7edadea2bcffb11b9",
-        "signature": "b90c59ac4682368a01c83881b814738eb151de8a58f52eb7edadea2bcffb11b9",
-        "affectsGlobalScope": false
-      },
-      "../../node_modules/@types/webpack-sources/lib/Source.d.ts": {
-        "version": "8560a87b2e9f8e2c3808c8f6172c9b7eb6c9b08cb9f937db71c285ecf292c81d",
-        "signature": "8560a87b2e9f8e2c3808c8f6172c9b7eb6c9b08cb9f937db71c285ecf292c81d",
-        "affectsGlobalScope": false
-      },
-      "../../node_modules/@types/webpack-sources/lib/CompatSource.d.ts": {
-        "version": "ffe3931ff864f28d80ae2f33bd11123ad3d7bad9896b910a1e61504cc093e1f5",
-        "signature": "ffe3931ff864f28d80ae2f33bd11123ad3d7bad9896b910a1e61504cc093e1f5",
-        "affectsGlobalScope": false
-      },
-      "../../node_modules/@types/webpack-sources/lib/ConcatSource.d.ts": {
-        "version": "083c1bd82f8dc3a1ed6fc9e8eaddf141f7c05df418eca386598821e045253af9",
-        "signature": "083c1bd82f8dc3a1ed6fc9e8eaddf141f7c05df418eca386598821e045253af9",
-        "affectsGlobalScope": false
-      },
-      "../../node_modules/@types/webpack-sources/lib/OriginalSource.d.ts": {
-        "version": "274ebe605bd7f71ce161f9f5328febc7d547a2929f803f04b44ec4a7d8729517",
-        "signature": "274ebe605bd7f71ce161f9f5328febc7d547a2929f803f04b44ec4a7d8729517",
-        "affectsGlobalScope": false
-      },
-      "../../node_modules/@types/webpack-sources/lib/PrefixSource.d.ts": {
-        "version": "6ca0207e70d985a24396583f55836b10dc181063ab6069733561bfde404d1bad",
-        "signature": "6ca0207e70d985a24396583f55836b10dc181063ab6069733561bfde404d1bad",
-        "affectsGlobalScope": false
-      },
-      "../../node_modules/@types/webpack-sources/lib/RawSource.d.ts": {
-        "version": "5908142efeaab38ffdf43927ee0af681ae77e0d7672b956dfb8b6c705dbfe106",
-        "signature": "5908142efeaab38ffdf43927ee0af681ae77e0d7672b956dfb8b6c705dbfe106",
-        "affectsGlobalScope": false
-      },
-      "../../node_modules/@types/webpack-sources/lib/ReplaceSource.d.ts": {
-        "version": "f772b188b943549b5c5eb803133314b8aa7689eced80eed0b70e2f30ca07ab9c",
-        "signature": "f772b188b943549b5c5eb803133314b8aa7689eced80eed0b70e2f30ca07ab9c",
-        "affectsGlobalScope": false
-      },
-      "../../node_modules/@types/webpack-sources/lib/SizeOnlySource.d.ts": {
-        "version": "0026b816ef05cfbf290e8585820eef0f13250438669107dfc44482bac007b14f",
-        "signature": "0026b816ef05cfbf290e8585820eef0f13250438669107dfc44482bac007b14f",
-        "affectsGlobalScope": false
-      },
-      "../../node_modules/@types/webpack-sources/lib/SourceMapSource.d.ts": {
-        "version": "8ef5aad624890acfe0fa48230edce255f00934016d16acb8de0edac0ea5b21bb",
-        "signature": "8ef5aad624890acfe0fa48230edce255f00934016d16acb8de0edac0ea5b21bb",
-        "affectsGlobalScope": false
-      },
-      "../../node_modules/@types/webpack-sources/lib/index.d.ts": {
-        "version": "9af6248ff4baf0c1ddc62bb0bc43197437bd5fb2c95ff8e10e4cf2e699ea45c1",
-        "signature": "9af6248ff4baf0c1ddc62bb0bc43197437bd5fb2c95ff8e10e4cf2e699ea45c1",
-        "affectsGlobalScope": false
-      },
-      "../../node_modules/@types/webpack-sources/lib/CachedSource.d.ts": {
-        "version": "d84398556ba4595ee6be554671da142cfe964cbdebb2f0c517a10f76f2b016c0",
-        "signature": "d84398556ba4595ee6be554671da142cfe964cbdebb2f0c517a10f76f2b016c0",
-        "affectsGlobalScope": false
-      },
-      "../../node_modules/@types/webpack-sources/index.d.ts": {
-        "version": "89b42f8ee5d387a39db85ee2c7123a391c3ede266a2bcd502c85ad55626c3b2b",
-        "signature": "89b42f8ee5d387a39db85ee2c7123a391c3ede266a2bcd502c85ad55626c3b2b",
-        "affectsGlobalScope": false
-      },
-      "../../node_modules/@types/webpack/index.d.ts": {
-        "version": "ef0b707624f7d984f07db02e61589a6e2f2474a55d6b666ab04d2b0722708a83",
-        "signature": "ef0b707624f7d984f07db02e61589a6e2f2474a55d6b666ab04d2b0722708a83",
         "affectsGlobalScope": false
       },
       "../../node_modules/@types/websocket/index.d.ts": {
@@ -1102,11 +967,6 @@
         "./node_modules/@types/node/fs.d.ts",
         "./node_modules/@types/node/index.d.ts"
       ],
-      "../../node_modules/@types/glob/index.d.ts": [
-        "../../node_modules/@types/minimatch/index.d.ts",
-        "./node_modules/@types/node/events.d.ts",
-        "./node_modules/@types/node/index.d.ts"
-      ],
       "../../node_modules/@types/graceful-fs/index.d.ts": [
         "./node_modules/@types/node/fs.d.ts",
         "./node_modules/@types/node/index.d.ts"
@@ -1337,17 +1197,11 @@
         "./node_modules/@types/node/index.d.ts",
         "./node_modules/@types/node/stream.d.ts"
       ],
-      "../../node_modules/@types/react-dom/index.d.ts": [
-        "../../node_modules/@types/react/index.d.ts"
-      ],
       "../../node_modules/@types/react/index.d.ts": [
         "../../node_modules/@types/prop-types/index.d.ts",
         "../../node_modules/@types/react/global.d.ts",
         "../../node_modules/@types/scheduler/tracing.d.ts",
         "../../node_modules/csstype/index.d.ts"
-      ],
-      "../../node_modules/@types/resolve/index.d.ts": [
-        "./node_modules/@types/node/index.d.ts"
       ],
       "../../node_modules/@types/serve-static/index.d.ts": [
         "../../node_modules/@types/mime/index.d.ts",
@@ -1363,94 +1217,6 @@
       ],
       "../../node_modules/@types/supertest/index.d.ts": [
         "../../node_modules/@types/superagent/index.d.ts"
-      ],
-      "../../node_modules/@types/testing-library__jest-dom/index.d.ts": [
-        "../../node_modules/@types/jest/index.d.ts"
-      ],
-      "../../node_modules/@types/uglify-js/index.d.ts": [
-        "../../node_modules/source-map/source-map.d.ts"
-      ],
-      "../../node_modules/@types/webpack-sources/index.d.ts": [
-        "../../node_modules/@types/webpack-sources/lib/CachedSource.d.ts",
-        "../../node_modules/@types/webpack-sources/lib/CompatSource.d.ts",
-        "../../node_modules/@types/webpack-sources/lib/ConcatSource.d.ts",
-        "../../node_modules/@types/webpack-sources/lib/OriginalSource.d.ts",
-        "../../node_modules/@types/webpack-sources/lib/PrefixSource.d.ts",
-        "../../node_modules/@types/webpack-sources/lib/RawSource.d.ts",
-        "../../node_modules/@types/webpack-sources/lib/ReplaceSource.d.ts",
-        "../../node_modules/@types/webpack-sources/lib/SizeOnlySource.d.ts",
-        "../../node_modules/@types/webpack-sources/lib/Source.d.ts",
-        "../../node_modules/@types/webpack-sources/lib/SourceMapSource.d.ts",
-        "../../node_modules/@types/webpack-sources/lib/index.d.ts",
-        "./node_modules/@types/node/index.d.ts"
-      ],
-      "../../node_modules/@types/webpack-sources/lib/CachedSource.d.ts": [
-        "../../node_modules/@types/webpack-sources/lib/Source.d.ts",
-        "../../node_modules/@types/webpack-sources/lib/index.d.ts",
-        "../../node_modules/@types/webpack-sources/node_modules/source-map/source-map.d.ts"
-      ],
-      "../../node_modules/@types/webpack-sources/lib/CompatSource.d.ts": [
-        "../../node_modules/@types/webpack-sources/lib/Source.d.ts",
-        "../../node_modules/@types/webpack-sources/lib/index.d.ts"
-      ],
-      "../../node_modules/@types/webpack-sources/lib/ConcatSource.d.ts": [
-        "../../node_modules/@types/source-list-map/index.d.ts",
-        "../../node_modules/@types/webpack-sources/lib/Source.d.ts",
-        "../../node_modules/@types/webpack-sources/lib/index.d.ts",
-        "../../node_modules/@types/webpack-sources/node_modules/source-map/source-map.d.ts"
-      ],
-      "../../node_modules/@types/webpack-sources/lib/OriginalSource.d.ts": [
-        "../../node_modules/@types/source-list-map/index.d.ts",
-        "../../node_modules/@types/webpack-sources/lib/Source.d.ts",
-        "../../node_modules/@types/webpack-sources/lib/index.d.ts",
-        "../../node_modules/@types/webpack-sources/node_modules/source-map/source-map.d.ts"
-      ],
-      "../../node_modules/@types/webpack-sources/lib/PrefixSource.d.ts": [
-        "../../node_modules/@types/webpack-sources/lib/Source.d.ts",
-        "../../node_modules/@types/webpack-sources/lib/index.d.ts"
-      ],
-      "../../node_modules/@types/webpack-sources/lib/RawSource.d.ts": [
-        "../../node_modules/@types/webpack-sources/lib/Source.d.ts",
-        "../../node_modules/@types/webpack-sources/lib/index.d.ts"
-      ],
-      "../../node_modules/@types/webpack-sources/lib/ReplaceSource.d.ts": [
-        "../../node_modules/@types/webpack-sources/lib/Source.d.ts",
-        "../../node_modules/@types/webpack-sources/lib/index.d.ts"
-      ],
-      "../../node_modules/@types/webpack-sources/lib/SizeOnlySource.d.ts": [
-        "../../node_modules/@types/webpack-sources/lib/Source.d.ts"
-      ],
-      "../../node_modules/@types/webpack-sources/lib/Source.d.ts": [
-        "../../node_modules/@types/webpack-sources/lib/index.d.ts",
-        "../../node_modules/@types/webpack-sources/node_modules/source-map/source-map.d.ts",
-        "./node_modules/@types/node/crypto.d.ts"
-      ],
-      "../../node_modules/@types/webpack-sources/lib/SourceMapSource.d.ts": [
-        "../../node_modules/@types/webpack-sources/lib/Source.d.ts",
-        "../../node_modules/@types/webpack-sources/lib/index.d.ts",
-        "../../node_modules/@types/webpack-sources/node_modules/source-map/source-map.d.ts"
-      ],
-      "../../node_modules/@types/webpack-sources/lib/index.d.ts": [
-        "../../node_modules/@types/webpack-sources/lib/CachedSource.d.ts",
-        "../../node_modules/@types/webpack-sources/lib/CompatSource.d.ts",
-        "../../node_modules/@types/webpack-sources/lib/ConcatSource.d.ts",
-        "../../node_modules/@types/webpack-sources/lib/OriginalSource.d.ts",
-        "../../node_modules/@types/webpack-sources/lib/PrefixSource.d.ts",
-        "../../node_modules/@types/webpack-sources/lib/RawSource.d.ts",
-        "../../node_modules/@types/webpack-sources/lib/ReplaceSource.d.ts",
-        "../../node_modules/@types/webpack-sources/lib/SizeOnlySource.d.ts",
-        "../../node_modules/@types/webpack-sources/lib/Source.d.ts",
-        "../../node_modules/@types/webpack-sources/lib/SourceMapSource.d.ts",
-        "../../node_modules/@types/webpack-sources/node_modules/source-map/source-map.d.ts"
-      ],
-      "../../node_modules/@types/webpack/index.d.ts": [
-        "../../node_modules/@types/tapable/index.d.ts",
-        "../../node_modules/@types/uglify-js/index.d.ts",
-        "../../node_modules/@types/webpack-sources/index.d.ts",
-        "../../node_modules/anymatch/index.d.ts",
-        "../../node_modules/source-map/source-map.d.ts",
-        "./node_modules/@types/node/crypto.d.ts",
-        "./node_modules/@types/node/index.d.ts"
       ],
       "../../node_modules/@types/websocket/index.d.ts": [
         "./node_modules/@types/node/events.d.ts",
@@ -1723,9 +1489,6 @@
         "./src/interfaces/index.ts"
       ],
       "./src/interfaces/Member.ts": [
-        "./src/interfaces/Timestamped.ts"
-      ],
-      "./src/interfaces/Membership.ts": [
         "./src/interfaces/Timestamped.ts"
       ],
       "./src/interfaces/Shift.ts": [
@@ -1811,11 +1574,6 @@
         "./node_modules/@types/node/fs.d.ts",
         "./node_modules/@types/node/index.d.ts"
       ],
-      "../../node_modules/@types/glob/index.d.ts": [
-        "../../node_modules/@types/minimatch/index.d.ts",
-        "./node_modules/@types/node/events.d.ts",
-        "./node_modules/@types/node/index.d.ts"
-      ],
       "../../node_modules/@types/graceful-fs/index.d.ts": [
         "./node_modules/@types/node/fs.d.ts",
         "./node_modules/@types/node/index.d.ts"
@@ -2046,17 +1804,11 @@
         "./node_modules/@types/node/index.d.ts",
         "./node_modules/@types/node/stream.d.ts"
       ],
-      "../../node_modules/@types/react-dom/index.d.ts": [
-        "../../node_modules/@types/react/index.d.ts"
-      ],
       "../../node_modules/@types/react/index.d.ts": [
         "../../node_modules/@types/prop-types/index.d.ts",
         "../../node_modules/@types/react/global.d.ts",
         "../../node_modules/@types/scheduler/tracing.d.ts",
         "../../node_modules/csstype/index.d.ts"
-      ],
-      "../../node_modules/@types/resolve/index.d.ts": [
-        "./node_modules/@types/node/index.d.ts"
       ],
       "../../node_modules/@types/serve-static/index.d.ts": [
         "../../node_modules/@types/mime/index.d.ts",
@@ -2072,94 +1824,6 @@
       ],
       "../../node_modules/@types/supertest/index.d.ts": [
         "../../node_modules/@types/superagent/index.d.ts"
-      ],
-      "../../node_modules/@types/testing-library__jest-dom/index.d.ts": [
-        "../../node_modules/@types/jest/index.d.ts"
-      ],
-      "../../node_modules/@types/uglify-js/index.d.ts": [
-        "../../node_modules/source-map/source-map.d.ts"
-      ],
-      "../../node_modules/@types/webpack-sources/index.d.ts": [
-        "../../node_modules/@types/webpack-sources/lib/CachedSource.d.ts",
-        "../../node_modules/@types/webpack-sources/lib/CompatSource.d.ts",
-        "../../node_modules/@types/webpack-sources/lib/ConcatSource.d.ts",
-        "../../node_modules/@types/webpack-sources/lib/OriginalSource.d.ts",
-        "../../node_modules/@types/webpack-sources/lib/PrefixSource.d.ts",
-        "../../node_modules/@types/webpack-sources/lib/RawSource.d.ts",
-        "../../node_modules/@types/webpack-sources/lib/ReplaceSource.d.ts",
-        "../../node_modules/@types/webpack-sources/lib/SizeOnlySource.d.ts",
-        "../../node_modules/@types/webpack-sources/lib/Source.d.ts",
-        "../../node_modules/@types/webpack-sources/lib/SourceMapSource.d.ts",
-        "../../node_modules/@types/webpack-sources/lib/index.d.ts",
-        "./node_modules/@types/node/index.d.ts"
-      ],
-      "../../node_modules/@types/webpack-sources/lib/CachedSource.d.ts": [
-        "../../node_modules/@types/webpack-sources/lib/Source.d.ts",
-        "../../node_modules/@types/webpack-sources/lib/index.d.ts",
-        "../../node_modules/@types/webpack-sources/node_modules/source-map/source-map.d.ts"
-      ],
-      "../../node_modules/@types/webpack-sources/lib/CompatSource.d.ts": [
-        "../../node_modules/@types/webpack-sources/lib/Source.d.ts",
-        "../../node_modules/@types/webpack-sources/lib/index.d.ts"
-      ],
-      "../../node_modules/@types/webpack-sources/lib/ConcatSource.d.ts": [
-        "../../node_modules/@types/source-list-map/index.d.ts",
-        "../../node_modules/@types/webpack-sources/lib/Source.d.ts",
-        "../../node_modules/@types/webpack-sources/lib/index.d.ts",
-        "../../node_modules/@types/webpack-sources/node_modules/source-map/source-map.d.ts"
-      ],
-      "../../node_modules/@types/webpack-sources/lib/OriginalSource.d.ts": [
-        "../../node_modules/@types/source-list-map/index.d.ts",
-        "../../node_modules/@types/webpack-sources/lib/Source.d.ts",
-        "../../node_modules/@types/webpack-sources/lib/index.d.ts",
-        "../../node_modules/@types/webpack-sources/node_modules/source-map/source-map.d.ts"
-      ],
-      "../../node_modules/@types/webpack-sources/lib/PrefixSource.d.ts": [
-        "../../node_modules/@types/webpack-sources/lib/Source.d.ts",
-        "../../node_modules/@types/webpack-sources/lib/index.d.ts"
-      ],
-      "../../node_modules/@types/webpack-sources/lib/RawSource.d.ts": [
-        "../../node_modules/@types/webpack-sources/lib/Source.d.ts",
-        "../../node_modules/@types/webpack-sources/lib/index.d.ts"
-      ],
-      "../../node_modules/@types/webpack-sources/lib/ReplaceSource.d.ts": [
-        "../../node_modules/@types/webpack-sources/lib/Source.d.ts",
-        "../../node_modules/@types/webpack-sources/lib/index.d.ts"
-      ],
-      "../../node_modules/@types/webpack-sources/lib/SizeOnlySource.d.ts": [
-        "../../node_modules/@types/webpack-sources/lib/Source.d.ts"
-      ],
-      "../../node_modules/@types/webpack-sources/lib/Source.d.ts": [
-        "../../node_modules/@types/webpack-sources/lib/index.d.ts",
-        "../../node_modules/@types/webpack-sources/node_modules/source-map/source-map.d.ts",
-        "./node_modules/@types/node/crypto.d.ts"
-      ],
-      "../../node_modules/@types/webpack-sources/lib/SourceMapSource.d.ts": [
-        "../../node_modules/@types/webpack-sources/lib/Source.d.ts",
-        "../../node_modules/@types/webpack-sources/lib/index.d.ts",
-        "../../node_modules/@types/webpack-sources/node_modules/source-map/source-map.d.ts"
-      ],
-      "../../node_modules/@types/webpack-sources/lib/index.d.ts": [
-        "../../node_modules/@types/webpack-sources/lib/CachedSource.d.ts",
-        "../../node_modules/@types/webpack-sources/lib/CompatSource.d.ts",
-        "../../node_modules/@types/webpack-sources/lib/ConcatSource.d.ts",
-        "../../node_modules/@types/webpack-sources/lib/OriginalSource.d.ts",
-        "../../node_modules/@types/webpack-sources/lib/PrefixSource.d.ts",
-        "../../node_modules/@types/webpack-sources/lib/RawSource.d.ts",
-        "../../node_modules/@types/webpack-sources/lib/ReplaceSource.d.ts",
-        "../../node_modules/@types/webpack-sources/lib/SizeOnlySource.d.ts",
-        "../../node_modules/@types/webpack-sources/lib/Source.d.ts",
-        "../../node_modules/@types/webpack-sources/lib/SourceMapSource.d.ts",
-        "../../node_modules/@types/webpack-sources/node_modules/source-map/source-map.d.ts"
-      ],
-      "../../node_modules/@types/webpack/index.d.ts": [
-        "../../node_modules/@types/tapable/index.d.ts",
-        "../../node_modules/@types/uglify-js/index.d.ts",
-        "../../node_modules/@types/webpack-sources/index.d.ts",
-        "../../node_modules/anymatch/index.d.ts",
-        "../../node_modules/source-map/source-map.d.ts",
-        "./node_modules/@types/node/crypto.d.ts",
-        "./node_modules/@types/node/index.d.ts"
       ],
       "../../node_modules/@types/websocket/index.d.ts": [
         "./node_modules/@types/node/events.d.ts",
@@ -2434,9 +2098,6 @@
       "./src/interfaces/Member.ts": [
         "./src/interfaces/Timestamped.ts"
       ],
-      "./src/interfaces/Membership.ts": [
-        "./src/interfaces/Timestamped.ts"
-      ],
       "./src/interfaces/Shift.ts": [
         "./src/interfaces/Timestamped.ts"
       ],
@@ -2450,8 +2111,6 @@
       "../../node_modules/@babel/parser/typings/babel-parser.d.ts",
       "../../node_modules/@babel/types/lib/index.d.ts",
       "../../node_modules/@types/accepts/index.d.ts",
-      "../../node_modules/@types/anymatch/index.d.ts",
-      "../../node_modules/@types/aria-query/index.d.ts",
       "../../node_modules/@types/babel__core/index.d.ts",
       "../../node_modules/@types/babel__generator/index.d.ts",
       "../../node_modules/@types/babel__template/index.d.ts",
@@ -2470,9 +2129,7 @@
       "../../node_modules/@types/express-serve-static-core/index.d.ts",
       "../../node_modules/@types/express/index.d.ts",
       "../../node_modules/@types/fs-capacitor/index.d.ts",
-      "../../node_modules/@types/glob/index.d.ts",
       "../../node_modules/@types/graceful-fs/index.d.ts",
-      "../../node_modules/@types/html-minifier-terser/index.d.ts",
       "../../node_modules/@types/http-assert/index.d.ts",
       "../../node_modules/@types/http-errors/index.d.ts",
       "../../node_modules/@types/istanbul-lib-coverage/index.d.ts",
@@ -2509,46 +2166,24 @@
       "../../node_modules/@types/parse-json/index.d.ts",
       "../../node_modules/@types/prettier/index.d.ts",
       "../../node_modules/@types/prop-types/index.d.ts",
-      "../../node_modules/@types/q/index.d.ts",
       "../../node_modules/@types/qs/index.d.ts",
       "../../node_modules/@types/range-parser/index.d.ts",
-      "../../node_modules/@types/react-dom/index.d.ts",
       "../../node_modules/@types/react/global.d.ts",
       "../../node_modules/@types/react/index.d.ts",
-      "../../node_modules/@types/resolve/index.d.ts",
       "../../node_modules/@types/scheduler/index.d.ts",
       "../../node_modules/@types/scheduler/tracing.d.ts",
       "../../node_modules/@types/serve-static/index.d.ts",
-      "../../node_modules/@types/source-list-map/index.d.ts",
       "../../node_modules/@types/stack-utils/index.d.ts",
       "../../node_modules/@types/superagent/index.d.ts",
       "../../node_modules/@types/supertest/index.d.ts",
-      "../../node_modules/@types/tapable/index.d.ts",
-      "../../node_modules/@types/testing-library__jest-dom/index.d.ts",
       "../../node_modules/@types/tinycolor2/index.d.ts",
-      "../../node_modules/@types/uglify-js/index.d.ts",
       "../../node_modules/@types/validator/index.d.ts",
       "../../node_modules/@types/warning/index.d.ts",
-      "../../node_modules/@types/webpack-sources/index.d.ts",
-      "../../node_modules/@types/webpack-sources/lib/CachedSource.d.ts",
-      "../../node_modules/@types/webpack-sources/lib/CompatSource.d.ts",
-      "../../node_modules/@types/webpack-sources/lib/ConcatSource.d.ts",
-      "../../node_modules/@types/webpack-sources/lib/OriginalSource.d.ts",
-      "../../node_modules/@types/webpack-sources/lib/PrefixSource.d.ts",
-      "../../node_modules/@types/webpack-sources/lib/RawSource.d.ts",
-      "../../node_modules/@types/webpack-sources/lib/ReplaceSource.d.ts",
-      "../../node_modules/@types/webpack-sources/lib/SizeOnlySource.d.ts",
-      "../../node_modules/@types/webpack-sources/lib/Source.d.ts",
-      "../../node_modules/@types/webpack-sources/lib/SourceMapSource.d.ts",
-      "../../node_modules/@types/webpack-sources/lib/index.d.ts",
-      "../../node_modules/@types/webpack-sources/node_modules/source-map/source-map.d.ts",
-      "../../node_modules/@types/webpack/index.d.ts",
       "../../node_modules/@types/websocket/index.d.ts",
       "../../node_modules/@types/ws/index.d.ts",
       "../../node_modules/@types/yargs-parser/index.d.ts",
       "../../node_modules/@types/yargs/index.d.ts",
       "../../node_modules/@types/zen-observable/index.d.ts",
-      "../../node_modules/anymatch/index.d.ts",
       "../../node_modules/csstype/index.d.ts",
       "../../node_modules/jest-diff/build/cleanupSemantic.d.ts",
       "../../node_modules/jest-diff/build/diffLines.d.ts",
@@ -2557,7 +2192,6 @@
       "../../node_modules/jest-diff/build/types.d.ts",
       "../../node_modules/pretty-format/build/index.d.ts",
       "../../node_modules/pretty-format/build/types.d.ts",
-      "../../node_modules/source-map/source-map.d.ts",
       "../../node_modules/typescript/lib/lib.dom.d.ts",
       "../../node_modules/typescript/lib/lib.dom.iterable.d.ts",
       "../../node_modules/typescript/lib/lib.es2015.collection.d.ts",

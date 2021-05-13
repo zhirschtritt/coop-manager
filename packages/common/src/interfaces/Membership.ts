@@ -1,47 +1,53 @@
-import {Timestamped} from './Timestamped';
-
-export const MemberTypes = Object.freeze({
+export const MemberLevels = {
   /** Designates a member who is *not* a staff member or volunteer */
-  BASE_MEMBER: 'base-member' as const,
+  BASE: 'base',
 
-  STAFF: 'staff' as const,
+  /** Staff level member */
+  STAFF: 'staff',
 
-  VOLUNTEER: 'staff' as const,
+  /** Volunteer level member */
+  VOLUNTEER: 'volunteer',
+} as const;
 
-  /** Designates an disabled member (either staff or base) */
-  INACTIVE: 'inactive' as const,
-});
+export type MemberLevel = typeof MemberLevels[keyof typeof MemberLevels];
 
-export type MemberType = typeof MemberTypes[keyof typeof MemberTypes]
-
-export interface MembershipType extends Timestamped {
+export interface MembershipType {
   id: string;
+
+  createdAt: Date;
+
   /** The display name of the membership, eg. '1 Year' */
   name: string;
-  /** The base membership type used for tagging or categorizing. eg. annual, monthly, lifetime */
-  type: string,
+
+  /** Enum, level of the membership */
+  level: MemberLevel;
+
   /** Time limit for membership. -1 should indicate infinite */
   lengthInDays: number;
-  /** Monetary cost */
-  cost?: number;
+
+  // TODO: payment information
+  // /** Monetary cost */
+  // cost?: number;
 }
 
-export const MembershipActiveStatus = {
-  CURRENT: 'current',
+export const MembershipStatus = {
+  ACTIVE: 'active',
   EXPIRED: 'expired',
   PAUSED: 'paused',
 } as const;
-/** current indicates active membership;
- * expired indicates the membership term has ended or been otherwise nullified;
- * pause indicates that the membership can be resumed;
-*/
-export type MembershipActiveStatus = typeof MembershipActiveStatus[keyof typeof MembershipActiveStatus];
 
-export interface Membership extends Timestamped {
+export type MembershipStatus = typeof MembershipStatus[keyof typeof MembershipStatus];
+
+export interface Membership {
   id: string;
 
+  /** weak FK to event that created the membership */
+  createdBy: string;
+
+  /** FK to Member Entity */
   memberId: string;
 
+  /** FK to MembershipType Entity */
   membershipTypeId: string;
 
   startDate: Date;
@@ -52,9 +58,9 @@ export interface Membership extends Timestamped {
   endDate: Date;
 
   /** Status indicates the current state of the membership */
-  status: MembershipActiveStatus;
+  status: MembershipStatus;
 
-  amountDue: number;
-
-  amountPaid: number;
+  // TODO: payment information
+  // amountDue: number;
+  // amountPaid: number;
 }

@@ -2,17 +2,25 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Debug node process",
       "type": "node",
-      "request": "attach",
-      "port": 7777
-    },
-    {
-      "type": "chrome",
       "request": "launch",
-      "name": "Launch Chrome against localhost:4200",
-      "url": "http://localhost:4200",
-      "webRoot": "${workspaceFolder}/apps/frameshare"
+      "name": "Run server tests",
+      "outputCapture": "std",
+      "env": {
+        "NODE_ENV": "test",
+        "LOG_PRETTY": "true"
+      },
+      "program": "${workspaceFolder}/packages/server/node_modules/jest/bin/jest.js",
+      "args": [
+        "--config",
+        "./jest.json",
+        "--coverage=false",
+        "--timeout=3600000",
+        "--runInBand"
+      ],
+      "cwd": "${workspaceFolder}/packages/server",
+      "skipFiles": ["<node_internals>/**"],
+      "preLaunchTask": "build all"
     }
   ]
 }
