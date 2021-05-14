@@ -1,5 +1,9 @@
 import {Timestamped} from './Timestamped';
 
+/**
+ * Shift terms organize groups of shifts on a repeating basis (eg. all thursdays until ...).
+ * If a shift does *not* repeat, it will effectively be 1-to-1, term-to-shift, with a pattern count = 1
+ */
 export interface ShiftTerm {
   id: string;
 
@@ -15,6 +19,8 @@ export interface ShiftTerm {
 
   /** rrule string, see: https://github.com/jakubroztocil/rrule */
   pattern: string;
+
+  // TODO: createdBy: eventId
 }
 
 export interface Shift {
@@ -25,6 +31,8 @@ export interface Shift {
   endsAt: Date;
 
   shiftTermId: string;
+
+  // TODO: add status?: 'cancelled' | null
 }
 
 export interface ShiftAssignment extends Timestamped {
