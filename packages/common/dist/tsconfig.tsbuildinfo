@@ -202,8 +202,8 @@
         "affectsGlobalScope": false
       },
       "../src/interfaces/Shift.ts": {
-        "version": "08562f65585a1cf38778a0f5ee42dd4d8861423b6daa31d2aa38ca3581678a67",
-        "signature": "4364b269801499c726d30404bd1f098b7bf82fee477031c32cd5ad632759b0eb",
+        "version": "0c500a4b04eeaf2ea1c3a828c94c152c75ed9ecbb1e52a5682a791f33bd5b8d7",
+        "signature": "827b39c8383eef13efe7c2b7249114364321cd083326b1815065501c6e652400",
         "affectsGlobalScope": false
       },
       "../src/interfaces/index.ts": {
