@@ -35,8 +35,10 @@ export interface Shift {
   // TODO: add status?: 'cancelled' | null
 }
 
-export interface ShiftAssignment extends Timestamped {
+export interface ShiftAssignment {
   id: string;
   memberId: string;
   shiftId: string;
+  /** FK reference to event that created assignment */
+  createdBy: string;
 }
