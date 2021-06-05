@@ -9,6 +9,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import {ShiftEntity} from '../shifts/shift.entity';
 import {MembershipTypeEntity} from './membership-type.entity';
 import {MembershipEntity} from './membership.entity';
 
@@ -53,8 +54,20 @@ export class MemberEntity implements Member {
   })
   memberShipTypes?: MembershipTypeEntity[];
 
-  @OneToMany(() => MembershipEntity, (membership) => membership.members, {
-    lazy: true,
-  })
+  @OneToMany(() => MembershipEntity, (membership) => membership.member)
   memberships?: MembershipEntity[];
+
+  @ManyToMany(() => ShiftEntity, (shift) => shift.members)
+  @JoinTable({
+    name: 'shift_assignments',
+    joinColumn: {
+      name: 'member_id',
+      referencedColumnName: 'id',
+    },
+    inverseJoinColumn: {
+      name: 'shift_id',
+      referencedColumnName: 'id',
+    },
+  })
+  shifts?: ShiftEntity[];
 }

@@ -1,16 +1,16 @@
-import {MigrationInterface, QueryRunner} from "typeorm";
+import {MigrationInterface, QueryRunner} from 'typeorm';
 
-export class addShiftAssignmentTable1621780141375 implements MigrationInterface {
-
-    public async up(queryRunner: QueryRunner): Promise<void> {
-      queryRunner.query(`
+export class addShiftAssignmentTable1621780141375
+  implements MigrationInterface {
+  public async up(queryRunner: QueryRunner): Promise<void> {
+    queryRunner.query(`
         create table shift_assignments (
           id uuid primary key default gen_random_uuid(),
           member_id uuid not null references members,
-          shift_ids uuid not null references shifts,
+          shift_id uuid not null references shifts,
           -- created_by will/should reference event table
           created_by uuid not null,
-          meta jsonb null,
+          meta jsonb null
         );
 
         -- this compound index will also cover lookups by member_id only
@@ -18,11 +18,8 @@ export class addShiftAssignmentTable1621780141375 implements MigrationInterface 
         create index ix_shift_assignments_shift_id on shift_assignments (shift_id);
         create index ix_shift_assignments_created_by on shift_assignments (created_by);
         create index ix_shift_assignments_meta on shift_assignments using gin (meta jsonb_path_ops);
-      `)
+      `);
+  }
 
-    }
-
-    public async down(queryRunner: QueryRunner): Promise<void> {
-    }
-
+  public async down(queryRunner: QueryRunner): Promise<void> {}
 }

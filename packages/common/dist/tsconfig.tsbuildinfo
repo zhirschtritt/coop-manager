@@ -202,8 +202,8 @@
         "affectsGlobalScope": false
       },
       "../src/interfaces/Shift.ts": {
-        "version": "0c500a4b04eeaf2ea1c3a828c94c152c75ed9ecbb1e52a5682a791f33bd5b8d7",
-        "signature": "827b39c8383eef13efe7c2b7249114364321cd083326b1815065501c6e652400",
+        "version": "1a35aac8acf76f3948e9501dd6489f09db49c35e3e6f1e2bcfaa43634f699fb8",
+        "signature": "53fff3c036be4c510c056d1721997346803890a52bf1736afdbdb6bcb0734c4f",
         "affectsGlobalScope": false
       },
       "../src/interfaces/index.ts": {
@@ -1491,9 +1491,6 @@
       "../src/interfaces/Member.ts": [
         "../src/interfaces/Timestamped.ts"
       ],
-      "../src/interfaces/Shift.ts": [
-        "../src/interfaces/Timestamped.ts"
-      ],
       "../src/interfaces/index.ts": [
         "../src/interfaces/Member.ts",
         "../src/interfaces/Membership.ts",
@@ -2096,9 +2093,6 @@
         "../src/interfaces/index.ts"
       ],
       "../src/interfaces/Member.ts": [
-        "../src/interfaces/Timestamped.ts"
-      ],
-      "../src/interfaces/Shift.ts": [
         "../src/interfaces/Timestamped.ts"
       ],
       "../src/interfaces/index.ts": [

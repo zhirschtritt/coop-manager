@@ -2,12 +2,12 @@ import {MemberLevel, MembershipType} from '@bikecoop/common';
 import {
   Column,
   Entity,
-  JoinTable,
   ManyToMany,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import {MembershipEntity} from './membership.entity';
 import {MemberEntity} from './member.entity';
+import {MembershipEntity} from './membership.entity';
 
 @Entity({name: 'membership_types'})
 export class MembershipTypeEntity implements MembershipType {
@@ -27,13 +27,8 @@ export class MembershipTypeEntity implements MembershipType {
   lengthInDays!: number;
 
   @ManyToMany(() => MemberEntity, (member) => member.memberShipTypes)
-  @JoinTable({
-    name: 'memberships',
-    joinColumn: {name: 'membership_type_id', referencedColumnName: 'id'},
-    inverseJoinColumn: {
-      name: 'member_id',
-      referencedColumnName: 'id',
-    },
-  })
-  members?: MembershipEntity[];
+  members?: MemberEntity[];
+
+  @OneToMany(() => MembershipEntity, (membership) => membership.memberShipType)
+  memberships?: MembershipEntity;
 }

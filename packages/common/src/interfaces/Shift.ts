@@ -1,5 +1,3 @@
-import {Timestamped} from './Timestamped';
-
 /**
  * Shift terms organize groups of shifts on a repeating basis (eg. all thursdays until ...).
  * If a shift does *not* repeat, it will effectively be 1-to-1, term-to-shift, with a pattern count = 1
@@ -41,4 +39,5 @@ export interface ShiftAssignment {
   shiftId: string;
   /** FK reference to event that created assignment */
   createdBy: string;
+  meta: Record<string, any>;
 }

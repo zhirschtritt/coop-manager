@@ -1,5 +1,7 @@
-import {Column, Entity, PrimaryGeneratedColumn} from 'typeorm';
+import {Column, Entity, ManyToMany, OneToMany, PrimaryGeneratedColumn} from 'typeorm';
 import {Shift} from '../../../common/src';
+import {MemberEntity} from '../memberships/member.entity';
+import {ShiftAssignmentEntity} from './shift-assignment.entity';
 
 @Entity({name: 'shifts'})
 export class ShiftEntity implements Shift {
@@ -14,4 +16,10 @@ export class ShiftEntity implements Shift {
 
   @Column({type: 'uuid', name: 'shift_term_id'})
   shiftTermId!: string;
+
+  @ManyToMany(() => MemberEntity, (member) => member.shifts)
+  members?: MemberEntity[];
+
+  @OneToMany(() => ShiftAssignmentEntity, (shiftAssignment) => shiftAssignment.shift)
+  shiftAssignments?: ShiftAssignmentEntity[]
 }

@@ -1,6 +1,13 @@
 import {Membership, MembershipStatus} from '@bikecoop/common';
-import {Column, Entity, OneToMany, PrimaryGeneratedColumn} from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import {MemberEntity} from './member.entity';
+import {MembershipTypeEntity} from './membership-type.entity';
 
 @Entity({name: 'memberships'})
 export class MembershipEntity implements Membership {
@@ -25,6 +32,11 @@ export class MembershipEntity implements Membership {
   @Column({name: 'status'})
   status!: MembershipStatus;
 
-  @OneToMany(() => MemberEntity, (member) => member.memberships)
-  members?: MemberEntity[];
+  @JoinColumn({name: 'member_id'})
+  @ManyToOne(() => MemberEntity, (member) => member.memberships)
+  member?: MemberEntity;
+
+  @JoinColumn({name: 'membership_type_id'})
+  @ManyToOne(() => MembershipTypeEntity, (memberShipType) => memberShipType.memberships)
+  memberShipType?: MembershipTypeEntity;
 }
