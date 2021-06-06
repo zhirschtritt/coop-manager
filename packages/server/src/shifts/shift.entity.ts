@@ -1,6 +1,12 @@
-import {Column, Entity, ManyToMany, OneToMany, PrimaryGeneratedColumn} from 'typeorm';
+import {
+  Column,
+  Entity,
+  ManyToMany,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import {Shift} from '../../../common/src';
-import {MemberEntity} from '../memberships/member.entity';
+import {MemberEntity} from '../members/member.entity';
 import {ShiftAssignmentEntity} from './shift-assignment.entity';
 
 @Entity({name: 'shifts'})
@@ -20,6 +26,9 @@ export class ShiftEntity implements Shift {
   @ManyToMany(() => MemberEntity, (member) => member.shifts)
   members?: MemberEntity[];
 
-  @OneToMany(() => ShiftAssignmentEntity, (shiftAssignment) => shiftAssignment.shift)
-  shiftAssignments?: ShiftAssignmentEntity[]
+  @OneToMany(
+    () => ShiftAssignmentEntity,
+    (shiftAssignment) => shiftAssignment.shift,
+  )
+  shiftAssignments?: ShiftAssignmentEntity[];
 }

@@ -1,0 +1,7 @@
+{
+  "pg": {
+    "driver": "pg",
+    "user": "6river",
+    "host": "localhost"
+  }
+}

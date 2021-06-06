@@ -33,12 +33,10 @@
     "entities": [
       "dist/**/*.entity{ .ts,.js}"
     ],
-    "cli": {
-      "migrationsDir": "src/migrations"
-    },
     "migrations": [
       "dist/src/migrations/**/*.js"
     ],
-    "migrationsRun": true
+    "migrationsRun": true,
+    "dropSchema": true
   }
 ]

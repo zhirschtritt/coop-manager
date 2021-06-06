@@ -5,7 +5,7 @@
     "rootDir": ".",
     "outDir": "dist"
   },
-  "include": ["src", "test"],
+  "include": ["src", "test", "conntection.ts"],
   "types": ["node", "jest"],
   "references": [{"path": "../common"}]
 }

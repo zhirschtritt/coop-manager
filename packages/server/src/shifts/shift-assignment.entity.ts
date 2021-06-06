@@ -1,6 +1,6 @@
 import {Column, Entity, ManyToOne, PrimaryGeneratedColumn} from 'typeorm';
 import {ShiftAssignment} from '@bikecoop/common';
-import {MemberEntity} from '../memberships/member.entity';
+import {MemberEntity} from '../members/member.entity';
 import {ShiftEntity} from './shift.entity';
 
 @Entity({name: 'shift_assignments'})

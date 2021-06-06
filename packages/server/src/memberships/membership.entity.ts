@@ -6,7 +6,7 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import {MemberEntity} from './member.entity';
+import {MemberEntity} from '../members/member.entity';
 import {MembershipTypeEntity} from './membership-type.entity';
 
 @Entity({name: 'memberships'})
@@ -37,6 +37,9 @@ export class MembershipEntity implements Membership {
   member?: MemberEntity;
 
   @JoinColumn({name: 'membership_type_id'})
-  @ManyToOne(() => MembershipTypeEntity, (memberShipType) => memberShipType.memberships)
+  @ManyToOne(
+    () => MembershipTypeEntity,
+    (memberShipType) => memberShipType.memberships,
+  )
   memberShipType?: MembershipTypeEntity;
 }

@@ -4,18 +4,14 @@
     "json",
     "ts"
   ],
-  "rootDir": "dist",
-  "testEnvironment": "node",
-  "testRegex": ".*spec.js$",
-  "collectCoverage": true,
-  "reporters": [
-    "default",
-    [
-      "jest-junit",
-      {
-        "outputDirectory": "../../reports/junit/server",
-        "outputName": "jest.xml"
-      }
-    ]
-  ]
+  "rootDir": "test",
+  "testRegex": ".*\\.spec\\.ts$",
+  "transform": {
+    "^.+\\.(t|j)s$": "ts-jest"
+  },
+  "collectCoverageFrom": [
+    "**/*.(t|j)s"
+  ],
+  "coverageDirectory": "../coverage",
+  "testEnvironment": "node"
 }

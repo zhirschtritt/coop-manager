@@ -9,9 +9,8 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import {MembershipTypeEntity, MembershipEntity} from '../memberships';
 import {ShiftEntity} from '../shifts/shift.entity';
-import {MembershipTypeEntity} from './membership-type.entity';
-import {MembershipEntity} from './membership.entity';
 
 @Entity({name: 'members'})
 export class MemberEntity implements Member {

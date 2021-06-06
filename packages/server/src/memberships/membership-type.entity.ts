@@ -6,7 +6,7 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import {MemberEntity} from './member.entity';
+import {MemberEntity} from '../members/member.entity';
 import {MembershipEntity} from './membership.entity';
 
 @Entity({name: 'membership_types'})
