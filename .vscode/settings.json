@@ -1,19 +1,9 @@
 {
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true,
+    "source.fixAll.eslint": true
   },
-  "editor.formatOnSave": false,
-  "eslint.validate": [
-    "javascript",
-    "javascriptreact",
-    "tsx",
-    "typescript"
-  ],
-  "nxConsole.enableTelemetry": false,
-  "javascript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces": false,
-  "javascript.format.insertSpaceBeforeAndAfterBinaryOperators": false,
-  "javascript.format.insertSpaceAfterSemicolonInForStatements": false,
-  "javascript.suggest.completeFunctionCalls": true,
+  "editor.formatOnSave": true,
+  "eslint.validate": ["javascript", "javascriptreact", "tsx", "typescript"],
   "typescript.surveys.enabled": false,
-  "typescript.implementationsCodeLens.enabled": true,
+  "typescript.implementationsCodeLens.enabled": true
 }

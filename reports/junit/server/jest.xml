@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="jest tests" tests="3" failures="1" errors="0" time="3.109">
+  <testsuite name="Membership entities" errors="0" failures="1" skipped="0" timestamp="2021-05-11T15:14:34" time="1.429" tests="1">
+    <testcase classname="Membership entities works" name="Membership entities works" time="0.15">
+      <failure>Error: Nest could not find MemberEntityRepository element (this provider does not exist in the current context)
+    at InstanceLinksHost.get (/home/zach/projects/bike-coop-manager/packages/server/node_modules/@nestjs/core/injector/instance-links-host.js:18:19)
+    at TestingModule.find (/home/zach/projects/bike-coop-manager/packages/server/node_modules/@nestjs/core/nest-application-context.js:211:55)
+    at TestingModule.get (/home/zach/projects/bike-coop-manager/packages/server/node_modules/@nestjs/core/nest-application-context.js:55:20)
+    at Object.&lt;anonymous&gt; (/home/zach/projects/bike-coop-manager/packages/server/src/memberships/entities.spec.ts:21:38)
+    at processTicksAndRejections (internal/process/task_queues.js:93:5)</failure>
+      <failure>TypeError: Cannot read property &apos;create&apos; of undefined
+    at Object.&lt;anonymous&gt; (/home/zach/projects/bike-coop-manager/packages/server/src/memberships/entities.spec.ts:25:37)
+    at Object.asyncJestTest (/home/zach/projects/bike-coop-manager/packages/server/node_modules/jest-jasmine2/build/jasmineAsyncInstall.js:106:37)
+    at /home/zach/projects/bike-coop-manager/packages/server/node_modules/jest-jasmine2/build/queueRunner.js:45:12
+    at new Promise (&lt;anonymous&gt;)
+    at mapper (/home/zach/projects/bike-coop-manager/packages/server/node_modules/jest-jasmine2/build/queueRunner.js:28:19)
+    at /home/zach/projects/bike-coop-manager/packages/server/node_modules/jest-jasmine2/build/queueRunner.js:75:41
+    at processTicksAndRejections (internal/process/task_queues.js:93:5)</failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="AppController (e2e)" errors="0" failures="0" skipped="0" timestamp="2021-05-11T15:14:36" time="1.28" tests="1">
+    <testcase classname="AppController (e2e) / (GET)" name="AppController (e2e) / (GET)" time="0.465">
+    </testcase>
+  </testsuite>
+  <testsuite name="AppController" errors="0" failures="0" skipped="0" timestamp="2021-05-11T15:14:37" time="0.351" tests="1">
+    <testcase classname="AppController root should return &quot;Hello World!&quot;" name="AppController root should return &quot;Hello World!&quot;" time="0.01">
+    </testcase>
+  </testsuite>
+</testsuites>

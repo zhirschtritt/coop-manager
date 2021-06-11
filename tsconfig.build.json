@@ -1,0 +1,5 @@
+{
+  "files": [],
+  "exclude": ["node_modules", "test", "dist", "**/*spec.ts"],
+  "references": [{"path": "packages/common"}, {"path": "packages/server" }, {"path": "packages/app" }]
+}

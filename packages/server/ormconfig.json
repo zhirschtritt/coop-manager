@@ -1,0 +1,45 @@
+[
+  {
+    "name": "default",
+    "type": "postgres",
+    "host": "localhost",
+    "port": 5432,
+    "username": "6river",
+    "password": "6river",
+    "database": "bike_coop_manager_development",
+    "synchronize": false,
+    "logging": true,
+    "entities": [
+      "dist/**/*.entity{ .ts,.js}"
+    ],
+    "cli": {
+      "migrationsDir": "src/migrations"
+    },
+    "migrations": [
+      "dist/src/migrations/**/*.js"
+    ],
+    "subscribers": [
+      "**/*.subscriber.ts"
+    ],
+    "migrationsRun": true
+  },
+  {
+    "name": "test",
+    "type": "postgres",
+    "host": "localhost",
+    "port": 5432,
+    "username": "6river",
+    "password": "6river",
+    "database": "bike_coop_manager_test",
+    "synchronize": false,
+    "logging": true,
+    "entities": [
+      "dist/**/*.entity{ .ts,.js}"
+    ],
+    "migrations": [
+      "dist/src/migrations/**/*.js"
+    ],
+    "migrationsRun": true,
+    "dropSchema": true
+  }
+]

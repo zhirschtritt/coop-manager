@@ -1,23 +1,28 @@
 {
-  "compileOnSave": false,
   "compilerOptions": {
-    "rootDir": ".",
+    "target": "es2020",
+    "module": "commonjs",
+    "declaration": true,
     "sourceMap": true,
-    "declaration": false,
+    "composite": true,
+    "strict": true,
     "moduleResolution": "node",
+    "baseUrl": "./packages",
+    "paths": {
+      "@bikecoop/common": ["common/src"]
+    },
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "importHelpers": true,
-    "target": "es2015",
-    "module": "esnext",
-    "typeRoots": ["node_modules/@types"],
-    "lib": ["es2017", "dom"],
-    "skipLibCheck": true,
-    "skipDefaultLibCheck": true,
-    "baseUrl": ".",
-    "paths": {
-      "@bike-coop/common": ["libs/common/src/index.ts"]
-    }
+    "allowUnreachableCode": false
   },
-  "exclude": ["node_modules", "tmp"]
+  "exclude": [
+    "**/coverage/",
+    "**/dist*/",
+    "**/node_modules/",
+    "**/scripts/",
+    "**/*.d.ts"
+  ]
 }
