@@ -1,5 +1,5 @@
 import {Column, Entity, ManyToOne, PrimaryGeneratedColumn} from 'typeorm';
-import {ShiftAssignment} from '@bikecoop/common';
+import {Actor, ShiftAssignment} from '@bikecoop/common';
 import {MemberEntity} from '../members/member.entity';
 import {ShiftEntity} from './shift.entity';
 
@@ -24,5 +24,7 @@ export class ShiftAssignmentEntity implements ShiftAssignment {
   createdBy!: string;
 
   @Column({type: 'jsonb', name: 'meta'})
-  meta!: Record<string, any>;
+  meta!: {
+    createdByActor: Actor;
+  };
 }

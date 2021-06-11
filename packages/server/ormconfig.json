@@ -18,6 +18,9 @@
     "migrations": [
       "dist/src/migrations/**/*.js"
     ],
+    "subscribers": [
+      "**/*.subscriber.ts"
+    ],
     "migrationsRun": true
   },
   {

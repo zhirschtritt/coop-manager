@@ -15,6 +15,7 @@ import {
 import {ShiftEntity} from './shifts/shift.entity';
 import {ShiftAssignmentEntity} from './shifts/shift-assignment.entity';
 import {ShiftTermEntity} from './shifts/shift-term.entity';
+import { EventsModule } from './events/events.module';
 
 @Module({
   imports: [
@@ -37,6 +38,7 @@ import {ShiftTermEntity} from './shifts/shift-term.entity';
     MembershipsModule,
     ShiftsModule,
     MembersModule,
+    EventsModule,
   ],
   controllers: [AppController, MembersController],
   providers: [AppService],

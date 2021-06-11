@@ -31,6 +31,11 @@
         "signature": "e6b724280c694a9f588847f754198fb96c43d805f065c3a5b28bbc9594541c84",
         "affectsGlobalScope": false
       },
+      "../../../node_modules/typescript/lib/lib.es2020.d.ts": {
+        "version": "e21c071ca3e1b4a815d5f04a7475adcaeea5d64367e840dd0154096d705c3940",
+        "signature": "e21c071ca3e1b4a815d5f04a7475adcaeea5d64367e840dd0154096d705c3940",
+        "affectsGlobalScope": false
+      },
       "../../../node_modules/typescript/lib/lib.dom.d.ts": {
         "version": "feeeb1dd8a80fb76be42b0426e8f3ffa9bdef3c2f3c12c147e7660b1c5ba8b3b",
         "signature": "feeeb1dd8a80fb76be42b0426e8f3ffa9bdef3c2f3c12c147e7660b1c5ba8b3b",
@@ -176,14 +181,49 @@
         "signature": "7b5a10e3c897fabece5a51aa85b4111727d7adb53c2734b5d37230ff96802a09",
         "affectsGlobalScope": true
       },
+      "../../../node_modules/typescript/lib/lib.es2020.promise.d.ts": {
+        "version": "7435b75fdf3509622e79622dbe5091cf4b09688410ee2034e4fc17d0c99d0862",
+        "signature": "7435b75fdf3509622e79622dbe5091cf4b09688410ee2034e4fc17d0c99d0862",
+        "affectsGlobalScope": true
+      },
+      "../../../node_modules/typescript/lib/lib.es2020.sharedmemory.d.ts": {
+        "version": "e7e8e1d368290e9295ef18ca23f405cf40d5456fa9f20db6373a61ca45f75f40",
+        "signature": "e7e8e1d368290e9295ef18ca23f405cf40d5456fa9f20db6373a61ca45f75f40",
+        "affectsGlobalScope": true
+      },
+      "../../../node_modules/typescript/lib/lib.es2020.string.d.ts": {
+        "version": "faf0221ae0465363c842ce6aa8a0cbda5d9296940a8e26c86e04cc4081eea21e",
+        "signature": "faf0221ae0465363c842ce6aa8a0cbda5d9296940a8e26c86e04cc4081eea21e",
+        "affectsGlobalScope": true
+      },
+      "../../../node_modules/typescript/lib/lib.es2020.symbol.wellknown.d.ts": {
+        "version": "936d7d2e8851af9ccfa5333b15e877a824417d352b1d7fd06388639dc69ef80a",
+        "signature": "936d7d2e8851af9ccfa5333b15e877a824417d352b1d7fd06388639dc69ef80a",
+        "affectsGlobalScope": true
+      },
+      "../../../node_modules/typescript/lib/lib.es2020.intl.d.ts": {
+        "version": "e79ca55569f09a5dc3354be04dba4ae85865b1dce98bf46738ffe231c669621f",
+        "signature": "e79ca55569f09a5dc3354be04dba4ae85865b1dce98bf46738ffe231c669621f",
+        "affectsGlobalScope": true
+      },
       "../../../node_modules/typescript/lib/lib.esnext.intl.d.ts": {
         "version": "506b80b9951c9381dc5f11897b31fca5e2a65731d96ddefa19687fbc26b23c6e",
         "signature": "506b80b9951c9381dc5f11897b31fca5e2a65731d96ddefa19687fbc26b23c6e",
         "affectsGlobalScope": true
       },
-      "../../../node_modules/typescript/lib/lib.es2019.full.d.ts": {
-        "version": "1f03b495671c3a1bd24510f38b8947f0991dfd6bf0278c68eca14af15b306e1f",
-        "signature": "1f03b495671c3a1bd24510f38b8947f0991dfd6bf0278c68eca14af15b306e1f",
+      "../../../node_modules/typescript/lib/lib.es2020.full.d.ts": {
+        "version": "f58c6d0669d1ee04b2fcb0e87fb949b6828602f3f29c7bf6c76a214f16fd50d5",
+        "signature": "f58c6d0669d1ee04b2fcb0e87fb949b6828602f3f29c7bf6c76a214f16fd50d5",
+        "affectsGlobalScope": false
+      },
+      "../src/interfaces/Events/EventInterfaces.ts": {
+        "version": "a1af86a44522dbfe466d87361cb9ae12fad5faf773e6e74428b78359ebb65122",
+        "signature": "68196a27829d40c0a6cc42404193ac6a437db19985d230641ede7954193d92bd",
+        "affectsGlobalScope": false
+      },
+      "../src/interfaces/Events/index.ts": {
+        "version": "29304a5ea14cc33a821d094d8b31f69f19ea6021feeb8d2955803f2c1082b29e",
+        "signature": "29304a5ea14cc33a821d094d8b31f69f19ea6021feeb8d2955803f2c1082b29e",
         "affectsGlobalScope": false
       },
       "../src/interfaces/Timestamped.ts": {
@@ -207,13 +247,23 @@
         "affectsGlobalScope": false
       },
       "../src/interfaces/index.ts": {
-        "version": "f1e90665c3781dfccc9e02faa07c265dfcf21ffcc85545ec4f46f13ef4db6b3e",
-        "signature": "f1e90665c3781dfccc9e02faa07c265dfcf21ffcc85545ec4f46f13ef4db6b3e",
+        "version": "a8ee866bc060970ed7da586234bf8b2637609cfc1b2859e486cf6d25849c5572",
+        "signature": "a8ee866bc060970ed7da586234bf8b2637609cfc1b2859e486cf6d25849c5572",
+        "affectsGlobalScope": false
+      },
+      "../src/utils/allSettledAndThrow.ts": {
+        "version": "42f48d4539cdf411e94f039c02238f291dcdb4ba1f1b1d4b08d72dd42bf47a9f",
+        "signature": "f5e952ea0052ef8eb662f732c0500fbffb1f33b398e5132fea174a6e374f1e19",
+        "affectsGlobalScope": false
+      },
+      "../src/utils/index.ts": {
+        "version": "3e43c29976137bf29498d1155b91df24a8ee1c964b64a11eec17c0946df7d210",
+        "signature": "3e43c29976137bf29498d1155b91df24a8ee1c964b64a11eec17c0946df7d210",
         "affectsGlobalScope": false
       },
       "../src/index.ts": {
-        "version": "58f19692914291f8da36c98c6668b6798364adab2d3671740360e016d958a3ef",
-        "signature": "58f19692914291f8da36c98c6668b6798364adab2d3671740360e016d958a3ef",
+        "version": "31393e8eca41911ca3d4702e312f903ea4341670b8d2a090fc41bb3907fc133c",
+        "signature": "31393e8eca41911ca3d4702e312f903ea4341670b8d2a090fc41bb3907fc133c",
         "affectsGlobalScope": false
       },
       "../node_modules/@types/node/globals.d.ts": {
@@ -869,7 +919,7 @@
     },
     "options": {
       "incremental": true,
-      "target": 6,
+      "target": 7,
       "module": 1,
       "declaration": true,
       "sourceMap": true,
@@ -1486,15 +1536,24 @@
         "../node_modules/@types/node/zlib.d.ts"
       ],
       "../src/index.ts": [
-        "../src/interfaces/index.ts"
+        "../src/interfaces/index.ts",
+        "../src/utils/index.ts"
+      ],
+      "../src/interfaces/Events/index.ts": [
+        "../src/interfaces/Events/EventInterfaces.ts"
       ],
       "../src/interfaces/Member.ts": [
         "../src/interfaces/Timestamped.ts"
       ],
       "../src/interfaces/index.ts": [
+        "../src/interfaces/Events/index.ts",
         "../src/interfaces/Member.ts",
         "../src/interfaces/Membership.ts",
-        "../src/interfaces/Shift.ts"
+        "../src/interfaces/Shift.ts",
+        "../src/interfaces/Timestamped.ts"
+      ],
+      "../src/utils/index.ts": [
+        "../src/utils/allSettledAndThrow.ts"
       ]
     },
     "exportedModulesMap": {
@@ -2090,15 +2149,24 @@
         "../node_modules/@types/node/zlib.d.ts"
       ],
       "../src/index.ts": [
-        "../src/interfaces/index.ts"
+        "../src/interfaces/index.ts",
+        "../src/utils/index.ts"
+      ],
+      "../src/interfaces/Events/index.ts": [
+        "../src/interfaces/Events/EventInterfaces.ts"
       ],
       "../src/interfaces/Member.ts": [
         "../src/interfaces/Timestamped.ts"
       ],
       "../src/interfaces/index.ts": [
+        "../src/interfaces/Events/index.ts",
         "../src/interfaces/Member.ts",
         "../src/interfaces/Membership.ts",
-        "../src/interfaces/Shift.ts"
+        "../src/interfaces/Shift.ts",
+        "../src/interfaces/Timestamped.ts"
+      ],
+      "../src/utils/index.ts": [
+        "../src/utils/allSettledAndThrow.ts"
       ]
     },
     "semanticDiagnosticsPerFile": [
@@ -2214,11 +2282,17 @@
       "../../../node_modules/typescript/lib/lib.es2018.regexp.d.ts",
       "../../../node_modules/typescript/lib/lib.es2019.array.d.ts",
       "../../../node_modules/typescript/lib/lib.es2019.d.ts",
-      "../../../node_modules/typescript/lib/lib.es2019.full.d.ts",
       "../../../node_modules/typescript/lib/lib.es2019.object.d.ts",
       "../../../node_modules/typescript/lib/lib.es2019.string.d.ts",
       "../../../node_modules/typescript/lib/lib.es2019.symbol.d.ts",
       "../../../node_modules/typescript/lib/lib.es2020.bigint.d.ts",
+      "../../../node_modules/typescript/lib/lib.es2020.d.ts",
+      "../../../node_modules/typescript/lib/lib.es2020.full.d.ts",
+      "../../../node_modules/typescript/lib/lib.es2020.intl.d.ts",
+      "../../../node_modules/typescript/lib/lib.es2020.promise.d.ts",
+      "../../../node_modules/typescript/lib/lib.es2020.sharedmemory.d.ts",
+      "../../../node_modules/typescript/lib/lib.es2020.string.d.ts",
+      "../../../node_modules/typescript/lib/lib.es2020.symbol.wellknown.d.ts",
       "../../../node_modules/typescript/lib/lib.es5.d.ts",
       "../../../node_modules/typescript/lib/lib.esnext.intl.d.ts",
       "../../../node_modules/typescript/lib/lib.scripthost.d.ts",
@@ -2270,11 +2344,15 @@
       "../node_modules/@types/node/worker_threads.d.ts",
       "../node_modules/@types/node/zlib.d.ts",
       "../src/index.ts",
+      "../src/interfaces/Events/EventInterfaces.ts",
+      "../src/interfaces/Events/index.ts",
       "../src/interfaces/Member.ts",
       "../src/interfaces/Membership.ts",
       "../src/interfaces/Shift.ts",
       "../src/interfaces/Timestamped.ts",
-      "../src/interfaces/index.ts"
+      "../src/interfaces/index.ts",
+      "../src/utils/allSettledAndThrow.ts",
+      "../src/utils/index.ts"
     ]
   },
   "version": "4.2.4"

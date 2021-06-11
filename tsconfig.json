@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
-    "incremental": true,
-    "target": "es2019",
+    "target": "es2020",
     "module": "commonjs",
     "declaration": true,
     "sourceMap": true,
@@ -16,14 +15,14 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "emitDecoratorMetadata": true,
-		"experimentalDecorators": true,
+    "experimentalDecorators": true,
     "allowUnreachableCode": false
   },
   "exclude": [
-		"**/coverage/",
-		"**/dist*/",
-		"**/node_modules/",
-		"**/scripts/",
-		"**/*.d.ts"
-	]
+    "**/coverage/",
+    "**/dist*/",
+    "**/node_modules/",
+    "**/scripts/",
+    "**/*.d.ts"
+  ]
 }

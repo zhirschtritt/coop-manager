@@ -1,11 +1,12 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
+    "incremental": true,
     "allowJs": true,
     "rootDir": ".",
     "outDir": "dist"
   },
-  "include": ["src", "test", "conntection.ts"],
+  "include": ["src", "test", "connection.ts"],
   "types": ["node", "jest"],
   "references": [{"path": "../common"}]
 }
