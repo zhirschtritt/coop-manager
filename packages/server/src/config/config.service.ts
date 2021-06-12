@@ -38,12 +38,14 @@ export class ConfigService {
     return _.get(this.config, path);
   }
 
-  databaseConfig(entitiesPath: string): TypeOrmModuleOptions {
-    const baseOpts = {
-      type: 'postgres' as any,
-      entities: [entitiesPath],
+  databaseConfig(): TypeOrmModuleOptions {
+    const baseOpts: TypeOrmModuleOptions = {
+      type: 'postgres',
       synchronize: false,
+      autoLoadEntities: true,
       maxQueryExecutionTime: this.get<number>('database.slowQueryLog'),
+      entities: ['../**/*.entity.js'],
+      subscribers: ['../**/*.subscriber.js'],
     };
     const url = this.tryGet<string>('database.url');
     if (url) {

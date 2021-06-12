@@ -1,8 +1,8 @@
-import {MigrationInterface, QueryRunner} from "typeorm";
+import {MigrationInterface, QueryRunner} from 'typeorm';
 
 export class addEventsTable1623421363292 implements MigrationInterface {
-    public async up(queryRunner: QueryRunner): Promise<void> {
-      await queryRunner.query(`
+  public async up(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.query(`
         create table coop_events (
           id uuid primary key default gen_random_uuid(),
           sequence_id bigserial not null unique,
@@ -10,7 +10,7 @@ export class addEventsTable1623421363292 implements MigrationInterface {
           scope_type text not null,
           scope_id text not null,
           happened_at timestamptz not null,
-          inserted_at timestamptz not null,
+          inserted_at timestamptz not null default now(),
           data jsonb not null
         );
 
@@ -19,9 +19,9 @@ export class addEventsTable1623421363292 implements MigrationInterface {
         create index ix_coop_event_sequence_id on coop_events (scope_type, scope_id, sequence_id);
         create index ix_coop_event_data on coop_events using gin (data jsonb_path_ops);
       `);
-    }
+  }
 
-    public async down(queryRunner: QueryRunner): Promise<void> {
-      await queryRunner.query(`drop table coop_events`);
-    }
+  public async down(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.query(`drop table coop_events`);
+  }
 }

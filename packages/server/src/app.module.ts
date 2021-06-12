@@ -1,25 +1,34 @@
 import {Module} from '@nestjs/common';
+import {GraphQLModule} from '@nestjs/graphql';
 import {TypeOrmModule} from '@nestjs/typeorm';
+
 import {AppController} from './app.controller';
 import {AppService} from './app.service';
 import {MembershipsModule} from './memberships/memberships.module';
-import {ShiftsModule} from './shifts/shifts.module';
-import {MembersController} from './members/members.controller';
-import {MembersModule} from './members/members.module';
+
 import {ConfigModule, ConfigService} from './config';
 import {
   MemberEntity,
   MembershipEntity,
   MembershipTypeEntity,
 } from './memberships';
-import {ShiftEntity} from './shifts/shift.entity';
-import {ShiftAssignmentEntity} from './shifts/shift-assignment.entity';
-import {ShiftTermEntity} from './shifts/shift-term.entity';
-import { EventsModule } from './events/events.module';
+import {EventsModule} from './events/events.module';
+import {MembersModule, MembersController} from './members';
+import {
+  ShiftEntity,
+  ShiftAssignmentEntity,
+  ShiftTermEntity,
+  ShiftsModule,
+} from './shifts';
+import {CoopEventEntity} from './events/coop-event.entity';
 
 @Module({
   imports: [
     ConfigModule,
+    GraphQLModule.forRoot({
+      installSubscriptionHandlers: true,
+      autoSchemaFile: 'schema.gql',
+    }),
     TypeOrmModule.forFeature([
       MemberEntity,
       MembershipTypeEntity,
@@ -27,13 +36,12 @@ import { EventsModule } from './events/events.module';
       ShiftEntity,
       ShiftAssignmentEntity,
       ShiftTermEntity,
+      CoopEventEntity,
     ]),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: (config: ConfigService) => {
-        return config.databaseConfig('../**/*.entity.js');
-      },
+      useFactory: (config: ConfigService) => config.databaseConfig(),
     }),
     MembershipsModule,
     ShiftsModule,

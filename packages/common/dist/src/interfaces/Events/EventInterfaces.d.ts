@@ -1,4 +1,5 @@
 export interface BaseEventData {
+    id?: string;
     type: string;
     scopeType: string;
     scopeId: string;
@@ -28,12 +29,12 @@ export declare const MembershipEventTypes: {
     readonly MEMBERSHIP_CANCELLED: "membership_cancelled";
 };
 export declare const CoopEventTypes: {
-    MEMBERSHIP_STARTED: "membership_started";
-    MEMBERSHIP_ENDED: "membership_ended";
-    MEMBERSHIP_CANCELLED: "membership_cancelled";
-    MEMBER_CREATED: "member-created";
-    SHIFT_ASSIGNED: "shift-assigned";
-    SHIFT_UNASSIGNED: "shift-unassigned";
+    readonly MEMBERSHIP_STARTED: "membership_started";
+    readonly MEMBERSHIP_ENDED: "membership_ended";
+    readonly MEMBERSHIP_CANCELLED: "membership_cancelled";
+    readonly MEMBER_CREATED: "member-created";
+    readonly SHIFT_ASSIGNED: "shift-assigned";
+    readonly SHIFT_UNASSIGNED: "shift-unassigned";
 };
 export declare type CoopEventType = typeof CoopEventTypes[keyof typeof CoopEventTypes];
 export declare const CoopEventScopeTypes: {

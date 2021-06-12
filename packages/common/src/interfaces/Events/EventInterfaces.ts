@@ -1,4 +1,5 @@
 export interface BaseEventData {
+  id?: string;
   type: string;
   scopeType: string;
   scopeId: string;
@@ -37,7 +38,7 @@ export const CoopEventTypes = {
   ...ShiftEventTypes,
   ...MemberEventTypes,
   ...MembershipEventTypes,
-};
+} as const;
 export type CoopEventType = typeof CoopEventTypes[keyof typeof CoopEventTypes];
 
 export const CoopEventScopeTypes = {

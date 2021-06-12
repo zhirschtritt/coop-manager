@@ -1,4 +1,10 @@
-import {Column, Entity, ManyToOne, PrimaryGeneratedColumn} from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import {Actor, ShiftAssignment} from '@bikecoop/common';
 import {MemberEntity} from '../members/member.entity';
 import {ShiftEntity} from './shift.entity';
@@ -11,14 +17,8 @@ export class ShiftAssignmentEntity implements ShiftAssignment {
   @Column({type: 'uuid', name: 'member_id'})
   memberId!: string;
 
-  @ManyToOne(() => MemberEntity, (member) => member.shifts)
-  member!: MemberEntity;
-
   @Column({type: 'uuid', name: 'shift_id'})
   shiftId!: string;
-
-  @ManyToOne(() => ShiftEntity, (shift) => shift.shiftAssignments)
-  shift!: ShiftEntity;
 
   @Column({type: 'uuid', name: 'created_by'})
   createdBy!: string;
@@ -27,4 +27,12 @@ export class ShiftAssignmentEntity implements ShiftAssignment {
   meta!: {
     createdByActor: Actor;
   };
+
+  @ManyToOne(() => MemberEntity, (member) => member.shifts)
+  @JoinColumn({name: 'member_id'})
+  member!: MemberEntity;
+
+  @ManyToOne(() => ShiftEntity, (shift) => shift.shiftAssignments)
+  @JoinColumn({name: 'shift_id'})
+  shift!: ShiftEntity;
 }

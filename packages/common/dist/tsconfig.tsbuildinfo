@@ -217,8 +217,8 @@
         "affectsGlobalScope": false
       },
       "../src/interfaces/Events/EventInterfaces.ts": {
-        "version": "a1af86a44522dbfe466d87361cb9ae12fad5faf773e6e74428b78359ebb65122",
-        "signature": "68196a27829d40c0a6cc42404193ac6a437db19985d230641ede7954193d92bd",
+        "version": "b0d12357b0e0fba7018c6fd477e3a2c7e1647ba40324157c2e3e214f906732ba",
+        "signature": "2d06baa730383ace319aa173cefb1ebafe7ec820b474b9dc239d626f35e495c5",
         "affectsGlobalScope": false
       },
       "../src/interfaces/Events/index.ts": {
@@ -256,14 +256,29 @@
         "signature": "f5e952ea0052ef8eb662f732c0500fbffb1f33b398e5132fea174a6e374f1e19",
         "affectsGlobalScope": false
       },
+      "../node_modules/@types/uuid/index.d.ts": {
+        "version": "96b49a9de749afcf92b5bce1d8cc42cfae6816cdf5ea36584fd9256b8b2e5292",
+        "signature": "96b49a9de749afcf92b5bce1d8cc42cfae6816cdf5ea36584fd9256b8b2e5292",
+        "affectsGlobalScope": false
+      },
+      "../src/utils/chainUuidV5.ts": {
+        "version": "6f30711d9934db6abe820853c2b5f39a65d2d503a1e471df97555c11576acd71",
+        "signature": "6c432614e784454af43f0c7732104f6887e0aeaad3258b2e357273b5959b7875",
+        "affectsGlobalScope": false
+      },
       "../src/utils/index.ts": {
-        "version": "3e43c29976137bf29498d1155b91df24a8ee1c964b64a11eec17c0946df7d210",
-        "signature": "3e43c29976137bf29498d1155b91df24a8ee1c964b64a11eec17c0946df7d210",
+        "version": "7b6ab219ec4ddb88837fa672d0db638280d24a205d4d323993aa06c4ee25b876",
+        "signature": "7b6ab219ec4ddb88837fa672d0db638280d24a205d4d323993aa06c4ee25b876",
         "affectsGlobalScope": false
       },
       "../src/index.ts": {
         "version": "31393e8eca41911ca3d4702e312f903ea4341670b8d2a090fc41bb3907fc133c",
         "signature": "31393e8eca41911ca3d4702e312f903ea4341670b8d2a090fc41bb3907fc133c",
+        "affectsGlobalScope": false
+      },
+      "../node_modules/@types/json-schema/index.d.ts": {
+        "version": "3a1e165b22a1cb8df82c44c9a09502fd2b33f160cd277de2cd3a055d8e5c6b27",
+        "signature": "3a1e165b22a1cb8df82c44c9a09502fd2b33f160cd277de2cd3a055d8e5c6b27",
         "affectsGlobalScope": false
       },
       "../node_modules/@types/node/globals.d.ts": {
@@ -918,7 +933,6 @@
       }
     },
     "options": {
-      "incremental": true,
       "target": 7,
       "module": 1,
       "declaration": true,
@@ -995,7 +1009,7 @@
         "../../../node_modules/@types/eslint/helpers.d.ts",
         "../../../node_modules/@types/eslint/lib/rules/index.d.ts",
         "../../../node_modules/@types/estree/index.d.ts",
-        "../../../node_modules/@types/json-schema/index.d.ts"
+        "../node_modules/@types/json-schema/index.d.ts"
       ],
       "../../../node_modules/@types/eslint/lib/rules/index.d.ts": [
         "../../../node_modules/@types/eslint/index.d.ts"
@@ -1552,8 +1566,12 @@
         "../src/interfaces/Shift.ts",
         "../src/interfaces/Timestamped.ts"
       ],
+      "../src/utils/chainUuidV5.ts": [
+        "../node_modules/@types/uuid/index.d.ts"
+      ],
       "../src/utils/index.ts": [
-        "../src/utils/allSettledAndThrow.ts"
+        "../src/utils/allSettledAndThrow.ts",
+        "../src/utils/chainUuidV5.ts"
       ]
     },
     "exportedModulesMap": {
@@ -2166,7 +2184,8 @@
         "../src/interfaces/Timestamped.ts"
       ],
       "../src/utils/index.ts": [
-        "../src/utils/allSettledAndThrow.ts"
+        "../src/utils/allSettledAndThrow.ts",
+        "../src/utils/chainUuidV5.ts"
       ]
     },
     "semanticDiagnosticsPerFile": [
@@ -2297,6 +2316,7 @@
       "../../../node_modules/typescript/lib/lib.esnext.intl.d.ts",
       "../../../node_modules/typescript/lib/lib.scripthost.d.ts",
       "../../../node_modules/typescript/lib/lib.webworker.importscripts.d.ts",
+      "../node_modules/@types/json-schema/index.d.ts",
       "../node_modules/@types/node/assert.d.ts",
       "../node_modules/@types/node/async_hooks.d.ts",
       "../node_modules/@types/node/base.d.ts",
@@ -2343,6 +2363,7 @@
       "../node_modules/@types/node/wasi.d.ts",
       "../node_modules/@types/node/worker_threads.d.ts",
       "../node_modules/@types/node/zlib.d.ts",
+      "../node_modules/@types/uuid/index.d.ts",
       "../src/index.ts",
       "../src/interfaces/Events/EventInterfaces.ts",
       "../src/interfaces/Events/index.ts",
@@ -2352,6 +2373,7 @@
       "../src/interfaces/Timestamped.ts",
       "../src/interfaces/index.ts",
       "../src/utils/allSettledAndThrow.ts",
+      "../src/utils/chainUuidV5.ts",
       "../src/utils/index.ts"
     ]
   },
