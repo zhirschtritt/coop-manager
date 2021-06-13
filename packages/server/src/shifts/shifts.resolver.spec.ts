@@ -1,5 +1,5 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { ShiftsResolver } from './shifts.resolver';
+import {Test, TestingModule} from '@nestjs/testing';
+import {ShiftsResolver} from './shifts.resolver';
 
 describe('ShiftsResolver', () => {
   let resolver: ShiftsResolver;

@@ -1,29 +1,40 @@
-import {Args, Field, InputType, Mutation, Resolver} from '@nestjs/graphql';
-import GraphQLJSON from 'graphql-type-json';
-import {Actor} from '@bikecoop/common';
-import {CoopEventEntity} from '../events/coop-event.entity';
+import {
+  Args,
+  Mutation,
+  Resolver,
+  Query,
+  GraphQLISODateTime,
+} from '@nestjs/graphql';
+import {InjectRepository} from '@nestjs/typeorm';
+import {Repository} from 'typeorm';
+import {AssignShiftCommandRespone, AssignShiftCommand} from './Commands';
+import {ShiftEntity} from './shift.entity';
+
 import {ShiftsService} from './shifts.service';
-
-@InputType()
-export class AssignShiftCommand {
-  @Field(() => String)
-  shiftId!: string;
-
-  @Field(() => String)
-  memberId!: string;
-
-  @Field(() => GraphQLJSON)
-  actor!: Actor;
-}
 
 @Resolver()
 export class ShiftsResolver {
-  constructor(private readonly shiftService: ShiftsService) {}
+  constructor(
+    private readonly shiftService: ShiftsService,
+    @InjectRepository(ShiftEntity)
+    private readonly shiftRepo: Repository<ShiftEntity>,
+  ) {}
 
-  @Mutation(() => CoopEventEntity)
+  @Mutation(() => AssignShiftCommandRespone)
   async assignShift(@Args('assignShiftCommand') cmd: AssignShiftCommand) {
-    const res = await this.shiftService.assignShiftToMember(cmd);
+    return await this.shiftService.assignShiftToMember(cmd);
+  }
 
-    return res;
+  @Query(() => [ShiftEntity])
+  async getShifts(
+    @Args('from', {type: () => GraphQLISODateTime}) from: Date,
+    @Args('to', {type: () => GraphQLISODateTime}) to: Date,
+  ) {
+    return await this.shiftRepo
+      .createQueryBuilder('shift')
+      .where('shift.startsAt >= :from', {from})
+      .andWhere('shift.endsAt <= :to', {to})
+      .leftJoinAndSelect('shift.members', 'member')
+      .getMany();
   }
 }

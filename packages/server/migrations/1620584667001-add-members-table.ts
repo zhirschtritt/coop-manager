@@ -1,10 +1,8 @@
-import {MigrationInterface, QueryRunner} from "typeorm";
+import {MigrationInterface, QueryRunner} from 'typeorm';
 
 export class initialMigrations1620573465995 implements MigrationInterface {
-
-    public async up(queryRunner: QueryRunner): Promise<void> {
-
-      await queryRunner.query(`
+  public async up(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.query(`
         create extension if not exists pgcrypto;
 
         create table members (
@@ -24,11 +22,10 @@ export class initialMigrations1620573465995 implements MigrationInterface {
         create index ix_members_last_name on members (last_name);
         create index ix_members_email on members (email);
         create index ix_members_meta on members using gin (meta jsonb_path_ops);
-      `)
-    }
+      `);
+  }
 
-    public async down(queryRunner: QueryRunner): Promise<void> {
-      await queryRunner.query(`drop table members;`)
-    }
-
+  public async down(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.query(`drop table members;`);
+  }
 }

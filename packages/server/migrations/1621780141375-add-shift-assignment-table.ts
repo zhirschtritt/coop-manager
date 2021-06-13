@@ -8,16 +8,13 @@ export class addShiftAssignmentTable1621780141375
           id uuid primary key default gen_random_uuid(),
           member_id uuid not null references members,
           shift_id uuid not null references shifts,
-          -- created_by will/should reference event table
-          created_by uuid not null,
-          meta jsonb null
+          created_by uuid not null references coop_events
         );
 
         -- this compound index will also cover lookups by member_id only
         create unique index ix_shift_assignments_member_shift on shift_assignments (member_id, shift_id);
         create index ix_shift_assignments_shift_id on shift_assignments (shift_id);
         create index ix_shift_assignments_created_by on shift_assignments (created_by);
-        create index ix_shift_assignments_meta on shift_assignments using gin (meta jsonb_path_ops);
       `);
   }
 

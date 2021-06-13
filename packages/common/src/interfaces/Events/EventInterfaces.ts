@@ -60,6 +60,7 @@ export interface ShiftAssignedEvent extends BaseEvent {
     shiftId: string;
     memberId: string;
     actor: Actor;
+    shiftAssignmentId: string;
   };
 }
 

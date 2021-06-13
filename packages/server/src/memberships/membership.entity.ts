@@ -32,14 +32,17 @@ export class MembershipEntity implements Membership {
   @Column({name: 'status'})
   status!: MembershipStatus;
 
+  @ManyToOne(() => MemberEntity, (member) => member.memberships, {
+    primary: true,
+  })
   @JoinColumn({name: 'member_id'})
-  @ManyToOne(() => MemberEntity, (member) => member.memberships)
   member?: MemberEntity;
 
-  @JoinColumn({name: 'membership_type_id'})
   @ManyToOne(
     () => MembershipTypeEntity,
     (memberShipType) => memberShipType.memberships,
+    {primary: true},
   )
+  @JoinColumn({name: 'membership_type_id'})
   memberShipType?: MembershipTypeEntity;
 }

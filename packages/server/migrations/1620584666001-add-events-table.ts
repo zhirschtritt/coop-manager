@@ -1,8 +1,10 @@
 import {MigrationInterface, QueryRunner} from 'typeorm';
 
-export class addEventsTable1623421363292 implements MigrationInterface {
+export class addEventsTable1620584666001 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(`
+        create extension if not exists pgcrypto;
+
         create table coop_events (
           id uuid primary key default gen_random_uuid(),
           sequence_id bigserial not null unique,

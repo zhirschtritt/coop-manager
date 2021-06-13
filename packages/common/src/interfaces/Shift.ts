@@ -39,5 +39,4 @@ export interface ShiftAssignment {
   shiftId: string;
   /** FK reference to event that created assignment */
   createdBy: string;
-  meta: Record<string, any>;
 }
