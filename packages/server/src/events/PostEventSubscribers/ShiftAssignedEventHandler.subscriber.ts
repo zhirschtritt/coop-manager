@@ -15,6 +15,7 @@ export class ShiftAssignedEventHandler extends PostEventSubscriber<ShiftAssigned
     transaction: EntityManager,
   ): Promise<void> {
     await transaction.insert(ShiftAssignmentEntity, {
+      id: event.data.shiftAssignmentId,
       memberId: event.data.memberId,
       shiftId: event.data.shiftId,
       createdBy: event.id,

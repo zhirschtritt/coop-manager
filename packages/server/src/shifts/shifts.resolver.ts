@@ -21,7 +21,9 @@ export class ShiftsResolver {
   ) {}
 
   @Mutation(() => AssignShiftCommandRespone)
-  async assignShift(@Args('assignShiftCommand') cmd: AssignShiftCommand) {
+  async assignShift(
+    @Args('assignShiftCommand') cmd: AssignShiftCommand,
+  ): Promise<AssignShiftCommandRespone> {
     return await this.shiftService.assignShiftToMember(cmd);
   }
 
@@ -29,7 +31,7 @@ export class ShiftsResolver {
   async getShifts(
     @Args('from', {type: () => GraphQLISODateTime}) from: Date,
     @Args('to', {type: () => GraphQLISODateTime}) to: Date,
-  ) {
+  ): Promise<ShiftEntity[]> {
     return await this.shiftRepo
       .createQueryBuilder('shift')
       .where('shift.startsAt >= :from', {from})
