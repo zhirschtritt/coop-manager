@@ -1,0 +1,132 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model coop_events {
+  id                String              @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  sequence_id       BigInt              @unique @default(autoincrement())
+  type              String
+  scope_type        String
+  scope_id          String
+  happened_at       DateTime            @db.Timestamptz(6)
+  inserted_at       DateTime            @default(now()) @db.Timestamptz(6)
+  data              Json
+  memberships       memberships[]
+  shift_assignments shift_assignments[]
+  shift_terms       shift_terms[]
+  shifts            shifts[]
+
+  @@index([data], name: "ix_coop_event_data")
+  @@index([scope_type, scope_id, happened_at], name: "ix_coop_event_happened_at")
+  @@index([scope_type, scope_id], name: "ix_coop_event_scope_type")
+  @@index([scope_type, scope_id, sequence_id], name: "ix_coop_event_sequence_id")
+}
+
+model members {
+  id                String              @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  created_at        DateTime            @default(now()) @db.Timestamptz(6)
+  updated_at        DateTime            @default(now()) @db.Timestamptz(6)
+  first_name        String
+  last_name         String
+  email             String              @unique
+  meta              Json?
+  memberships       memberships[]
+  shift_assignments shift_assignments[]
+
+  @@index([created_at], name: "ix_members_created_at")
+  @@index([email], name: "ix_members_email")
+  @@index([first_name], name: "ix_members_first_name")
+  @@index([last_name], name: "ix_members_last_name")
+  @@index([meta], name: "ix_members_meta")
+  @@index([updated_at], name: "ix_members_updated_at")
+}
+
+model membership_types {
+  id             String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  created_at     DateTime      @default(now()) @db.Timestamptz(6)
+  name           String
+  level          String
+  length_in_days Int
+  memberships    memberships[]
+
+  @@index([length_in_days], name: "ix_membership_types_length_in_days")
+  @@index([level], name: "ix_membership_types_level")
+  @@index([name], name: "ix_membership_types_name")
+}
+
+model memberships {
+  id                 String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  created_by         String           @db.Uuid
+  member_id          String           @db.Uuid
+  membership_type_id String           @db.Uuid
+  start_date         DateTime         @db.Timestamptz(6)
+  end_date           DateTime         @db.Timestamptz(6)
+  status             String
+  coop_events        coop_events      @relation(fields: [created_by], references: [id])
+  members            members          @relation(fields: [member_id], references: [id])
+  membership_types   membership_types @relation(fields: [membership_type_id], references: [id])
+
+  @@index([created_by], name: "ix_memberships_created_by")
+  @@index([end_date], name: "ix_memberships_end_date")
+  @@index([member_id], name: "ix_memberships_member_id")
+  @@index([membership_type_id], name: "ix_memberships_membership_type_id")
+  @@index([start_date], name: "ix_memberships_start_date")
+  @@index([status], name: "ix_memberships_status")
+}
+
+model migrations {
+  id        Int    @id @default(autoincrement())
+  timestamp BigInt
+  name      String @db.VarChar
+}
+
+model shift_assignments {
+  id          String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  member_id   String      @db.Uuid
+  shift_id    String      @db.Uuid
+  created_by  String      @db.Uuid
+  coop_events coop_events @relation(fields: [created_by], references: [id])
+  members     members     @relation(fields: [member_id], references: [id])
+  shifts      shifts      @relation(fields: [shift_id], references: [id])
+
+  @@unique([member_id, shift_id], name: "ix_shift_assignments_member_shift")
+  @@index([created_by], name: "ix_shift_assignments_created_by")
+  @@index([shift_id], name: "ix_shift_assignments_shift_id")
+}
+
+model shift_terms {
+  id             String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name           String      @unique
+  start_date     DateTime    @db.Timestamptz(6)
+  end_date       DateTime    @db.Timestamptz(6)
+  repeat_pattern String
+  created_by     String      @db.Uuid
+  coop_events    coop_events @relation(fields: [created_by], references: [id])
+  shifts         shifts[]
+
+  @@index([created_by], name: "ix_shift_terms_created_by")
+  @@index([end_date], name: "ix_shift_terms_end_date")
+  @@index([name], name: "ix_shift_terms_name")
+  @@index([start_date], name: "ix_shift_terms_start_date")
+}
+
+model shifts {
+  id                String              @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  starts_at         DateTime            @db.Timestamptz(6)
+  ends_at           DateTime            @db.Timestamptz(6)
+  shift_term_id     String              @db.Uuid
+  created_by        String              @db.Uuid
+  coop_events       coop_events         @relation(fields: [created_by], references: [id])
+  shift_terms       shift_terms         @relation(fields: [shift_term_id], references: [id])
+  shift_assignments shift_assignments[]
+
+  @@index([created_by], name: "ix_shifts_created_by")
+  @@index([ends_at], name: "ix_shifts_ends_at")
+  @@index([shift_term_id], name: "ix_shifts_shift_term_id")
+  @@index([starts_at], name: "ix_shifts_starts_at")
+}
