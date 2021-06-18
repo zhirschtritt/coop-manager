@@ -17,8 +17,6 @@ export interface ShiftTerm {
 
   /** rrule string, see: https://github.com/jakubroztocil/rrule */
   pattern: string;
-
-  // TODO: createdBy: eventId
 }
 
 export interface Shift {
@@ -37,6 +35,4 @@ export interface ShiftAssignment {
   id: string;
   memberId: string;
   shiftId: string;
-  /** FK reference to event that created assignment */
-  createdBy: string;
 }

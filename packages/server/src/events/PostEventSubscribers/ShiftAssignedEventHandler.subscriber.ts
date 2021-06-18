@@ -18,7 +18,6 @@ export class ShiftAssignedEventHandler extends PostEventSubscriber<ShiftAssigned
       id: event.data.shiftAssignmentId,
       memberId: event.data.memberId,
       shiftId: event.data.shiftId,
-      createdBy: event.id,
     });
   }
 }

@@ -20,9 +20,6 @@ export class ShiftAssignmentEntity implements ShiftAssignment {
   @Column({type: 'uuid', name: 'shift_id'})
   shiftId!: string;
 
-  @Column({type: 'uuid', name: 'created_by'})
-  createdBy!: string;
-
   @ManyToOne(() => MemberEntity, (member) => member.shifts)
   @JoinColumn({name: 'member_id'})
   member!: MemberEntity;

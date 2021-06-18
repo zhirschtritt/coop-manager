@@ -25,6 +25,4 @@ export interface ShiftAssignment {
     id: string;
     memberId: string;
     shiftId: string;
-    /** FK reference to event that created assignment */
-    createdBy: string;
 }

@@ -14,27 +14,21 @@ export interface MembershipType {
     name: string;
     /** Enum, level of the membership */
     level: MemberLevel;
-    /** Time limit for membership. -1 should indicate infinite */
-    lengthInDays: number;
 }
-export declare const MembershipStatus: {
+export declare const MembershipStatuses: {
     readonly ACTIVE: "active";
     readonly EXPIRED: "expired";
     readonly PAUSED: "paused";
 };
-export declare type MembershipStatus = typeof MembershipStatus[keyof typeof MembershipStatus];
+export declare type MembershipStatus = typeof MembershipStatuses[keyof typeof MembershipStatuses];
 export interface Membership {
     id: string;
-    /** weak FK to event that created the membership */
-    createdBy: string;
     /** FK to Member Entity */
     memberId: string;
     /** FK to MembershipType Entity */
     membershipTypeId: string;
     startDate: Date;
-    /** The expiration date for the membership.
-     * Calculated based on startDate + membershipType.lengthInDays
-     * */
+    /** The expiration date for the membership. */
     endDate: Date;
     /** Status indicates the current state of the membership */
     status: MembershipStatus;

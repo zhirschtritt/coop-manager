@@ -46,11 +46,12 @@ export class MemberEntity implements Member {
   @Column({name: 'meta', type: 'jsonb'})
   meta!: Record<string, unknown>;
 
+  @Field(() => [MembershipTypeEntity])
   @ManyToMany(
     () => MembershipTypeEntity,
     (membershipType) => membershipType.members,
-  )
-  @JoinTable({
+    )
+    @JoinTable({
     name: 'memberships',
     joinColumn: {
       name: 'member_id',
@@ -61,8 +62,9 @@ export class MemberEntity implements Member {
       referencedColumnName: 'id',
     },
   })
-  memberShipTypes?: MembershipTypeEntity[];
+  membershipTypes?: MembershipTypeEntity[];
 
+  @Field(() => [MembershipEntity])
   @OneToMany(() => MembershipEntity, (membership) => membership.member)
   memberships?: MembershipEntity[];
 

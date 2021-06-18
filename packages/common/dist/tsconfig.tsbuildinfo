@@ -237,13 +237,13 @@
         "affectsGlobalScope": false
       },
       "../src/interfaces/Membership.ts": {
-        "version": "fb8394081da8c0f546f9c387f20e97e712a0e8bee3146b48598606aade0ca8ef",
-        "signature": "6ab3c458948c8c3b064273c411b063952afc4f1aa5d222ec9f09c975c4921d17",
+        "version": "4e369e8ec2b7c4e48e585dfd0d5c996b67c5b686c2826da2060555e0b72b71b7",
+        "signature": "fbf5f6febeef275b2849080197f88687ef7cc4ae1f9734c848845fab40f67d41",
         "affectsGlobalScope": false
       },
       "../src/interfaces/Shift.ts": {
-        "version": "cc66e8cb88f02487a6de7d93d3d01821d08afc981f893a177714ce1ffe1d9ffa",
-        "signature": "e3415f94be0a90bdedbe5a33b465710184f5b0368398df767d324e7f07198ffa",
+        "version": "2d9300b1961bb35d2bca50c6e165aea9cad392db4bad51071bd1cc95db8b53d9",
+        "signature": "da529c619d30ed4e63c14df8e69f180d13633cb63ae5aa737e23a3a76de6e894",
         "affectsGlobalScope": false
       },
       "../src/interfaces/index.ts": {
