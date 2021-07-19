@@ -1,6 +1,6 @@
 import {InputType, Field, ObjectType} from '@nestjs/graphql';
 import GraphQLJSON from 'graphql-type-json';
-import {Actor, ShiftAssignedEvent} from '../../../../common/src';
+import {Actor, ShiftAssignedEvent} from '@bikecoop/common';
 import {CoopEventEntity} from '../../events/coop-event.entity';
 
 @InputType()

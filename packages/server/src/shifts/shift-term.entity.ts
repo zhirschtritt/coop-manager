@@ -4,7 +4,7 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import {ShiftTerm} from '../../../common/src';
+import {ShiftTerm} from '@bikecoop/common';
 import {differenceInDays} from 'date-fns';
 import {ShiftEntity} from './shift.entity';
 

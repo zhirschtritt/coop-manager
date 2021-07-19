@@ -1,5 +1,5 @@
 import {Args, Resolver, Query} from '@nestjs/graphql';
-import {CoopEventScopeType} from '../../../common/src';
+import {CoopEventScopeType} from '@bikecoop/common';
 import {CoopEventEntity} from './coop-event.entity';
 import {EventsService} from './events.service';
 

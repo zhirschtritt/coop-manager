@@ -7,7 +7,7 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import {Shift} from '../../../common/src';
+import {Shift} from '@bikecoop/common';
 import {MemberEntity} from '../members/member.entity';
 import {ShiftAssignmentEntity} from './shift-assignment.entity';
 

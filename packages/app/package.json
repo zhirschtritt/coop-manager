@@ -26,18 +26,22 @@
   },
   "dependencies": {
     "@apollo/client": "^3.3.20",
+    "@bikecoop/common": "^1.0.0",
     "@chakra-ui/react": "^1.6.1",
     "@emotion/react": "^11.4.0",
     "@emotion/styled": "^11.3.0",
+    "graphql": "15.5.1",
     "axios": "^0.21.1",
     "date-fns": "^2.22.1",
     "framer-motion": "^4.1.13",
+    "lodash": "4.17.21",
     "next": "^11.0.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "swr": "^0.5.6"
   },
   "devDependencies": {
+    "@types/lodash": "4.14.171",
     "@types/node": "14.14.43",
     "@types/react": "17.0.4",
     "@types/react-dom": "17.0.3",
