@@ -8,6 +8,7 @@ type ShiftEntity {
   endsAt: DateTime!
   shiftTermId: String!
   members: [MemberEntity!]!
+  getMembers: [MemberEntity!]!
 }
 
 """
@@ -26,6 +27,7 @@ type MemberEntity {
   membershipTypes: [MembershipTypeEntity!]!
   memberships: [MembershipEntity!]!
   shifts: [ShiftEntity!]!
+  getMemberships: [MembershipEntity!]!
 }
 
 """
@@ -69,6 +71,7 @@ type AssignShiftCommandRespone {
 }
 
 type Query {
+  getShiftById(id: String!): ShiftEntity!
   getShifts(to: DateTime!, from: DateTime!): [ShiftEntity!]!
   getMembers: [MemberEntity!]!
   eventsByScopeType(scopeType: String!): [CoopEventEntity!]!
