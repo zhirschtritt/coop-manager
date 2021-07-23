@@ -21,7 +21,7 @@ const GET_MEMBERS = `
 `;
 
 export default function Home() {
-  const [{ data, error }] = useQuery<Member[]>({query: GET_MEMBERS});
+  const [{ data, error }] = useQuery<Member[]>({ query: GET_MEMBERS });
 
   if (error) {
     throw error;

@@ -8,14 +8,14 @@ import { GET_SHIFTS_IN_RANGE } from '../queries';
 const now = new Date();
 
 export default function Shifts() {
-  const [{data, error}] = useQuery<{ getShifts: Shift[] }>({
+  const [{ data, error }] = useQuery<{ getShifts: Shift[] }>({
     query: GET_SHIFTS_IN_RANGE,
-      variables: {
-        from: sub(now, { days: 90 }).toISOString(),
-        to: add(now, { days: 90 }).toISOString(),
-      },
+    variables: {
+      from: sub(now, { days: 90 }).toISOString(),
+      to: add(now, { days: 90 }).toISOString(),
     },
-  );
+    requestPolicy: 'cache-first',
+  });
 
   if (error) {
     throw error;
