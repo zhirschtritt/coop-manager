@@ -1,6 +1,4 @@
-import { gql } from '@apollo/client';
-
-export const GET_MEMBERS = gql`
+export const GET_MEMBERS = `
   {
     getMembers {
       id
@@ -17,7 +15,7 @@ export const GET_MEMBERS = gql`
   }
 `;
 
-export const GET_SHIFTS_IN_RANGE = gql`
+export const GET_SHIFTS_IN_RANGE = `
   query Shifts($from: DateTime!, $to: DateTime!) {
     getShifts(from: $from, to: $to) {
       id

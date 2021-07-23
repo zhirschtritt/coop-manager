@@ -1,9 +1,9 @@
-import { gql, useQuery } from '@apollo/client';
 import { Member } from '@bikecoop/common';
 import { Code } from '@chakra-ui/react';
 import React from 'react';
+import { useQuery } from 'urql';
 
-const GET_MEMBERS = gql`
+const GET_MEMBERS = `
   {
     getMembers {
       id
@@ -21,7 +21,7 @@ const GET_MEMBERS = gql`
 `;
 
 export default function Home() {
-  const { data, error } = useQuery<Member[]>(GET_MEMBERS);
+  const [{ data, error }] = useQuery<Member[]>({query: GET_MEMBERS});
 
   if (error) {
     throw error;

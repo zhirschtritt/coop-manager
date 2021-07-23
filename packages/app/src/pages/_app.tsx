@@ -1,20 +1,19 @@
 import { ChakraProvider } from '@chakra-ui/react';
 import { AppProps } from 'next/app';
+import React from 'react';
 
-import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
+import {createClient, Provider as GraphQLProvider} from 'urql'
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const client = new ApolloClient({
-  uri: process.env.GRAPHQL_URL,
-  cache: new InMemoryCache(),
+const client = createClient({
+  url: process.env.NEXT_PUBLIC_GRAPHQL_URL!,
 });
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ChakraProvider>
-      <ApolloProvider client={client}>
+      <GraphQLProvider value={client}>
         <Component {...pageProps} />
-      </ApolloProvider>
+      </GraphQLProvider>
     </ChakraProvider>
   );
 }

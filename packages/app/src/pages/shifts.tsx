@@ -1,4 +1,4 @@
-import { useQuery } from '@apollo/client';
+import { useQuery } from 'urql';
 import { Shift } from '@bikecoop/common';
 import { Container, Table, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
 import React from 'react';
@@ -8,9 +8,8 @@ import { GET_SHIFTS_IN_RANGE } from '../queries';
 const now = new Date();
 
 export default function Shifts() {
-  const { data, error } = useQuery<{ getShifts: Shift[] }>(
-    GET_SHIFTS_IN_RANGE,
-    {
+  const [{data, error}] = useQuery<{ getShifts: Shift[] }>({
+    query: GET_SHIFTS_IN_RANGE,
       variables: {
         from: sub(now, { days: 90 }).toISOString(),
         to: add(now, { days: 90 }).toISOString(),
@@ -33,7 +32,7 @@ export default function Shifts() {
         </Thead>
         <Tbody>
           {data?.getShifts.map((shift: Shift) => (
-            <Tr>
+            <Tr key={shift.id}>
               <Td>{shift.id}</Td>
               <Td>{shift.startsAt}</Td>
             </Tr>
