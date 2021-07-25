@@ -1,3 +1,7 @@
+import { sub, add } from 'date-fns';
+import { useQuery } from 'urql';
+import { Member, Shift } from '../../common/src';
+
 export const GET_MEMBERS = `
   {
     getMembers {
@@ -15,19 +19,40 @@ export const GET_MEMBERS = `
   }
 `;
 
-export const GET_SHIFTS_IN_RANGE = `
+export namespace GetShiftsQuery {
+  export interface ShiftWithMembers extends Shift {
+    getMembers: Member[];
+  }
+
+  export const query = `
   query Shifts($from: DateTime!, $to: DateTime!) {
     getShifts(from: $from, to: $to) {
       id
       startsAt
       endsAt
       shiftTermId
-      members {
+      getMembers {
         id
         email
-        firstName
         lastName
+        firstName
       }
     }
   }
-`;
+  `;
+}
+
+export function useShiftsWithMembers(now: Date) {
+  const [{ data, error }] = useQuery<{
+    getShifts: GetShiftsQuery.ShiftWithMembers[];
+  }>({
+    query: GetShiftsQuery.query,
+    variables: {
+      from: sub(now, { days: 90 }).toISOString(),
+      to: add(now, { days: 90 }).toISOString(),
+    },
+    requestPolicy: 'cache-first',
+  });
+
+  return { data, error };
+}

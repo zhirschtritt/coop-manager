@@ -1,15 +1,17 @@
-import { useQuery } from 'urql';
-import { Shift } from '@bikecoop/common';
 import { Container, Table, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
-import React from 'react';
-import { add, sub } from 'date-fns';
-import { GET_SHIFTS_IN_RANGE } from '../queries';
-
-const now = new Date();
+import { sub, add } from 'date-fns';
+import React, { useMemo } from 'react';
+import { useTable, Column, useSortBy } from 'react-table';
+import { useQuery } from 'urql';
+import { GetShiftsQuery } from '../queries';
 
 export default function Shifts() {
-  const [{ data, error }] = useQuery<{ getShifts: Shift[] }>({
-    query: GET_SHIFTS_IN_RANGE,
+  const now = useMemo(() => new Date(), []);
+
+  const [{ data, error }] = useQuery<{
+    getShifts: GetShiftsQuery.ShiftWithMembers[];
+  }>({
+    query: GetShiftsQuery.query,
     variables: {
       from: sub(now, { days: 90 }).toISOString(),
       to: add(now, { days: 90 }).toISOString(),
@@ -21,22 +23,46 @@ export default function Shifts() {
     throw error;
   }
 
+  const columns = useMemo<Column<GetShiftsQuery.ShiftWithMembers>[]>(
+    () => [
+      { Header: 'ID', accessor: 'id' },
+      { Header: 'Starts At', accessor: 'startsAt' },
+      { Header: 'Ends At', accessor: 'endsAt' },
+    ],
+    [],
+  );
+
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    rows,
+    prepareRow,
+  } = useTable({ columns, data: data?.getShifts ?? [] }, useSortBy);
+
   return (
     <Container maxW="full">
-      <Table variant="striped">
+      <Table {...getTableProps()}>
         <Thead>
-          <Tr>
-            <Th>Id</Th>
-            <Th>Starts At</Th>
-          </Tr>
-        </Thead>
-        <Tbody>
-          {data?.getShifts.map((shift: Shift) => (
-            <Tr key={shift.id}>
-              <Td>{shift.id}</Td>
-              <Td>{shift.startsAt}</Td>
+          {headerGroups.map((headerGroup) => (
+            <Tr {...headerGroup.getHeaderGroupProps()}>
+              {headerGroup.headers.map((column) => (
+                <Th {...column.getHeaderProps()}>{column.render('Header')}</Th>
+              ))}
             </Tr>
           ))}
+        </Thead>
+        <Tbody {...getTableBodyProps()}>
+          {rows.map((row) => {
+            prepareRow(row);
+            return (
+              <Tr {...row.getRowProps()}>
+                {row.cells.map((cell) => (
+                  <Td {...cell.getCellProps()}>{cell.render('Cell')}</Td>
+                ))}
+              </Tr>
+            );
+          })}
         </Tbody>
       </Table>
     </Container>

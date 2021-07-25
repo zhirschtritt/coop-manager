@@ -8,7 +8,7 @@ import {
   Parent,
 } from '@nestjs/graphql';
 import {InjectRepository} from '@nestjs/typeorm';
-import {Repository} from 'typeorm';
+import {LessThanOrEqual, MoreThanOrEqual, Repository} from 'typeorm';
 import {MemberEntity} from '../memberships';
 import {AssignShiftCommandRespone, AssignShiftCommand} from './Commands';
 import {ShiftEntity} from './shift.entity';
@@ -31,6 +31,7 @@ export class ShiftsResolver {
   @ResolveField(() => [MemberEntity])
   async getMembers(@Parent() shift: ShiftEntity) {
     const res = await this.shiftRepo.findOne(shift.id, {
+      select: ['id'],
       relations: ['members'],
     });
     return res?.members || [];
@@ -48,10 +49,9 @@ export class ShiftsResolver {
     @Args('from', {type: () => GraphQLISODateTime}) from: Date,
     @Args('to', {type: () => GraphQLISODateTime}) to: Date,
   ): Promise<ShiftEntity[]> {
-    return await this.shiftRepo
-      .createQueryBuilder('shift')
-      .where('shift.startsAt >= :from', {from})
-      .andWhere('shift.endsAt <= :to', {to})
-      .getMany();
+    return await this.shiftRepo.find({
+      startsAt: MoreThanOrEqual(from),
+      endsAt: LessThanOrEqual(to),
+    });
   }
 }

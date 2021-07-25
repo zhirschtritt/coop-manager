@@ -22,6 +22,7 @@ export class MemberResolver {
     @Parent() member: MemberEntity,
   ): Promise<MembershipEntity[]> {
     const res = await this.memberRepo.findOne(member.id, {
+      select: ['id'],
       relations: ['memberships'],
     });
 
