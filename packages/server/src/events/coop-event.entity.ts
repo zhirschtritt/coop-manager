@@ -1,12 +1,11 @@
 import {Column, Entity, PrimaryGeneratedColumn} from 'typeorm';
-import {CoopEvent} from '@bikecoop/common';
+import {BaseEvent} from '@bikecoop/common';
 import {Field, GraphQLISODateTime, ID, Int, ObjectType} from '@nestjs/graphql';
 import GraphQLJSON from 'graphql-type-json';
 
 @ObjectType()
 @Entity({name: 'coop_events'})
-export class CoopEventEntity<T extends CoopEvent = CoopEvent>
-  implements CoopEvent {
+export class CoopEventEntity implements BaseEvent {
   @Field(() => ID)
   @PrimaryGeneratedColumn('uuid', {name: 'id'})
   id!: string;
@@ -17,11 +16,11 @@ export class CoopEventEntity<T extends CoopEvent = CoopEvent>
 
   @Field(() => String)
   @Column({type: 'text', name: 'type'})
-  type!: T['type'];
+  type!: string;
 
   @Field(() => String)
   @Column({type: 'text', name: 'scope_type'})
-  scopeType!: T['scopeType'];
+  scopeType!: string;
 
   @Field(() => ID)
   @Column({type: 'uuid', name: 'scope_id'})
@@ -37,5 +36,5 @@ export class CoopEventEntity<T extends CoopEvent = CoopEvent>
 
   @Field(() => GraphQLJSON)
   @Column({type: 'jsonb', name: 'data'})
-  data!: T['data'];
+  data!: Record<string, any>;
 }

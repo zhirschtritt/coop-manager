@@ -30,9 +30,3 @@ export interface Shift {
 
   // TODO: add status?: 'cancelled' | null
 }
-
-export interface ShiftAssignment {
-  id: string;
-  memberId: string;
-  shiftId: string;
-}

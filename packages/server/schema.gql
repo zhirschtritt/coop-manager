@@ -2,33 +2,21 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type ShiftEntity {
-  id: String!
-  startsAt: DateTime!
-  endsAt: DateTime!
-  shiftTermId: String!
-  members: [MemberEntity!]!
-  getMembers: [MemberEntity!]!
+type CoopEventEntity {
+  id: ID!
+  sequenceId: Int!
+  type: String!
+  scopeType: String!
+  scopeId: ID!
+  happenedAt: DateTime!
+  insertedAt: DateTime!
+  data: JSON!
 }
 
 """
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
 scalar DateTime
-
-type MemberEntity {
-  id: ID!
-  email: String!
-  firstName: String!
-  lastName: String!
-  createdAt: DateTime!
-  updatedAt: DateTime!
-  meta: JSON!
-  membershipTypes: [MembershipTypeEntity!]!
-  memberships: [MembershipEntity!]!
-  shifts: [ShiftEntity!]!
-  getMemberships: [MembershipEntity!]!
-}
 
 """
 The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
@@ -55,34 +43,59 @@ type MembershipTypeEntity {
   memberships: [MembershipEntity!]!
 }
 
-type CoopEventEntity {
-  id: ID!
-  sequenceId: Int!
-  type: String!
-  scopeType: String!
-  scopeId: ID!
-  happenedAt: DateTime!
-  insertedAt: DateTime!
-  data: JSON!
+type ShiftEntity {
+  id: String!
+  startsAt: DateTime!
+  endsAt: DateTime!
+  shiftTermId: String!
+  members: [MemberEntity!]!
+  getMembers: [MemberEntity!]!
 }
 
-type AssignShiftCommandRespone {
+type MemberEntity {
+  id: ID!
+  email: String!
+  firstName: String!
+  lastName: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  meta: JSON!
+  membershipTypes: [MembershipTypeEntity!]!
+  memberships: [MembershipEntity!]!
+  shifts: [ShiftEntity!]!
+  getMemberships: [MembershipEntity!]!
+}
+
+type AssignShiftCommandResponse {
+  event: CoopEventEntity!
+}
+
+type UnassignShiftCommandResponse {
   event: CoopEventEntity!
 }
 
 type Query {
   getShiftById(id: String!): ShiftEntity!
-  getShifts(to: DateTime!, from: DateTime!): [ShiftEntity!]!
+  getShifts(to: DateTime, from: DateTime): [ShiftEntity!]!
   getMembers: [MemberEntity!]!
   eventsByScopeType(scopeType: String!): [CoopEventEntity!]!
 }
 
 type Mutation {
-  assignShift(assignShiftCommand: AssignShiftCommand!): AssignShiftCommandRespone!
+  assignShift(assignShiftCommand: AssignShiftCommand!): AssignShiftCommandResponse!
+  unassignShift(unassignShiftCommand: UnassignShiftCommand!): UnassignShiftCommandResponse!
 }
 
 input AssignShiftCommand {
   shiftId: String!
   memberId: String!
   actor: JSON!
+  requestId: String!
+}
+
+input UnassignShiftCommand {
+  requestId: String!
+  shiftAssignmentId: String!
+  actor: JSON!
+  reason: String!
 }

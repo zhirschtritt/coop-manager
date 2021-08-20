@@ -21,8 +21,3 @@ export interface Shift {
     endsAt: Date;
     shiftTermId: string;
 }
-export interface ShiftAssignment {
-    id: string;
-    memberId: string;
-    shiftId: string;
-}

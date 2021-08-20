@@ -11,7 +11,7 @@ import { devtoolsExchange } from '@urql/devtools';
 import { NextComponentType, NextPageContext } from 'next';
 
 const client = createClient({
-  url: process.env.NEXT_PUBLIC_GRAPHQL_URL!,
+  url: process.env.GRAPHQL_URL || 'http://localhost:5000/graphql',
   exchanges: [devtoolsExchange, ...defaultExchanges],
 });
 
