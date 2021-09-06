@@ -1,6 +1,6 @@
 import { sub, add } from 'date-fns';
 import { useQuery } from 'urql';
-import { Member, Shift } from '../../common/src';
+import { Member, Shift } from '@bikecoop/common';
 
 export const GET_MEMBERS = `
   {

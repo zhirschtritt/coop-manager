@@ -1,16 +1,13 @@
-import {
-  Args,
-  Mutation,
-  Resolver,
-  Query,
-  GraphQLISODateTime,
-  ResolveField,
-  Parent,
-} from '@nestjs/graphql';
+import {Args, Mutation, Resolver, Query, GraphQLISODateTime, ResolveField, Parent} from '@nestjs/graphql';
 import {InjectRepository} from '@nestjs/typeorm';
 import {LessThanOrEqual, MoreThanOrEqual, Repository} from 'typeorm';
 import {MemberEntity} from '../memberships';
-import {AssignShiftCommandRespone, AssignShiftCommand} from './Commands';
+import {
+  AssignShiftCommandResponse,
+  AssignShiftCommand,
+  UnassignShiftCommandResponse,
+  UnassignShiftCommand,
+} from './Commands';
 import {ShiftEntity} from './shift.entity';
 
 import {ShiftsService} from './shifts.service';
@@ -37,21 +34,30 @@ export class ShiftsResolver {
     return res?.members || [];
   }
 
-  @Mutation(() => AssignShiftCommandRespone)
+  @Mutation(() => AssignShiftCommandResponse)
   async assignShift(
     @Args('assignShiftCommand') cmd: AssignShiftCommand,
-  ): Promise<AssignShiftCommandRespone> {
+  ): Promise<AssignShiftCommandResponse> {
     return await this.shiftService.assignShiftToMember(cmd);
+  }
+
+  @Mutation(() => UnassignShiftCommandResponse)
+  async unassignShift(
+    @Args('unassignShiftCommand') cmd: UnassignShiftCommand,
+  ): Promise<UnassignShiftCommandResponse> {
+    return await this.shiftService.unassignShiftToMember(cmd);
   }
 
   @Query(() => [ShiftEntity])
   async getShifts(
-    @Args('from', {type: () => GraphQLISODateTime}) from: Date,
-    @Args('to', {type: () => GraphQLISODateTime}) to: Date,
+    @Args('from', {type: () => GraphQLISODateTime, nullable: true}) from?: Date,
+    @Args('to', {type: () => GraphQLISODateTime, nullable: true}) to?: Date,
   ): Promise<ShiftEntity[]> {
     return await this.shiftRepo.find({
-      startsAt: MoreThanOrEqual(from),
-      endsAt: LessThanOrEqual(to),
+      where: {
+        startsAt: MoreThanOrEqual(from),
+        endsAt: LessThanOrEqual(to),
+      },
     });
   }
 }

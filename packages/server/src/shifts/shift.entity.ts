@@ -1,12 +1,5 @@
 import {Field, GraphQLISODateTime, ObjectType} from '@nestjs/graphql';
-import {
-  Column,
-  Entity,
-  JoinTable,
-  ManyToMany,
-  OneToMany,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import {Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn} from 'typeorm';
 import {Shift} from '@bikecoop/common';
 import {MemberEntity} from '../members/member.entity';
 import {ShiftAssignmentEntity} from './shift-assignment.entity';
@@ -45,9 +38,6 @@ export class ShiftEntity implements Shift {
   })
   members?: MemberEntity[];
 
-  @OneToMany(
-    () => ShiftAssignmentEntity,
-    (shiftAssignment) => shiftAssignment.shift,
-  )
+  @OneToMany(() => ShiftAssignmentEntity, (shiftAssignment) => shiftAssignment.shift)
   shiftAssignments?: ShiftAssignmentEntity[];
 }

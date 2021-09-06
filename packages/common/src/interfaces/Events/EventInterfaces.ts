@@ -64,4 +64,20 @@ export interface ShiftAssignedEvent extends BaseEvent {
   };
 }
 
-export type CoopEvent = ShiftAssignedEvent;
+export interface ShiftUnassignedEvent extends BaseEvent {
+  type: typeof CoopEventTypes.SHIFT_UNASSIGNED;
+  scopeType: typeof CoopEventScopeTypes.SHIFT;
+  data: {
+    /**
+     * The shift assignment itself will no longer exist when reading
+     * this event back out again, so we de-normalize the shift/member too.
+     */
+    shiftAssignmentId: string;
+    shiftId: string;
+    memberId: string;
+    actor: Actor;
+    reason?: string;
+  };
+}
+
+export type CoopEvent = ShiftAssignedEvent | ShiftUnassignedEvent;

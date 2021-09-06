@@ -11,8 +11,8 @@ class ConfigMissingException extends Error {
 
 export class ConfigService {
   private config: unknown;
-  constructor(config: unknown) {
-    this.config = this.validate(config, ConfigSchema);
+  constructor(rawConfig: unknown) {
+    this.config = this.validate(rawConfig, ConfigSchema);
   }
 
   private validate(config: unknown, schema: Joi.Schema) {

@@ -1,30 +1,27 @@
 import {Module} from '@nestjs/common';
 import {GraphQLModule} from '@nestjs/graphql';
 import {TypeOrmModule} from '@nestjs/typeorm';
+import {LoggerModule} from 'nestjs-pino';
 
 import {AppController} from './app.controller';
 import {AppService} from './app.service';
-import {MembershipsModule} from './memberships/memberships.module';
-
-import {ConfigModule, ConfigService} from './config';
-import {
-  MemberEntity,
-  MembershipEntity,
-  MembershipTypeEntity,
-} from './memberships';
-import {EventsModule} from './events/events.module';
-import {MembersModule, MembersController} from './members';
-import {
-  ShiftEntity,
-  ShiftAssignmentEntity,
-  ShiftTermEntity,
-  ShiftsModule,
-} from './shifts';
+import {CONFIG_SERVICE, ConfigModule, ConfigService} from './config';
 import {CoopEventEntity} from './events/coop-event.entity';
+import {EventsModule} from './events/events.module';
+import {MembersController, MembersModule} from './members';
+import {MemberEntity, MembershipEntity, MembershipTypeEntity} from './memberships';
+import {MembershipsModule} from './memberships/memberships.module';
+import {ShiftAssignmentEntity, ShiftEntity, ShiftsModule, ShiftTermEntity} from './shifts';
 
 @Module({
   imports: [
-    ConfigModule,
+    LoggerModule.forRoot({
+      pinoHttp: {
+        prettyPrint: process.env.NODE_ENV !== 'production',
+        autoLogging: false,
+        level: 'trace',
+      },
+    }),
     GraphQLModule.forRoot({
       installSubscriptionHandlers: true,
       autoSchemaFile: 'schema.gql',
@@ -40,8 +37,8 @@ import {CoopEventEntity} from './events/coop-event.entity';
     ]),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
-      inject: [ConfigService],
       useFactory: (config: ConfigService) => config.databaseConfig(),
+      inject: [CONFIG_SERVICE],
     }),
     MembershipsModule,
     ShiftsModule,
