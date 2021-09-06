@@ -1,7 +1,20 @@
-import { Container, Table, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
-import { sub, add } from 'date-fns';
+import {
+  Avatar,
+  Container,
+  Table,
+  Tag,
+  TagLabel,
+  TagRightIcon,
+  Tbody,
+  Td,
+  Th,
+  Thead,
+  Tr,
+} from '@chakra-ui/react';
+import { MdMoreVert } from 'react-icons/md';
+import { sub, add, format } from 'date-fns';
 import React, { useMemo } from 'react';
-import { useTable, Column, useSortBy } from 'react-table';
+import { useTable, Column, useSortBy, CellProps } from 'react-table';
 import { useQuery } from 'urql';
 import { GetShiftsQuery } from '../queries';
 
@@ -23,11 +36,47 @@ export default function Shifts() {
     throw error;
   }
 
+  type ShiftCellProps = CellProps<GetShiftsQuery.ShiftWithMembers>;
+
   const columns = useMemo<Column<GetShiftsQuery.ShiftWithMembers>[]>(
     () => [
-      { Header: 'ID', accessor: 'id' },
-      { Header: 'Starts At', accessor: 'startsAt' },
-      { Header: 'Ends At', accessor: 'endsAt' },
+      {
+        Header: 'Starts At',
+        accessor: 'startsAt',
+        Cell: ({ row }: ShiftCellProps) => (
+          <>{format(new Date(row.values.startsAt), 'PP pp')}</>
+        ),
+      },
+      {
+        Header: 'Ends At',
+        accessor: 'endsAt',
+        Cell: ({ row }: ShiftCellProps) => (
+          <>{format(new Date(row.values.endsAt), 'PP pp')}</>
+        ),
+      },
+      {
+        Header: 'Staff',
+        accessor: 'getMembers',
+        Cell: ({ row }: ShiftCellProps) => (
+          <>
+            {row.values.getMembers?.map(
+              (m: GetShiftsQuery.ShiftWithMembers['getMembers'][number]) => (
+                <Tag size="lg" colorScheme="green" borderRadius="full">
+                  <Avatar
+                    name={m.firstName}
+                    size="xs"
+                    ml="-1"
+                    mr="2"
+                    bgColor="green"
+                  />
+                  <TagLabel>{m.firstName}</TagLabel>
+                  <TagRightIcon as={MdMoreVert} />
+                </Tag>
+              ),
+            )}
+          </>
+        ),
+      },
     ],
     [],
   );
