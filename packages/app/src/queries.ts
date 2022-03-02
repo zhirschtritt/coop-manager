@@ -30,7 +30,7 @@ export namespace GetShiftsQuery {
       id
       startsAt
       endsAt
-      shiftTermId
+      termId
       getMembers {
         id
         email

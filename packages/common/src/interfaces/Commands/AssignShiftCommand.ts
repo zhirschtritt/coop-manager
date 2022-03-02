@@ -9,5 +9,7 @@ export interface AssignShiftCommand {
   requestId: string;
   shiftId: string;
   memberId: string;
+  /** The shift slot that this shift fulfills */
+  slot: string;
   actor: Actor;
 }

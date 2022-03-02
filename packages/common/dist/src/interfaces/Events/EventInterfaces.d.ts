@@ -55,6 +55,7 @@ export interface ShiftAssignedEvent extends BaseEvent {
         memberId: string;
         actor: Actor;
         shiftAssignmentId: string;
+        slotInstance: string;
     };
 }
 export interface ShiftUnassignedEvent extends BaseEvent {

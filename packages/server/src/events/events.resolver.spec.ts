@@ -1,5 +1,5 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { EventsResolver } from './events.resolver';
+import {Test, TestingModule} from '@nestjs/testing';
+import {EventsResolver} from './events.resolver';
 
 describe('EventsResolver', () => {
   let resolver: EventsResolver;

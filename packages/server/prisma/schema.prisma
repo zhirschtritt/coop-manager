@@ -1,0 +1,129 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["interactiveTransactions", "filterJson"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model CoopEvent {
+  id               String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  sequenceId       BigInt            @unique @default(autoincrement()) @map("sequence_id")
+  type             String
+  scopeType        String            @map("scope_type")
+  scopeId          String            @map("scope_id")
+  happenedAt       DateTime          @map("happened_at") @db.Timestamptz(6)
+  insertedAt       DateTime          @default(now()) @map("inserted_at") @db.Timestamptz(6)
+  data             Json
+  shiftAssignments ShiftAssignment[]
+
+  @@index([data], map: "ix_coop_event_data")
+  @@index([scopeType, scopeId, happenedAt], map: "ix_coop_event_happened_at")
+  @@index([scopeType, scopeId], map: "ix_coop_event_scope_type")
+  @@index([scopeType, scopeId, sequenceId], map: "ix_coop_event_sequence_id")
+  @@map("coop_events")
+}
+
+model Member {
+  id               String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt        DateTime          @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt        DateTime          @default(now()) @map("updated_at") @db.Timestamptz(6)
+  firstName        String            @map("first_name")
+  lastName         String            @map("last_name")
+  email            String            @unique
+  meta             Json?
+  memberships      Membership[]
+  shiftAssignments ShiftAssignment[]
+
+  @@index([createdAt], map: "ix_members_created_at")
+  @@index([email], map: "ix_members_email")
+  @@index([firstName], map: "ix_members_first_name")
+  @@index([lastName], map: "ix_members_last_name")
+  @@index([meta], map: "ix_members_meta")
+  @@index([updatedAt], map: "ix_members_updated_at")
+  @@map("members")
+}
+
+model MembershipType {
+  id          String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt   DateTime     @default(now()) @map("created_at") @db.Timestamptz(6)
+  name        String
+  level       String
+  memberships Membership[]
+
+  @@index([level], map: "ix_membership_types_level")
+  @@index([name], map: "ix_membership_types_name")
+  @@map("membership_types")
+}
+
+model Membership {
+  id               String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  memberId         String         @map("member_id") @db.Uuid
+  membershipTypeId String         @map("membership_type_id") @db.Uuid
+  startDate        DateTime       @map("start_date") @db.Timestamptz(6)
+  endDate          DateTime       @map("end_date") @db.Timestamptz(6)
+  status           String
+  members          Member         @relation(fields: [memberId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  membershipType   MembershipType @relation(fields: [membershipTypeId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([endDate], map: "ix_memberships_end_date")
+  @@index([memberId], map: "ix_memberships_member_id")
+  @@index([membershipTypeId], map: "ix_memberships_membership_type_id")
+  @@index([startDate], map: "ix_memberships_start_date")
+  @@index([status], map: "ix_memberships_status")
+  @@map("memberships")
+}
+
+model migrations {
+  id     Int      @id @default(autoincrement())
+  name   String   @db.VarChar(255)
+  run_on DateTime @db.Timestamp(6)
+}
+
+model ShiftAssignment {
+  id        String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  memberId  String    @map("member_id") @db.Uuid
+  shiftId   String    @map("shift_id") @db.Uuid
+  createdBy String    @map("created_by") @db.Uuid
+  slot      String
+  event     CoopEvent @relation(fields: [createdBy], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  member    Member    @relation(fields: [memberId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  shift     Shift     @relation(fields: [shiftId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([createdBy], map: "ix_shift_assignments_created_by")
+  @@index([memberId], map: "ix_shift_assignments_member_id")
+  @@index([shiftId], map: "ix_shift_assignments_shift_id")
+  @@index([slot], map: "ix_shift_assignments_slot")
+  @@map("shift_assignments")
+}
+
+model ShiftTerm {
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name      String   @unique
+  startDate DateTime @map("start_date") @db.Timestamptz(6)
+  endDate   DateTime @map("end_date") @db.Timestamptz(6)
+  shifts    Shift[]
+
+  @@index([endDate], map: "ix_shift_terms_end_date")
+  @@index([name], map: "ix_shift_terms_name")
+  @@index([startDate], map: "ix_shift_terms_start_date")
+  @@map("shift_terms")
+}
+
+model Shift {
+  id               String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  startsAt         DateTime          @map("start_at") @db.Timestamptz(6)
+  endsAt           DateTime          @map("end_at") @db.Timestamptz(6)
+  termId           String?           @map("shift_term_id") @db.Uuid
+  slots            Json              @default("{}")
+  term             ShiftTerm?        @relation(fields: [termId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  shiftAssignments ShiftAssignment[]
+
+  @@index([endsAt], map: "ix_shifts_end_at")
+  @@index([termId], map: "ix_shifts_shift_term_id")
+  @@index([slots], map: "ix_shifts_slots")
+  @@index([startsAt], map: "ix_shifts_start_at")
+  @@map("shifts")
+}

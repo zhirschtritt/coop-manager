@@ -1,27 +1,18 @@
 import {
   allSettledAndThrow,
+  AssignShiftCommand,
   chainUuidV5,
+  CoopEvent,
   CoopEventScopeTypes,
   CoopEventTypes,
   EventDataFrom,
-  InsertedBaseEventData,
-  ShiftAssignedEvent,
   ShiftUnassignedEvent,
 } from '@bikecoop/common';
-import {Injectable} from '@nestjs/common';
-import {InjectConnection} from '@nestjs/typeorm';
+import {HttpException, Injectable} from '@nestjs/common';
 import {InjectPinoLogger, PinoLogger} from 'nestjs-pino';
-import {Connection, EntityManager} from 'typeorm';
 
-import {CoopEventEntity} from '../events/coop-event.entity';
-import {MemberEntity} from '../memberships';
-import {
-  AssignShiftCommand,
-  AssignShiftCommandResponse,
-  UnassignShiftCommand,
-  UnassignShiftCommandResponse,
-} from './Commands';
-import {ShiftAssignmentEntity} from './shift-assignment.entity';
+import {CommandHandler} from '../events/CommandHandler';
+import {AssignShiftCommandResponse, UnassignShiftCommand, UnassignShiftCommandResponse} from './Commands';
 import {ShiftEntity} from './shift.entity';
 
 @Injectable()
@@ -31,114 +22,121 @@ export class ShiftsService {
   static readonly SHIFT_ASSIGNMENT_NS = 'be577851-b6b5-4d02-8df7-553ef679e9c9';
 
   constructor(
-    @InjectConnection() private readonly connection: Connection,
     @InjectPinoLogger(ShiftsService.name) private readonly logger: PinoLogger,
+    private readonly commandHandler: CommandHandler,
   ) {}
 
+  private makeEventId(shiftAssignmentId: string): string {
+    return chainUuidV5(ShiftsService.SHIFT_ASSIGNED_EVENT_NS, shiftAssignmentId);
+  }
+  private makeAssignmentId(ctx: {shiftId: string; memberId: string; slotName: string}): string {
+    return chainUuidV5(ShiftsService.SHIFT_ASSIGNMENT_NS, ctx.shiftId, ctx.memberId, ctx.slotName);
+  }
+
   async assignShiftToMember(cmd: AssignShiftCommand): Promise<AssignShiftCommandResponse> {
-    return await this.connection.transaction<AssignShiftCommandResponse>(
-      'SERIALIZABLE',
-      async (tx: EntityManager): Promise<AssignShiftCommandResponse> => {
-        const [[shift], [member]] = await allSettledAndThrow([
-          tx.findByIds(ShiftEntity, [cmd.shiftId]),
-          tx.findByIds(MemberEntity, [cmd.memberId]),
-        ]);
+    return await this.commandHandler.handleInTransaction(async (tx) => {
+      const [{shiftAssignments, ...shift}, member] = await allSettledAndThrow([
+        tx.shift.findUnique({
+          where: {id: cmd.shiftId},
+          include: {shiftAssignments: {where: {slot: cmd.slot}}},
+          rejectOnNotFound: true,
+        }),
+        tx.member.findUnique({where: {id: cmd.memberId}, rejectOnNotFound: true}),
+      ]);
 
-        if (!shift) throw new Error(`no shift with id: ${cmd.shiftId}`);
-        if (!member) throw new Error(`no member with id: ${cmd.memberId}`);
+      const shiftAssignmentId = this.makeAssignmentId({
+        shiftId: shift.id,
+        memberId: member.id,
+        slotName: cmd.slot,
+      });
 
-        const shiftAssignmentId = chainUuidV5(ShiftsService.SHIFT_ASSIGNMENT_NS, shift.id, member.id);
+      const dupeShiftAssignment = shiftAssignments.find((s) => s.id === shiftAssignmentId);
 
-        // if there's already a shift assignment for the shift/member, return event from db
-        const shiftAssignment = await tx.findOne(ShiftAssignmentEntity, shiftAssignmentId);
-        if (shiftAssignment) {
-          this.logger.debug({cmd, shiftAssignment}, 'Handling duplicate shift assignment command');
+      // handle duplicate command
+      if (dupeShiftAssignment) {
+        this.logger.debug(
+          {cmd, shiftAssignment: dupeShiftAssignment},
+          'Handling duplicate shift assignment command',
+        );
 
-          const event = await tx.findOne<ShiftAssignedEvent>(CoopEventEntity, shiftAssignment.createdBy);
+        const event = await tx.coopEvent.findUnique({
+          where: {id: dupeShiftAssignment.createdBy},
+          rejectOnNotFound: true,
+        });
 
-          // the createdBy <-> event reference is enforced by db fk
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          return {event: event!};
+        return {events: [(event as any) as CoopEvent]};
+      }
+
+      // handle new command
+      if (shiftAssignments.length) {
+        const slotDef = (shift as ShiftEntity).slots[cmd.slot];
+        if (slotDef?.maxInstances && shiftAssignments.length + 1 > slotDef.maxInstances) {
+          throw new HttpException('Cannot assign shift, slot already at max instances', 422);
         }
+      }
 
-        // else, create a new event which will trigger the creation of a shift-assignment
-        const event: EventDataFrom<ShiftAssignedEvent> = {
-          id: chainUuidV5(ShiftsService.SHIFT_ASSIGNED_EVENT_NS, shiftAssignmentId, cmd.requestId),
-          happenedAt: new Date(),
-          scopeType: CoopEventScopeTypes.SHIFT,
-          scopeId: shift.id,
-          type: CoopEventTypes.SHIFT_ASSIGNED,
-          data: {
-            shiftId: shift.id,
-            memberId: member.id,
-            actor: cmd.actor,
-            shiftAssignmentId,
-          },
-        };
+      // else, create a new event which will trigger the creation of a shift-assignment
+      const eventArgs = {
+        id: this.makeEventId(shiftAssignmentId),
+        happenedAt: new Date(),
+        scopeType: CoopEventScopeTypes.SHIFT,
+        scopeId: shift.id,
+        type: CoopEventTypes.SHIFT_ASSIGNED,
+        data: {
+          shiftId: shift.id,
+          memberId: member.id,
+          actor: cmd.actor,
+          shiftAssignmentId,
+        },
+      };
 
-        const res = await tx.insert<ShiftAssignedEvent>(CoopEventEntity, event);
-        // the "generatedMaps" insert response gives us the persistance data (sequenceId, insertedAt)
-        // grab the first object from the "generatedMaps" return object
-        const persistanceData = res.generatedMaps[0] as InsertedBaseEventData;
+      const event = await tx.coopEvent.create({data: eventArgs});
 
-        return {
-          event: Object.assign(event, persistanceData),
-        };
-      },
-    );
+      return {events: [(event as any) as CoopEvent]};
+    });
   }
 
   async unassignShiftToMember(cmd: UnassignShiftCommand): Promise<UnassignShiftCommandResponse> {
-    return await this.connection.transaction<UnassignShiftCommandResponse>(
-      'SERIALIZABLE',
-      async (tx: EntityManager): Promise<UnassignShiftCommandResponse> => {
-        const eventId = chainUuidV5(
-          ShiftsService.SHIFT_UNASSIGNED_EVENT_NS,
-          cmd.shiftAssignmentId,
-          cmd.requestId,
-        );
+    return await this.commandHandler.handleInTransaction(async (tx) => {
+      const eventId = this.makeEventId(cmd.shiftAssignmentId);
 
-        const previousEvent = await tx.findOne<ShiftUnassignedEvent>(CoopEventEntity, eventId);
+      const dupeEvent = (await tx.coopEvent.findUnique({
+        where: {id: eventId},
+      })) as ShiftUnassignedEvent | null;
 
-        if (previousEvent) {
-          this.logger.debug(
-            {cmd, event: previousEvent},
-            'Handling duplicate command from unassign shift request',
-          );
-          return {event: previousEvent};
-        }
+      if (dupeEvent) {
+        this.logger.debug({cmd, event: dupeEvent}, 'Handling duplicate command from unassign shift request');
+        return {events: [dupeEvent]};
+      }
 
-        const shiftAssignment = await tx.findOne(ShiftAssignmentEntity, cmd.shiftAssignmentId);
+      const shiftAssignment = await tx.shiftAssignment.findUnique({
+        where: {id: cmd.shiftAssignmentId},
+      });
 
-        if (!shiftAssignment) {
-          // if there's no shift assignment to cancel, then that's a no go
-          throw new Error(`No shift assignment with id: ${cmd.shiftAssignmentId}`);
-        }
+      if (!shiftAssignment) {
+        throw new HttpException(`No shift assignment with id: ${cmd.shiftAssignmentId}`, 422);
+      }
 
-        const event: EventDataFrom<ShiftUnassignedEvent> = {
-          id: eventId,
-          happenedAt: new Date(),
-          scopeType: CoopEventScopeTypes.SHIFT,
-          scopeId: shiftAssignment.shiftId,
-          type: CoopEventTypes.SHIFT_UNASSIGNED,
-          data: {
-            shiftAssignmentId: shiftAssignment.id,
-            shiftId: shiftAssignment.shiftId,
-            memberId: shiftAssignment.memberId,
-            actor: cmd.actor,
-            reason: cmd.reason,
-          },
-        };
+      const eventInfo: EventDataFrom<ShiftUnassignedEvent> = {
+        id: eventId,
+        happenedAt: new Date(),
+        scopeType: CoopEventScopeTypes.SHIFT,
+        scopeId: shiftAssignment.shiftId,
+        type: CoopEventTypes.SHIFT_UNASSIGNED,
+        data: {
+          shiftAssignmentId: shiftAssignment.id,
+          shiftId: shiftAssignment.shiftId,
+          memberId: shiftAssignment.memberId,
+          actor: cmd.actor,
+          reason: cmd.reason,
+        },
+      };
 
-        const res = await tx.insert<ShiftUnassignedEvent>(CoopEventEntity, event);
-        // the "generatedMaps" insert response gives us the persistance data (sequenceId, insertedAt)
-        // grab the first object from the "generatedMaps" return object
-        const persistanceData = res.generatedMaps[0] as InsertedBaseEventData;
+      const event: ShiftUnassignedEvent = (await tx.coopEvent.create({data: eventInfo})) as any;
 
-        return {
-          event: Object.assign(event, persistanceData),
-        };
-      },
-    );
+      return {
+        events: [event],
+      };
+    });
   }
 }

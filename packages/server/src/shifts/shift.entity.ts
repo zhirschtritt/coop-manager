@@ -1,43 +1,26 @@
 import {Field, GraphQLISODateTime, ObjectType} from '@nestjs/graphql';
-import {Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn} from 'typeorm';
-import {Shift} from '@bikecoop/common';
-import {MemberEntity} from '../members/member.entity';
-import {ShiftAssignmentEntity} from './shift-assignment.entity';
+import {Shift} from '@prisma/client';
+import {GraphQLJSONObject} from 'graphql-type-json';
+import {Shift as ShiftCommon} from '@bikecoop/common';
 
 @ObjectType()
-@Entity({name: 'shifts'})
 export class ShiftEntity implements Shift {
   @Field(() => String)
-  @PrimaryGeneratedColumn('uuid', {name: 'id'})
   id!: string;
 
   @Field(() => GraphQLISODateTime)
-  @Column({type: 'timestamptz', name: 'starts_at'})
   startsAt!: Date;
 
   @Field(() => GraphQLISODateTime)
-  @Column({type: 'timestamptz', name: 'ends_at'})
   endsAt!: Date;
 
   @Field(() => String)
-  @Column({type: 'uuid', name: 'shift_term_id'})
-  shiftTermId!: string;
+  termId!: string | null;
 
-  @Field(() => [MemberEntity])
-  @ManyToMany(() => MemberEntity, (member) => member.shifts)
-  @JoinTable({
-    name: 'shift_assignments',
-    joinColumn: {
-      name: 'shift_id',
-      referencedColumnName: 'id',
-    },
-    inverseJoinColumn: {
-      name: 'member_id',
-      referencedColumnName: 'id',
-    },
-  })
-  members?: MemberEntity[];
-
-  @OneToMany(() => ShiftAssignmentEntity, (shiftAssignment) => shiftAssignment.shift)
-  shiftAssignments?: ShiftAssignmentEntity[];
+  @Field(() => GraphQLJSONObject)
+  slots!: ShiftCommon['slots'];
 }
+
+// type check only
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const s: ShiftCommon = new ShiftEntity();
