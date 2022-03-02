@@ -1392,8 +1392,8 @@
         "affectsGlobalScope": false
       },
       "../common/dist/src/interfaces/Events/EventInterfaces.d.ts": {
-        "version": "b5fcc192e1387aeec3074991035ffa8a2b611c63c5c5b43b41033ae2903c45b6",
-        "signature": "b5fcc192e1387aeec3074991035ffa8a2b611c63c5c5b43b41033ae2903c45b6",
+        "version": "cb4843ec5a1033bfa96ad511c4b1ddcd3b89bf797704be4f489bc9e11f10a718",
+        "signature": "cb4843ec5a1033bfa96ad511c4b1ddcd3b89bf797704be4f489bc9e11f10a718",
         "affectsGlobalScope": false
       },
       "../common/dist/src/interfaces/Events/index.d.ts": {
@@ -1402,8 +1402,8 @@
         "affectsGlobalScope": false
       },
       "../common/dist/src/interfaces/Commands/AssignShiftCommand.d.ts": {
-        "version": "cf77965147cd5c13efd2069b67daec3564196ca96a023d79f0d5b614f8f18d63",
-        "signature": "cf77965147cd5c13efd2069b67daec3564196ca96a023d79f0d5b614f8f18d63",
+        "version": "28da22c35b935c282dfbefbe0c847615077618b1a61330250172f0e1ac22bb68",
+        "signature": "28da22c35b935c282dfbefbe0c847615077618b1a61330250172f0e1ac22bb68",
         "affectsGlobalScope": false
       },
       "../common/dist/src/interfaces/Commands/UnassignShiftCommand.d.ts": {
@@ -1432,18 +1432,23 @@
         "affectsGlobalScope": false
       },
       "../common/dist/src/interfaces/Models/Shift.d.ts": {
-        "version": "72eb170774b393efa71c2be7f6826f191dd270b865aa5f56438a11554d39d42b",
-        "signature": "72eb170774b393efa71c2be7f6826f191dd270b865aa5f56438a11554d39d42b",
+        "version": "95219536eab525da4d01ee6edbf9f2d9cdb003df97d1cb0f3a89d32ba48cc93e",
+        "signature": "95219536eab525da4d01ee6edbf9f2d9cdb003df97d1cb0f3a89d32ba48cc93e",
         "affectsGlobalScope": false
       },
       "../common/dist/src/interfaces/Models/ShiftAssignment.d.ts": {
-        "version": "00888a01b6d24001870d0f75b0c40184bb110718b872c04118d081bca4ab51d3",
-        "signature": "00888a01b6d24001870d0f75b0c40184bb110718b872c04118d081bca4ab51d3",
+        "version": "16d7a43f97ea7375a958daf8d2af0ee5c35fc7f6e1b8bc0bd989d7416a98ad90",
+        "signature": "16d7a43f97ea7375a958daf8d2af0ee5c35fc7f6e1b8bc0bd989d7416a98ad90",
+        "affectsGlobalScope": false
+      },
+      "../common/dist/src/interfaces/Models/ShiftTerm.d.ts": {
+        "version": "6b9d61fe8f1cf36b9d135a96dafa883c9871486b42311f126c77cb28c86a585c",
+        "signature": "6b9d61fe8f1cf36b9d135a96dafa883c9871486b42311f126c77cb28c86a585c",
         "affectsGlobalScope": false
       },
       "../common/dist/src/interfaces/Models/index.d.ts": {
-        "version": "24ba1587bb9d58270bc14d49242362924656a8b01a5382e3344a038ab5e9225d",
-        "signature": "24ba1587bb9d58270bc14d49242362924656a8b01a5382e3344a038ab5e9225d",
+        "version": "669b58f4ef7996671cdc340504ebf8a2c976d8fa2fc99a9b172750e817fda859",
+        "signature": "669b58f4ef7996671cdc340504ebf8a2c976d8fa2fc99a9b172750e817fda859",
         "affectsGlobalScope": false
       },
       "../common/dist/src/interfaces/index.d.ts": {
@@ -1457,8 +1462,8 @@
         "affectsGlobalScope": false
       },
       "../common/dist/src/utils/chainUuidV5.d.ts": {
-        "version": "6c432614e784454af43f0c7732104f6887e0aeaad3258b2e357273b5959b7875",
-        "signature": "6c432614e784454af43f0c7732104f6887e0aeaad3258b2e357273b5959b7875",
+        "version": "8db9a61dca8d202106a2fe3d910a86549185e32286b3d0e9dc3239154da13f11",
+        "signature": "8db9a61dca8d202106a2fe3d910a86549185e32286b3d0e9dc3239154da13f11",
         "affectsGlobalScope": false
       },
       "../common/dist/src/utils/index.d.ts": {
@@ -1472,8 +1477,8 @@
         "affectsGlobalScope": false
       },
       "./src/queries.ts": {
-        "version": "96f55b7a40a7b7032554dc04096c7f7d139496d8a98d17c6313167f181093c31",
-        "signature": "3605d569edb323f30caf04aeab63819a8747b544a8ddcf502dd3388c05c56a5b",
+        "version": "c364dff5790b303a304bbb0a8346792589a27e544b8e09603026708c46a89bbd",
+        "signature": "77feaf4d0ac4ce1bd4d7c2bc9d0a7553bb09e8e812d99654d4e8258da3bed10c",
         "affectsGlobalScope": false
       },
       "./src/pages/api/hello.ts": {
@@ -8455,6 +8460,9 @@
       "../common/dist/src/interfaces/Models/ShiftAssignment.d.ts": [
         "./node_modules/date-fns/typings.d.ts"
       ],
+      "../common/dist/src/interfaces/Models/ShiftTerm.d.ts": [
+        "./node_modules/date-fns/typings.d.ts"
+      ],
       "../common/dist/src/interfaces/Models/Timestamped.d.ts": [
         "./node_modules/date-fns/typings.d.ts"
       ],
@@ -8463,6 +8471,7 @@
         "../common/dist/src/interfaces/Models/Membership.d.ts",
         "../common/dist/src/interfaces/Models/Shift.d.ts",
         "../common/dist/src/interfaces/Models/ShiftAssignment.d.ts",
+        "../common/dist/src/interfaces/Models/ShiftTerm.d.ts",
         "../common/dist/src/interfaces/Models/Timestamped.d.ts",
         "./node_modules/date-fns/typings.d.ts"
       ],
@@ -12686,6 +12695,9 @@
       "../common/dist/src/interfaces/Models/ShiftAssignment.d.ts": [
         "./node_modules/date-fns/typings.d.ts"
       ],
+      "../common/dist/src/interfaces/Models/ShiftTerm.d.ts": [
+        "./node_modules/date-fns/typings.d.ts"
+      ],
       "../common/dist/src/interfaces/Models/Timestamped.d.ts": [
         "./node_modules/date-fns/typings.d.ts"
       ],
@@ -12694,6 +12706,7 @@
         "../common/dist/src/interfaces/Models/Membership.d.ts",
         "../common/dist/src/interfaces/Models/Shift.d.ts",
         "../common/dist/src/interfaces/Models/ShiftAssignment.d.ts",
+        "../common/dist/src/interfaces/Models/ShiftTerm.d.ts",
         "../common/dist/src/interfaces/Models/Timestamped.d.ts",
         "./node_modules/date-fns/typings.d.ts"
       ],
@@ -13521,6 +13534,7 @@
       "../common/dist/src/interfaces/Models/Membership.d.ts",
       "../common/dist/src/interfaces/Models/Shift.d.ts",
       "../common/dist/src/interfaces/Models/ShiftAssignment.d.ts",
+      "../common/dist/src/interfaces/Models/ShiftTerm.d.ts",
       "../common/dist/src/interfaces/Models/Timestamped.d.ts",
       "../common/dist/src/interfaces/Models/index.d.ts",
       "../common/dist/src/interfaces/index.d.ts",
@@ -19915,6 +19929,10 @@
       ],
       [
         "../common/dist/src/interfaces/Models/ShiftAssignment.d.ts",
+        1
+      ],
+      [
+        "../common/dist/src/interfaces/Models/ShiftTerm.d.ts",
         1
       ],
       [

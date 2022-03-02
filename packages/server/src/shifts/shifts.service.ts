@@ -6,6 +6,7 @@ import {
   CoopEventScopeTypes,
   CoopEventTypes,
   EventDataFrom,
+  ShiftAssignedEvent,
   ShiftUnassignedEvent,
 } from '@bikecoop/common';
 import {HttpException, Injectable} from '@nestjs/common';
@@ -26,9 +27,6 @@ export class ShiftsService {
     private readonly commandHandler: CommandHandler,
   ) {}
 
-  private makeEventId(shiftAssignmentId: string): string {
-    return chainUuidV5(ShiftsService.SHIFT_ASSIGNED_EVENT_NS, shiftAssignmentId);
-  }
   private makeAssignmentId(ctx: {shiftId: string; memberId: string; slotName: string}): string {
     return chainUuidV5(ShiftsService.SHIFT_ASSIGNMENT_NS, ctx.shiftId, ctx.memberId, ctx.slotName);
   }
@@ -43,6 +41,10 @@ export class ShiftsService {
         }),
         tx.member.findUnique({where: {id: cmd.memberId}, rejectOnNotFound: true}),
       ]);
+
+      if (!(shift as ShiftEntity).slots[cmd.slot]) {
+        throw new HttpException(`No matching slot "${cmd.slot}" on shift`, 422);
+      }
 
       const shiftAssignmentId = this.makeAssignmentId({
         shiftId: shift.id,
@@ -76,8 +78,8 @@ export class ShiftsService {
       }
 
       // else, create a new event which will trigger the creation of a shift-assignment
-      const eventArgs = {
-        id: this.makeEventId(shiftAssignmentId),
+      const eventArgs: EventDataFrom<ShiftAssignedEvent> = {
+        id: chainUuidV5(ShiftsService.SHIFT_ASSIGNED_EVENT_NS, shiftAssignmentId, cmd.requestId),
         happenedAt: new Date(),
         scopeType: CoopEventScopeTypes.SHIFT,
         scopeId: shift.id,
@@ -87,6 +89,7 @@ export class ShiftsService {
           memberId: member.id,
           actor: cmd.actor,
           shiftAssignmentId,
+          slot: cmd.slot,
         },
       };
 
@@ -98,7 +101,11 @@ export class ShiftsService {
 
   async unassignShiftToMember(cmd: UnassignShiftCommand): Promise<UnassignShiftCommandResponse> {
     return await this.commandHandler.handleInTransaction(async (tx) => {
-      const eventId = this.makeEventId(cmd.shiftAssignmentId);
+      const eventId = chainUuidV5(
+        ShiftsService.SHIFT_UNASSIGNED_EVENT_NS,
+        cmd.shiftAssignmentId,
+        cmd.requestId,
+      );
 
       const dupeEvent = (await tx.coopEvent.findUnique({
         where: {id: eventId},
@@ -126,6 +133,7 @@ export class ShiftsService {
         data: {
           shiftAssignmentId: shiftAssignment.id,
           shiftId: shiftAssignment.shiftId,
+          slot: shiftAssignment.slot,
           memberId: shiftAssignment.memberId,
           actor: cmd.actor,
           reason: cmd.reason,

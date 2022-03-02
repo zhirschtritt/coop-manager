@@ -13,7 +13,15 @@ async function main() {
       startDate: new Date(),
       endDate: new Date(),
       name: 'test',
-      shifts: {create: {startsAt: new Date(), endsAt: new Date()}},
+      shifts: {
+        create: {
+          startsAt: new Date(),
+          endsAt: new Date(),
+          slots: {
+            'primary-staff': {minInstances: 1, maxInstances: 1},
+          },
+        },
+      },
     },
     include: {shifts: {select: {id: true}}},
   });

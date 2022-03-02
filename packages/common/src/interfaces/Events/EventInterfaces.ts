@@ -14,7 +14,7 @@ export interface InsertedBaseEventData {
 
 export type BaseEvent = BaseEventData & InsertedBaseEventData;
 
-/** Extract pre-insterted data from event interface */
+/** Extract pre-inserted data from event interface */
 export type EventDataFrom<T extends BaseEvent> = {
   [K in keyof BaseEventData]: T[K];
 };
@@ -61,7 +61,7 @@ export interface ShiftAssignedEvent extends BaseEvent {
     memberId: string;
     actor: Actor;
     shiftAssignmentId: string;
-    slotInstance: string;
+    slot: string;
   };
 }
 
@@ -75,6 +75,7 @@ export interface ShiftUnassignedEvent extends BaseEvent {
      */
     shiftAssignmentId: string;
     shiftId: string;
+    slot: string;
     memberId: string;
     actor: Actor;
     reason?: string;

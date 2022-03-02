@@ -26,12 +26,11 @@ export class CommandHandler {
     return await this.prisma.$transaction(async (tx) => {
       await tx.$queryRaw`begin isolation level SERIALIZABLE`;
 
-
       const res = await handleCommand(tx);
 
       const results = await Promise.allSettled(
         res.events.flatMap(async (e) => {
-          return Promise.allSettled(
+          return await Promise.allSettled(
             this.eventHandlers.map(async (handler) => {
               if (handler.wants(e)) {
                 // TODO: try/catch log error and rethrow

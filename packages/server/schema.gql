@@ -101,6 +101,7 @@ type UnassignShiftCommandResponse {
 type Query {
   getShiftById(id: String!): ShiftEntity!
   getShifts(to: DateTime, from: DateTime): [ShiftEntity!]!
+  getAssignments: [ShiftAssignmentEntity!]!
   eventsByScopeType(scopeType: String!): [CoopEventEntity!]!
   getMembers: [MemberEntity!]!
 }
