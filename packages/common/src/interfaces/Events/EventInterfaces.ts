@@ -1,3 +1,5 @@
+import {HourAndMinute, ShiftSlot} from '..';
+
 export interface BaseEventData {
   id?: string;
   type: string;
@@ -19,6 +21,10 @@ export type EventDataFrom<T extends BaseEvent> = {
   [K in keyof BaseEventData]: T[K];
 };
 
+export const ShiftTermEventTypes = {
+  SHIFT_TERM_CREATED: 'shift-term-created',
+} as const;
+
 export const ShiftEventTypes = {
   SHIFT_ASSIGNED: 'shift-assigned',
   SHIFT_UNASSIGNED: 'shift-unassigned',
@@ -38,6 +44,7 @@ export const CoopEventTypes = {
   ...ShiftEventTypes,
   ...MemberEventTypes,
   ...MembershipEventTypes,
+  ...ShiftTermEventTypes,
 } as const;
 export type CoopEventType = typeof CoopEventTypes[keyof typeof CoopEventTypes];
 
@@ -45,6 +52,7 @@ export const CoopEventScopeTypes = {
   SHIFT: 'shift',
   MEMBER: 'member',
   MEMBERSHIP: 'membership',
+  SHIFT_TERM: 'shift-term',
 } as const;
 export type CoopEventScopeType = typeof CoopEventScopeTypes[keyof typeof CoopEventScopeTypes];
 
@@ -79,6 +87,18 @@ export interface ShiftUnassignedEvent extends BaseEvent {
     memberId: string;
     actor: Actor;
     reason?: string;
+  };
+}
+
+export interface ShiftTermCreated extends BaseEvent {
+  type: typeof ShiftTermEventTypes.SHIFT_TERM_CREATED;
+  scopeType: typeof CoopEventScopeTypes.SHIFT_TERM;
+  data: {
+    termName: string;
+    shiftOccurrences: Date[];
+    defaultSlots: ShiftSlot[];
+    shiftStart: HourAndMinute;
+    shiftEnd: HourAndMinute;
   };
 }
 
