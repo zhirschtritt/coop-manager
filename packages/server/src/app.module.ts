@@ -1,5 +1,6 @@
 import {Module} from '@nestjs/common';
 import {GraphQLModule} from '@nestjs/graphql';
+import {ApolloDriverConfig, ApolloDriver} from '@nestjs/apollo';
 import {LoggerModule} from 'nestjs-pino';
 
 import {AppController} from './app.controller';
@@ -19,8 +20,8 @@ import {ShiftsModule} from './shifts';
         level: 'trace',
       },
     }),
-    GraphQLModule.forRoot({
-      installSubscriptionHandlers: true,
+    GraphQLModule.forRoot<ApolloDriverConfig>({
+      driver: ApolloDriver,
       autoSchemaFile: 'schema.gql',
     }),
     MembershipsModule,

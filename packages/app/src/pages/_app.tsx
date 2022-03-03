@@ -1,37 +1,44 @@
-import { ChakraProvider } from '@chakra-ui/react';
+import { GlobalStyles, MantineProvider, NormalizeCSS } from '@mantine/core';
+import { NotificationsProvider } from '@mantine/notifications';
+
 import { AppProps } from 'next/app';
 import React from 'react';
 
-import {
-  createClient,
-  defaultExchanges,
-  Provider as GraphQLProvider,
-} from 'urql';
+import { createClient, defaultExchanges, Provider as GraphQLProvider } from 'urql';
 import { devtoolsExchange } from '@urql/devtools';
 import { NextComponentType, NextPageContext } from 'next';
+import { refocusExchange } from '@urql/exchange-refocus';
+import Layout from './layout';
 
 const client = createClient({
-  url: process.env.GRAPHQL_URL || 'http://localhost:5000/graphql',
-  exchanges: [devtoolsExchange, ...defaultExchanges],
+  url: process.env.GRAPHQL_URL || 'http://localhost:5020/graphql',
+  exchanges: [...defaultExchanges, devtoolsExchange, refocusExchange()],
 });
 
-function MyApp({
+export default function App({
   Component,
   pageProps,
 }: AppProps & {
   Component: NextComponentType<NextPageContext, any, unknown> & {
     getLayout(e: JSX.Element): JSX.Element;
   };
-}) {
-  const getLayout = Component.getLayout ?? ((page) => <> {page} </>);
-
+}): JSX.Element {
   return (
-    <ChakraProvider>
+    <MantineProvider
+      theme={{
+        /** Put your mantine theme override here */
+        colorScheme: 'light',
+      }}
+    >
+      <NormalizeCSS />
+      <GlobalStyles />
       <GraphQLProvider value={client}>
-        {getLayout(<Component {...pageProps} />)}
+        <NotificationsProvider>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </NotificationsProvider>
       </GraphQLProvider>
-    </ChakraProvider>
+    </MantineProvider>
   );
 }
-
-export default MyApp;

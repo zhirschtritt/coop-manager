@@ -1,5 +1,5 @@
 import { Member } from '@bikecoop/common';
-import { Code } from '@chakra-ui/react';
+import { Prism } from '@mantine/prism';
 import React from 'react';
 import { useQuery } from 'urql';
 
@@ -8,24 +8,16 @@ const GET_MEMBERS = `
     getMembers {
       id
       email
-      memberships {
-        id
-      }
-      membershipTypes {
-        id
-        name
-        level
-      }
     }
   }
 `;
 
-export default function Home() {
+export default function Home(): JSX.Element {
   const [{ data, error }] = useQuery<Member[]>({ query: GET_MEMBERS });
 
   if (error) {
     throw error;
   }
 
-  return <Code> {JSON.stringify(data, null, 2)} </Code>;
+  return <Prism language="json">{`${JSON.stringify(data, undefined, 2)}`}</Prism>;
 }
