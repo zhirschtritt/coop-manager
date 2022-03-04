@@ -34,8 +34,6 @@
     "@mantine/notifications": "3.6.7",
     "@mantine/prism": "3.6.7",
     "@next/bundle-analyzer": "^12.0.7",
-    "@urql/devtools": "^2.0.3",
-    "@urql/exchange-refocus": "^0.2.5",
     "apollo-env": "^0.10.0",
     "apollo-server": "2.25.2",
     "apollo-server-express": "2.x.x",
@@ -44,15 +42,15 @@
     "dayjs": "^1.10.7",
     "framer-motion": "^4.1.13",
     "graphql": "15.5.1",
+    "graphql-request": "^4.0.0",
     "lodash": "4.17.21",
     "next": "^12.1.0",
     "prism-react-renderer": "^1.2.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-icons": "^4.2.0",
-    "swr": "^0.5.6",
-    "typescript": "4.3.5",
-    "urql": "2.0.4"
+    "swr": "^1.2.2",
+    "typescript": "4.3.5"
   },
   "devDependencies": {
     "@mantine/eslint-config": "3.6.7",

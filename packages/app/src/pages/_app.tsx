@@ -4,16 +4,9 @@ import { NotificationsProvider } from '@mantine/notifications';
 import { AppProps } from 'next/app';
 import React from 'react';
 
-import { createClient, defaultExchanges, Provider as GraphQLProvider } from 'urql';
-import { devtoolsExchange } from '@urql/devtools';
 import { NextComponentType, NextPageContext } from 'next';
-import { refocusExchange } from '@urql/exchange-refocus';
 import Layout from './layout';
-
-const client = createClient({
-  url: process.env.GRAPHQL_URL || 'http://localhost:5020/graphql',
-  exchanges: [...defaultExchanges, devtoolsExchange, refocusExchange()],
-});
+import GraphQLClientProvider from '../components/GraphQLClientProvider';
 
 export default function App({
   Component,
@@ -32,13 +25,13 @@ export default function App({
     >
       <NormalizeCSS />
       <GlobalStyles />
-      <GraphQLProvider value={client}>
+      <GraphQLClientProvider>
         <NotificationsProvider>
           <Layout>
             <Component {...pageProps} />
           </Layout>
         </NotificationsProvider>
-      </GraphQLProvider>
+      </GraphQLClientProvider>
     </MantineProvider>
   );
 }
