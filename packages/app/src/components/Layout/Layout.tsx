@@ -1,5 +1,6 @@
-import { AppShell, Header, Navbar } from '@mantine/core';
+import { AppShell, Header, Navbar, Title } from '@mantine/core';
 import React, { PropsWithChildren } from 'react';
+import { MainLinks } from './_links';
 
 export default function Layout({ children }: PropsWithChildren<unknown>) {
   return (
@@ -8,18 +9,19 @@ export default function Layout({ children }: PropsWithChildren<unknown>) {
         padding="md"
         navbar={
           <Navbar width={{ base: 300 }} height={500} padding="xs">
-            Some sidebar tab
+            <Navbar.Section>
+              <MainLinks />
+            </Navbar.Section>
           </Navbar>
         }
         header={
           <Header height={60} padding="xs">
-            Bike Kitchen
+            <Title order={3}>Somerville Bike Kitchen</Title>
           </Header>
         }
         styles={(theme) => ({
           main: {
-            backgroundColor:
-              theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0],
+            backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : undefined,
           },
         })}
       >

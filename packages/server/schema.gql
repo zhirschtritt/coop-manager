@@ -129,11 +129,17 @@ input UnassignShiftCommand {
 }
 
 input CreateNewMember {
+  id: UUID
   firstName: String!
   lastName: String!
   email: EmailAddress!
   meta: JSONObject
 }
+
+"""
+A field whose value is a generic Universally Unique Identifier: https://en.wikipedia.org/wiki/Universally_unique_identifier.
+"""
+scalar UUID
 
 """
 A field whose value conforms to the standard internet email address format as specified in RFC822: https://www.w3.org/Protocols/rfc822/.
@@ -147,8 +153,3 @@ input UpdateMember {
   email: String
   meta: JSONObject
 }
-
-"""
-A field whose value is a generic Universally Unique Identifier: https://en.wikipedia.org/wiki/Universally_unique_identifier.
-"""
-scalar UUID

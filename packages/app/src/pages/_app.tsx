@@ -5,8 +5,8 @@ import { AppProps } from 'next/app';
 import React from 'react';
 
 import { NextComponentType, NextPageContext } from 'next';
-import Layout from './layout';
 import GraphQLClientProvider from '../components/GraphQLClientProvider';
+import Layout from '../components/Layout/Layout';
 
 export default function App({
   Component,
