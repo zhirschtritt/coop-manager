@@ -1,10 +1,14 @@
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const DBMigrate = require('db-migrate');
-
 import {INestApplication, ValidationPipe} from '@nestjs/common';
 import {NestFactory} from '@nestjs/core';
 import {Logger} from 'nestjs-pino';
 import {AppModule} from './app.module';
+
+// see prisma bug: https://github.com/prisma/studio/issues/614
+// might be fixed in later node version?
+BigInt.prototype.toJSON = function () {
+  const int = Number.parseInt(this.toString());
+  return int ?? this.toString();
+};
 
 async function bootstrap() {
   let app: INestApplication;
@@ -15,19 +19,6 @@ async function bootstrap() {
     throw err;
   }
   const logger = app.get(Logger);
-
-  // run db migrations
-  const dbUrl = process.env.DATABASE_URL;
-  if (!dbUrl) {
-    throw new Error('DB_URL env required');
-  }
-
-  logger.debug(`Running migrations for database url: ${dbUrl}`);
-  const dbmigrate = DBMigrate.getInstance(true, {
-    cwd: '.',
-    throwUncatched: true,
-  });
-  await dbmigrate.up(undefined);
 
   app.useLogger(logger);
   app.useGlobalPipes(new ValidationPipe());

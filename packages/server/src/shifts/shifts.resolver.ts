@@ -1,6 +1,7 @@
 import {Inject} from '@nestjs/common';
-import {Args, Mutation, Resolver, Query, GraphQLISODateTime, ResolveField, Parent} from '@nestjs/graphql';
+import {Args, Mutation, Resolver, Query, ResolveField, Parent} from '@nestjs/graphql';
 import {Member, Shift} from '@prisma/client';
+import {DateTimeResolver} from 'graphql-scalars';
 import {MemberEntity} from '../memberships';
 import {PrismaService, PRISMA_SERVICE} from '../prisma';
 import {
@@ -29,8 +30,8 @@ export class ShiftsResolver {
 
   @Query(() => [ShiftEntity])
   async getShifts(
-    @Args('from', {type: () => GraphQLISODateTime, nullable: true}) from?: Date,
-    @Args('to', {type: () => GraphQLISODateTime, nullable: true}) to?: Date,
+    @Args('from', {type: () => DateTimeResolver, nullable: true}) from?: Date,
+    @Args('to', {type: () => DateTimeResolver, nullable: true}) to?: Date,
   ): Promise<Shift[]> {
     return await this.prisma.shift.findMany({where: {startsAt: {gte: from}, endsAt: {gte: to}}});
   }

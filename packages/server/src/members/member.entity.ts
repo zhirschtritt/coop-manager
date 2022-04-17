@@ -1,7 +1,7 @@
 import {Member as MemberCommon} from '@bikecoop/common';
-import {Field, GraphQLISODateTime, ID, ObjectType} from '@nestjs/graphql';
+import {Field, ID, ObjectType} from '@nestjs/graphql';
 import {Member, Prisma} from '@prisma/client';
-import GraphQLJSON from 'graphql-type-json';
+import {DateTimeResolver, JSONObjectResolver} from 'graphql-scalars';
 import {MembershipTypeEntity, MembershipEntity} from '../memberships';
 import {ShiftEntity} from '../shifts/shift.entity';
 
@@ -19,14 +19,14 @@ export class MemberEntity implements Member {
   @Field(() => String)
   lastName!: string;
 
-  @Field(() => GraphQLISODateTime)
+  @Field(() => DateTimeResolver)
   createdAt!: Date;
 
-  @Field(() => GraphQLISODateTime)
+  @Field(() => DateTimeResolver)
   updatedAt!: Date;
 
   /** Not in use yet, could contain other denormalized member information in the future */
-  @Field(() => GraphQLJSON)
+  @Field(() => JSONObjectResolver)
   meta!: Prisma.JsonValue;
 
   @Field(() => [MembershipTypeEntity])

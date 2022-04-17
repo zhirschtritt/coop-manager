@@ -1,17 +1,17 @@
-import {Field, GraphQLISODateTime, ObjectType} from '@nestjs/graphql';
-import {Shift} from '@prisma/client';
 import {Shift as ShiftCommon} from '@bikecoop/common';
-import {JSONObjectResolver} from 'graphql-scalars';
+import {Field, ObjectType} from '@nestjs/graphql';
+import {Shift} from '@prisma/client';
+import {DateTimeResolver, JSONObjectResolver} from 'graphql-scalars';
 
 @ObjectType()
 export class ShiftEntity implements Shift {
   @Field(() => String)
   id!: string;
 
-  @Field(() => GraphQLISODateTime)
+  @Field(() => DateTimeResolver)
   startsAt!: Date;
 
-  @Field(() => GraphQLISODateTime)
+  @Field(() => DateTimeResolver)
   endsAt!: Date;
 
   @Field(() => String)

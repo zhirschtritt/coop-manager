@@ -1,7 +1,7 @@
 import {CoopEventTypes, ShiftUnassignedEvent} from '@bikecoop/common';
 import {Injectable} from '@nestjs/common';
 
-import {Transaction} from '../interfaces';
+import {Transaction} from '../../interfaces';
 import {EventHandler} from './EventHandler';
 
 @Injectable()

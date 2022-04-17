@@ -2,11 +2,9 @@ import {Inject} from '@nestjs/common';
 import {Args, Mutation, Parent, Query, ResolveField, Resolver} from '@nestjs/graphql';
 import {Member, Membership, Shift} from '@prisma/client';
 
-import {MembershipEntity} from '../memberships';
+import {MemberEntity, MembershipEntity} from '../memberships';
 import {PrismaService, PRISMA_SERVICE} from '../prisma';
-import {CreateNewMember, UpdateMember} from './Commands';
-
-import {MemberEntity} from './member.entity';
+import {CreateNewMember, UpdateMember} from './commands';
 
 @Resolver(() => MemberEntity)
 export class MemberResolver {

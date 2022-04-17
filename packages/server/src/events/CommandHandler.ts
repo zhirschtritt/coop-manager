@@ -1,27 +1,24 @@
 import {CoopEvent} from '@bikecoop/common';
-import {Inject, Injectable} from '@nestjs/common';
+import {forwardRef, Inject, Injectable} from '@nestjs/common';
 
 import {PRISMA_SERVICE, PrismaService} from '../prisma';
-import {Transaction} from './interfaces';
-import {EventHandler, ShiftAssignedEventHandler, ShiftUnassignedEventHandler} from './PostEventHandlers';
+import {EVENT_HANDLERS} from './events.module';
+import {Transaction} from '../interfaces';
+import {EventHandler} from './PostEventHandlers';
 
-export type CommandResponse<T> = T & Record<'events', string[]>;
-export type CommandResponseRaw<T> = T & Record<'events', CoopEvent[]>;
+export type CommandResponse<T> = T & Record<'events', CoopEvent[]>;
 
 @Injectable()
 export class CommandHandler {
-  private readonly eventHandlers: EventHandler[];
   constructor(
     @Inject(PRISMA_SERVICE)
     protected readonly prisma: PrismaService,
-    assignedEventHandler: ShiftAssignedEventHandler,
-    unassignedEventHandler: ShiftUnassignedEventHandler,
-  ) {
-    this.eventHandlers = [assignedEventHandler, unassignedEventHandler];
-  }
+    @Inject(forwardRef(() => EVENT_HANDLERS))
+    private readonly eventHandlers: EventHandler[],
+  ) {}
 
   async handleInTransaction<TRes>(
-    handleCommand: (tx: Transaction) => Promise<CommandResponseRaw<TRes>>,
+    handleCommand: (tx: Transaction) => Promise<CommandResponse<TRes>>,
   ): Promise<CommandResponse<TRes>> {
     return await this.prisma.$transaction(async (tx) => {
       await tx.$queryRaw`begin isolation level SERIALIZABLE`;
@@ -33,7 +30,6 @@ export class CommandHandler {
           return await Promise.allSettled(
             this.eventHandlers.map(async (handler) => {
               if (handler.wants(e)) {
-                // TODO: try/catch log error and rethrow
                 return await handler.handle(e, tx);
               }
             }),
@@ -49,7 +45,7 @@ export class CommandHandler {
 
       return {
         ...res,
-        events: res.events.map((e) => e.id),
+        events: res.events,
       };
     });
   }

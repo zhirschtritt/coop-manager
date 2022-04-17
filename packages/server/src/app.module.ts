@@ -10,6 +10,7 @@ import {MembersController, MembersModule} from './members';
 import {MembershipsModule} from './memberships/memberships.module';
 import {PrismaModule} from './prisma/prisma.module';
 import {ShiftsModule} from './shifts';
+import {MembershipsService} from './memberships/memberships.service';
 
 @Module({
   imports: [
@@ -31,6 +32,6 @@ import {ShiftsModule} from './shifts';
     PrismaModule,
   ],
   controllers: [AppController, MembersController],
-  providers: [AppService],
+  providers: [AppService, MembershipsService],
 })
 export class AppModule {}

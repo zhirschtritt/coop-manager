@@ -12,7 +12,7 @@ export default function CustomTable<T extends object>({
   });
 
   return (
-    <Table {...getTableProps()}>
+    <Table {...getTableProps()} highlightOnHover>
       <thead>
         {headerGroups.map((headerGroup) => (
           <tr {...headerGroup.getHeaderGroupProps()}>

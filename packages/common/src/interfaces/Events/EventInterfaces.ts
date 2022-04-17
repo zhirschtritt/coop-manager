@@ -1,9 +1,13 @@
-import {HourAndMinute, ShiftSlot} from '..';
+import {HourAndMinute} from '../Commands';
+import {ShiftSlot} from '../Models';
+import {CoopEventScopeType, CoopEventScopeTypes} from './EventScopeTypes';
+import {CoopEventType, CoopEventTypes, MembershipEventTypes, ShiftTermEventTypes} from './EventTypes';
 
+type StringyDate = string;
 export interface BaseEventData {
   id?: string;
-  type: string;
-  scopeType: string;
+  type: CoopEventType;
+  scopeType: CoopEventScopeType;
   scopeId: string;
   happenedAt: Date;
   data: Record<string, unknown>;
@@ -20,41 +24,6 @@ export type BaseEvent = BaseEventData & InsertedBaseEventData;
 export type EventDataFrom<T extends BaseEvent> = {
   [K in keyof BaseEventData]: T[K];
 };
-
-export const ShiftTermEventTypes = {
-  SHIFT_TERM_CREATED: 'shift-term-created',
-} as const;
-
-export const ShiftEventTypes = {
-  SHIFT_ASSIGNED: 'shift-assigned',
-  SHIFT_UNASSIGNED: 'shift-unassigned',
-} as const;
-
-export const MemberEventTypes = {
-  MEMBER_CREATED: 'member-created',
-} as const;
-
-export const MembershipEventTypes = {
-  MEMBERSHIP_STARTED: 'membership_started',
-  MEMBERSHIP_ENDED: 'membership_ended',
-  MEMBERSHIP_CANCELLED: 'membership_cancelled',
-} as const;
-
-export const CoopEventTypes = {
-  ...ShiftEventTypes,
-  ...MemberEventTypes,
-  ...MembershipEventTypes,
-  ...ShiftTermEventTypes,
-} as const;
-export type CoopEventType = typeof CoopEventTypes[keyof typeof CoopEventTypes];
-
-export const CoopEventScopeTypes = {
-  SHIFT: 'shift',
-  MEMBER: 'member',
-  MEMBERSHIP: 'membership',
-  SHIFT_TERM: 'shift-term',
-} as const;
-export type CoopEventScopeType = typeof CoopEventScopeTypes[keyof typeof CoopEventScopeTypes];
 
 export type Actor = {
   type: 'user' | 'device';
@@ -90,7 +59,7 @@ export interface ShiftUnassignedEvent extends BaseEvent {
   };
 }
 
-export interface ShiftTermCreated extends BaseEvent {
+export interface ShiftTermCreatedEvent extends BaseEvent {
   type: typeof ShiftTermEventTypes.SHIFT_TERM_CREATED;
   scopeType: typeof CoopEventScopeTypes.SHIFT_TERM;
   data: {
@@ -99,7 +68,34 @@ export interface ShiftTermCreated extends BaseEvent {
     defaultSlots: ShiftSlot[];
     shiftStart: HourAndMinute;
     shiftEnd: HourAndMinute;
+    actor: Actor;
   };
 }
 
-export type CoopEvent = ShiftAssignedEvent | ShiftUnassignedEvent;
+/** Event emitted when a new membership is created/started */
+export interface MembershipCreatedEvent extends BaseEvent {
+  type: typeof MembershipEventTypes.MEMBERSHIP_CREATED;
+  scopeType: typeof CoopEventScopeTypes.MEMBERSHIP;
+  data: {
+    membershipId: string;
+    membershipTypeId: string;
+    memberId: string;
+    actor: Actor;
+    startDate: StringyDate;
+    endDate: StringyDate;
+  };
+}
+
+export interface MembershipStartedEvent extends BaseEvent {
+  type: typeof MembershipEventTypes.MEMBERSHIP_STARTED;
+  scopeType: typeof CoopEventScopeTypes.MEMBERSHIP;
+  data: {
+    // nothing to see here (we can use scopeId for membership to start)
+  };
+}
+
+export type CoopEvent =
+  | ShiftAssignedEvent
+  | ShiftUnassignedEvent
+  | MembershipCreatedEvent
+  | MembershipStartedEvent;

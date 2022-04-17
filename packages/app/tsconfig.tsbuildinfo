@@ -896,21 +896,6 @@
         "signature": "9269d492817e359123ac64c8205e5d05dab63d71a3a7a229e68b5d9a0e8150bf",
         "affectsGlobalScope": false
       },
-      "../common/dist/src/interfaces/Events/EventInterfaces.d.ts": {
-        "version": "04227a73accf970ab0f651e607a86c68a85d015c42f80263b3221fa2e29e1c98",
-        "signature": "04227a73accf970ab0f651e607a86c68a85d015c42f80263b3221fa2e29e1c98",
-        "affectsGlobalScope": false
-      },
-      "../common/dist/src/interfaces/Events/index.d.ts": {
-        "version": "29304a5ea14cc33a821d094d8b31f69f19ea6021feeb8d2955803f2c1082b29e",
-        "signature": "29304a5ea14cc33a821d094d8b31f69f19ea6021feeb8d2955803f2c1082b29e",
-        "affectsGlobalScope": false
-      },
-      "../common/dist/src/interfaces/Commands/AssignShiftCommand.d.ts": {
-        "version": "28da22c35b935c282dfbefbe0c847615077618b1a61330250172f0e1ac22bb68",
-        "signature": "28da22c35b935c282dfbefbe0c847615077618b1a61330250172f0e1ac22bb68",
-        "affectsGlobalScope": false
-      },
       "../common/dist/src/interfaces/Models/Timestamped.d.ts": {
         "version": "b0005b25398da7bc11f66de447ad3aa2a1d872b4dc83be0f85e5f391fd3373af",
         "signature": "b0005b25398da7bc11f66de447ad3aa2a1d872b4dc83be0f85e5f391fd3373af",
@@ -922,8 +907,8 @@
         "affectsGlobalScope": false
       },
       "../common/dist/src/interfaces/Models/Membership.d.ts": {
-        "version": "fbf5f6febeef275b2849080197f88687ef7cc4ae1f9734c848845fab40f67d41",
-        "signature": "fbf5f6febeef275b2849080197f88687ef7cc4ae1f9734c848845fab40f67d41",
+        "version": "e653e05ef5230c2165892046d0e9e8b86a8a2a81892ac47a65a50dff7dd727e4",
+        "signature": "e653e05ef5230c2165892046d0e9e8b86a8a2a81892ac47a65a50dff7dd727e4",
         "affectsGlobalScope": false
       },
       "../common/dist/src/interfaces/Models/Shift.d.ts": {
@@ -944,6 +929,31 @@
       "../common/dist/src/interfaces/Models/index.d.ts": {
         "version": "669b58f4ef7996671cdc340504ebf8a2c976d8fa2fc99a9b172750e817fda859",
         "signature": "669b58f4ef7996671cdc340504ebf8a2c976d8fa2fc99a9b172750e817fda859",
+        "affectsGlobalScope": false
+      },
+      "../common/dist/src/interfaces/Events/EventScopeTypes.d.ts": {
+        "version": "0d35adbd0960079a2d192243926b0a8514c29bd6f0b6f95fb8cad22fa719a92a",
+        "signature": "0d35adbd0960079a2d192243926b0a8514c29bd6f0b6f95fb8cad22fa719a92a",
+        "affectsGlobalScope": false
+      },
+      "../common/dist/src/interfaces/Events/EventTypes.d.ts": {
+        "version": "79f8e2eab26fcb70a068628c01bf3d04d987ac8a1f9efda0ccfefaf163c69740",
+        "signature": "79f8e2eab26fcb70a068628c01bf3d04d987ac8a1f9efda0ccfefaf163c69740",
+        "affectsGlobalScope": false
+      },
+      "../common/dist/src/interfaces/Events/EventInterfaces.d.ts": {
+        "version": "bbf76e19b42be8e9db3861e8154ed07aac90f83fe5109d2ad83e0fa119d76df9",
+        "signature": "bbf76e19b42be8e9db3861e8154ed07aac90f83fe5109d2ad83e0fa119d76df9",
+        "affectsGlobalScope": false
+      },
+      "../common/dist/src/interfaces/Events/index.d.ts": {
+        "version": "7ff464cc8f9aa9b3c3092c6d55ab385d4467a14f52a1c3c44f75f5cff4c90a57",
+        "signature": "7ff464cc8f9aa9b3c3092c6d55ab385d4467a14f52a1c3c44f75f5cff4c90a57",
+        "affectsGlobalScope": false
+      },
+      "../common/dist/src/interfaces/Commands/AssignShiftCommand.d.ts": {
+        "version": "28da22c35b935c282dfbefbe0c847615077618b1a61330250172f0e1ac22bb68",
+        "signature": "28da22c35b935c282dfbefbe0c847615077618b1a61330250172f0e1ac22bb68",
         "affectsGlobalScope": false
       },
       "../common/dist/src/interfaces/Commands/CreateShiftTermCommand.d.ts": {
@@ -991,6 +1001,41 @@
         "signature": "8c838029af3b4c1e734505f271c4b037233e5a70b31509f19adb908e2686155f",
         "affectsGlobalScope": false
       },
+      "./node_modules/graphql/language/source.d.ts": {
+        "version": "115d60d2b07ac7d513543b5e86e13bbf9a9524faf8bdf4985bd7a08815b46406",
+        "signature": "115d60d2b07ac7d513543b5e86e13bbf9a9524faf8bdf4985bd7a08815b46406",
+        "affectsGlobalScope": false
+      },
+      "./node_modules/graphql/language/tokenKind.d.ts": {
+        "version": "4a1545bdbccec0209a67da02f760fad629deedbe7d8ac9f55c93c82f95ff5449",
+        "signature": "4a1545bdbccec0209a67da02f760fad629deedbe7d8ac9f55c93c82f95ff5449",
+        "affectsGlobalScope": false
+      },
+      "./node_modules/graphql/language/ast.d.ts": {
+        "version": "7b52c21bd6397ca26df3b7863fa2d5014aa4bbf5621377769726bbd59956e6bc",
+        "signature": "7b52c21bd6397ca26df3b7863fa2d5014aa4bbf5621377769726bbd59956e6bc",
+        "affectsGlobalScope": false
+      },
+      "./node_modules/graphql-request/dist/types.dom.d.ts": {
+        "version": "80283bd376b4d5b8970d1f0b8c549e3b9e24aa26d8f785bec3e29e22c525f1a4",
+        "signature": "80283bd376b4d5b8970d1f0b8c549e3b9e24aa26d8f785bec3e29e22c525f1a4",
+        "affectsGlobalScope": false
+      },
+      "./node_modules/graphql-request/dist/types.d.ts": {
+        "version": "be1bee04f150ebe82336d775075ceef629b25bae06980729e0904172080b29a4",
+        "signature": "be1bee04f150ebe82336d775075ceef629b25bae06980729e0904172080b29a4",
+        "affectsGlobalScope": false
+      },
+      "./node_modules/graphql-request/dist/index.d.ts": {
+        "version": "b9172a262c062e0284eec7129c665fdbf49caa585889b4cb847af5427f954684",
+        "signature": "b9172a262c062e0284eec7129c665fdbf49caa585889b4cb847af5427f954684",
+        "affectsGlobalScope": false
+      },
+      "./src/components/Members/members.query.ts": {
+        "version": "b751ee674d4f45ca8d06af447043f81a4749e7b9a52e63851303a8efe5b4ace8",
+        "signature": "f128f6fbf1d9523ee531c428021f2971361ea8383b89bd38a25a3cc23a5c8bab",
+        "affectsGlobalScope": false
+      },
       "./src/lib/cookie.ts": {
         "version": "e11e192d5c421a93cacc06818d242e56f38e4b9cc52effd2019d9bc303812ec9",
         "signature": "92e1b5187ce331b2c572db436f389501c69686a3c1a84f83fd3c41ca104fd6ea",
@@ -1026,36 +1071,6 @@
         "signature": "4e39971f83a72cf1fb8047e1c23f4a26200a347a76f84b316edf2fd618e1fcac",
         "affectsGlobalScope": false
       },
-      "./node_modules/graphql/language/source.d.ts": {
-        "version": "115d60d2b07ac7d513543b5e86e13bbf9a9524faf8bdf4985bd7a08815b46406",
-        "signature": "115d60d2b07ac7d513543b5e86e13bbf9a9524faf8bdf4985bd7a08815b46406",
-        "affectsGlobalScope": false
-      },
-      "./node_modules/graphql/language/tokenKind.d.ts": {
-        "version": "4a1545bdbccec0209a67da02f760fad629deedbe7d8ac9f55c93c82f95ff5449",
-        "signature": "4a1545bdbccec0209a67da02f760fad629deedbe7d8ac9f55c93c82f95ff5449",
-        "affectsGlobalScope": false
-      },
-      "./node_modules/graphql/language/ast.d.ts": {
-        "version": "7b52c21bd6397ca26df3b7863fa2d5014aa4bbf5621377769726bbd59956e6bc",
-        "signature": "7b52c21bd6397ca26df3b7863fa2d5014aa4bbf5621377769726bbd59956e6bc",
-        "affectsGlobalScope": false
-      },
-      "./node_modules/graphql-request/dist/types.dom.d.ts": {
-        "version": "80283bd376b4d5b8970d1f0b8c549e3b9e24aa26d8f785bec3e29e22c525f1a4",
-        "signature": "80283bd376b4d5b8970d1f0b8c549e3b9e24aa26d8f785bec3e29e22c525f1a4",
-        "affectsGlobalScope": false
-      },
-      "./node_modules/graphql-request/dist/types.d.ts": {
-        "version": "be1bee04f150ebe82336d775075ceef629b25bae06980729e0904172080b29a4",
-        "signature": "be1bee04f150ebe82336d775075ceef629b25bae06980729e0904172080b29a4",
-        "affectsGlobalScope": false
-      },
-      "./node_modules/graphql-request/dist/index.d.ts": {
-        "version": "b9172a262c062e0284eec7129c665fdbf49caa585889b4cb847af5427f954684",
-        "signature": "b9172a262c062e0284eec7129c665fdbf49caa585889b4cb847af5427f954684",
-        "affectsGlobalScope": false
-      },
       "./src/lib/graphql-fetcher.ts": {
         "version": "f9fb09c7c29325b1c572fe28aaa6d541220fba84f3931597a6c3c21a425b0a38",
         "signature": "6b3a2ca4f947da8b01f75c84fe4aebba60eb780e97bda6465097e2bc78a08913",
@@ -1064,11 +1079,6 @@
       "./src/pages/api/hello.ts": {
         "version": "6d1e2d78a1b0f66637be28a45df874790b99536d2fbb63b6eaea357d468ad164",
         "signature": "ef6eabc11a3526a450cd8a6aa9746f546f62378b14d39f321f2868b211846e1d",
-        "affectsGlobalScope": false
-      },
-      "./src/components/GraphQLClientProvider.tsx": {
-        "version": "c4a3eac75d293c4fc121dc95ab7fc1aff68831f9317f1c02d242d2e023e3e8ac",
-        "signature": "42f7c99274d86f3a68631a18cd3aa23051d469a9c2a7a11a498f5e9b9aadd034",
         "affectsGlobalScope": false
       },
       "./node_modules/@mantine/styles/lib/theme/types/ColorScheme.d.ts": {
@@ -2716,6 +2726,36 @@
         "signature": "e4c7430bfab3b2fc268c7f10ad4da7fb90034f3f9a8236db71037d3a2bead8e6",
         "affectsGlobalScope": false
       },
+      "./node_modules/@types/react-table/index.d.ts": {
+        "version": "960915110d7725fc44f76e2c72f41e63dd94b0b0d191033b2f7b12cb961b0e14",
+        "signature": "960915110d7725fc44f76e2c72f41e63dd94b0b0d191033b2f7b12cb961b0e14",
+        "affectsGlobalScope": false
+      },
+      "./src/components/CustomTable.tsx": {
+        "version": "abe2ed173c066cf2f9d3184ab2bd2424b72aed114c96d4f01c4f79d8eb42b9d4",
+        "signature": "2b3b6316d2d4f6e123a18b1736aae9060232df52a4962ae52ed3a3755f796fa7",
+        "affectsGlobalScope": false
+      },
+      "./node_modules/tabler-icons-react/dist/index.d.ts": {
+        "version": "0c99fb2a3808b852101dbc632d0c4b12ff689acb7934cb9a41e500b1b727ce19",
+        "signature": "0c99fb2a3808b852101dbc632d0c4b12ff689acb7934cb9a41e500b1b727ce19",
+        "affectsGlobalScope": false
+      },
+      "./src/components/Layout/_links.tsx": {
+        "version": "44ee4169aa7ef6f489d7f05a0cf372cf67f440f28efd453b30fde60967c68fb3",
+        "signature": "10f220d343a72dba7be5ba7f50394c7f1af611281e15905749af6172d67314c0",
+        "affectsGlobalScope": false
+      },
+      "./src/components/Layout/Layout.tsx": {
+        "version": "c4617adcb9cb09b0b36bd8158293faecc1d0aa327afa2a3f038362d882a2988d",
+        "signature": "e81caf85dde57aaa3359f59fd25120041acc36ba03bed8c4e7d4997f8b774bb1",
+        "affectsGlobalScope": false
+      },
+      "./src/components/Members/MemberTable.tsx": {
+        "version": "b2126a22312b8bcad463394e8eb1885201440e8a0523d44359c6bafbe27e906d",
+        "signature": "8f32c9562eed0289558c74a5a7f9a59c2cd8a4b606997073c82c1e3382169e77",
+        "affectsGlobalScope": false
+      },
       "./node_modules/@mantine/notifications/lib/types.d.ts": {
         "version": "64a3059cd5c9e84dfa522b27f7feb2a21d733fd60bf45880c9ecf56448d2b261",
         "signature": "64a3059cd5c9e84dfa522b27f7feb2a21d733fd60bf45880c9ecf56448d2b261",
@@ -2736,13 +2776,13 @@
         "signature": "c7cd63c2e365ea527e0272b7e7fea757077295ebebde0aae57935eb745569897",
         "affectsGlobalScope": false
       },
-      "./src/pages/layout.tsx": {
-        "version": "ea42c768713fe7dd50c0b3d6bad25f57b910929d82d3b2b83db156bd15c8ed3f",
-        "signature": "e81caf85dde57aaa3359f59fd25120041acc36ba03bed8c4e7d4997f8b774bb1",
+      "./src/providers/GraphQLClientProvider.tsx": {
+        "version": "c4a3eac75d293c4fc121dc95ab7fc1aff68831f9317f1c02d242d2e023e3e8ac",
+        "signature": "42f7c99274d86f3a68631a18cd3aa23051d469a9c2a7a11a498f5e9b9aadd034",
         "affectsGlobalScope": false
       },
       "./src/pages/_app.tsx": {
-        "version": "afb1443efe4095f518c7df3ef8e57f4241b5a3eaaa59c14a76a654394c0b67b3",
+        "version": "b80eef3bf6fc37c8cd54f99a4fb1d83e9cf45083fe4e21b7961d611a72daf905",
         "signature": "428f60f1ab3cc7eb96ba8735a54e5920932c5d586f84212a4363364e439c4557",
         "affectsGlobalScope": false
       },
@@ -2791,44 +2831,14 @@
         "signature": "ca9c56b8cb0581e6e2c213b8e1167788d27773fac7666b232382d386379c2f10",
         "affectsGlobalScope": false
       },
-      "./node_modules/prism-react-renderer/index.d.ts": {
-        "version": "c049825db31784c6ac8c54a28a5eefbed58217ba48e0593cecd1d3e4a2643667",
-        "signature": "c049825db31784c6ac8c54a28a5eefbed58217ba48e0593cecd1d3e4a2643667",
-        "affectsGlobalScope": false
-      },
-      "./node_modules/@mantine/prism/lib/prism-theme.d.ts": {
-        "version": "e7e8233137c45ea77d95c51935ae91785b47bccd970c15479857f5d7e59b968c",
-        "signature": "e7e8233137c45ea77d95c51935ae91785b47bccd970c15479857f5d7e59b968c",
-        "affectsGlobalScope": false
-      },
-      "./node_modules/@mantine/prism/lib/types.d.ts": {
-        "version": "634e6b520bb46877a28f80ebb5b0695dbc9ce595d0cc2c64036805f6b1b3c75d",
-        "signature": "634e6b520bb46877a28f80ebb5b0695dbc9ce595d0cc2c64036805f6b1b3c75d",
-        "affectsGlobalScope": false
-      },
-      "./node_modules/@mantine/prism/lib/Prism.styles.d.ts": {
-        "version": "5fa0174d46bf2cbca95015784ab1f44544a15e68954bbfc4bf3610353e4011da",
-        "signature": "5fa0174d46bf2cbca95015784ab1f44544a15e68954bbfc4bf3610353e4011da",
-        "affectsGlobalScope": false
-      },
-      "./node_modules/@mantine/prism/lib/PrismTabs.styles.d.ts": {
-        "version": "6cae2b7fd6776113f5da4128b5ffdb7a1f0b7da9eed5b57b6a31e4a2b035ef47",
-        "signature": "6cae2b7fd6776113f5da4128b5ffdb7a1f0b7da9eed5b57b6a31e4a2b035ef47",
-        "affectsGlobalScope": false
-      },
-      "./node_modules/@mantine/prism/lib/Prism.d.ts": {
-        "version": "6e8ca4d81f5b7702047ab91414822ad17f9b266097b9e929dceb9cbfa8cb32d1",
-        "signature": "6e8ca4d81f5b7702047ab91414822ad17f9b266097b9e929dceb9cbfa8cb32d1",
-        "affectsGlobalScope": false
-      },
-      "./node_modules/@mantine/prism/lib/index.d.ts": {
-        "version": "7e8aa272e0e252167a7f7bfa79c0a3ffca1401084472c576f046509eccc8c844",
-        "signature": "7e8aa272e0e252167a7f7bfa79c0a3ffca1401084472c576f046509eccc8c844",
-        "affectsGlobalScope": false
-      },
       "./src/pages/index.tsx": {
-        "version": "30cdc8d112d723a385eb7fc465af953cabacb92044411cbb3e4414cb61cce8d6",
+        "version": "a51e6ecb1b605e198d37594e14fdbdc37aa787de953e6ef619471a6c29a37d90",
         "signature": "e00c7a678c35334b49277b9846f1dfd64efa16f70e075ae4486c5b9ae249ac7e",
+        "affectsGlobalScope": false
+      },
+      "./src/pages/members.tsx": {
+        "version": "52274e39c821422f78e10bd7327dc808dc0e833ea3843a9e0533ae145f6a26e2",
+        "signature": "6151d4c9e8e84127eec6448e1f609776b9d58746addf5ca2df6b7e9d95b098c2",
         "affectsGlobalScope": false
       },
       "./node_modules/@types/accepts/index.d.ts": {
@@ -3079,11 +3089,6 @@
       "./node_modules/@types/prettier/index.d.ts": {
         "version": "6209c901f30cc321f4b86800d11fad3d67e73a3308f19946b1bc642af0280298",
         "signature": "6209c901f30cc321f4b86800d11fad3d67e73a3308f19946b1bc642af0280298",
-        "affectsGlobalScope": false
-      },
-      "./node_modules/@types/react-table/index.d.ts": {
-        "version": "960915110d7725fc44f76e2c72f41e63dd94b0b0d191033b2f7b12cb961b0e14",
-        "signature": "960915110d7725fc44f76e2c72f41e63dd94b0b0d191033b2f7b12cb961b0e14",
         "affectsGlobalScope": false
       },
       "./node_modules/@types/scheduler/index.d.ts": {
@@ -4611,31 +4616,6 @@
       "./node_modules/@mantine/notifications/lib/use-notifications/use-notifications.d.ts": [
         "./node_modules/@mantine/notifications/lib/types.d.ts"
       ],
-      "./node_modules/@mantine/prism/lib/Prism.d.ts": [
-        "./node_modules/@mantine/core/lib/index.d.ts",
-        "./node_modules/@mantine/prism/lib/Prism.styles.d.ts",
-        "./node_modules/@mantine/prism/lib/PrismTabs.styles.d.ts",
-        "./node_modules/@mantine/prism/lib/types.d.ts",
-        "./node_modules/@types/react/index.d.ts"
-      ],
-      "./node_modules/@mantine/prism/lib/Prism.styles.d.ts": [
-        "./node_modules/@mantine/core/lib/index.d.ts"
-      ],
-      "./node_modules/@mantine/prism/lib/PrismTabs.styles.d.ts": [
-        "./node_modules/@mantine/core/lib/index.d.ts"
-      ],
-      "./node_modules/@mantine/prism/lib/index.d.ts": [
-        "./node_modules/@mantine/prism/lib/Prism.d.ts",
-        "./node_modules/@mantine/prism/lib/prism-theme.d.ts"
-      ],
-      "./node_modules/@mantine/prism/lib/prism-theme.d.ts": [
-        "./node_modules/@mantine/core/lib/index.d.ts",
-        "./node_modules/prism-react-renderer/index.d.ts"
-      ],
-      "./node_modules/@mantine/prism/lib/types.d.ts": [
-        "./node_modules/@mantine/core/lib/index.d.ts",
-        "./node_modules/prism-react-renderer/index.d.ts"
-      ],
       "./node_modules/@mantine/ssr/lib/ServerStyles.d.ts": [
         "./node_modules/@emotion/server/types/create-instance.d.ts",
         "./node_modules/@types/react/index.d.ts"
@@ -5785,10 +5765,6 @@
         "./node_modules/next/dist/shared/lib/utils.d.ts",
         "./node_modules/styled-jsx/index.d.ts"
       ],
-      "./node_modules/prism-react-renderer/index.d.ts": [
-        "./node_modules/@types/react/index.d.ts",
-        "./node_modules/prism-react-renderer/index.d.ts"
-      ],
       "./node_modules/react-popper/typings/react-popper.d.ts": [
         "./node_modules/@popperjs/core/index.d.ts",
         "./node_modules/@types/react/index.d.ts"
@@ -5817,10 +5793,35 @@
       "./node_modules/swr/dist/utils/use-swr-config.d.ts": [
         "./node_modules/swr/dist/types.d.ts"
       ],
-      "./src/components/GraphQLClientProvider.tsx": [
+      "./node_modules/tabler-icons-react/dist/index.d.ts": [
+        "./node_modules/@types/react/index.d.ts"
+      ],
+      "./src/components/CustomTable.tsx": [
+        "./node_modules/@mantine/core/lib/index.d.ts",
+        "./node_modules/@types/react-table/index.d.ts"
+      ],
+      "./src/components/Layout/Layout.tsx": [
+        "./node_modules/@mantine/core/lib/index.d.ts",
+        "./node_modules/@types/react/index.d.ts",
+        "./node_modules/next/link.d.ts",
+        "./src/components/Layout/_links.tsx"
+      ],
+      "./src/components/Layout/_links.tsx": [
+        "./node_modules/@mantine/core/lib/index.d.ts",
+        "./node_modules/@types/react/index.d.ts",
+        "./node_modules/next/link.d.ts",
+        "./node_modules/tabler-icons-react/dist/index.d.ts"
+      ],
+      "./src/components/Members/MemberTable.tsx": [
+        "../common/dist/src/index.d.ts",
+        "./node_modules/@mantine/core/lib/index.d.ts",
         "./node_modules/@types/react/index.d.ts",
         "./node_modules/swr/dist/index.d.ts",
-        "./src/lib/graphql-fetcher.ts"
+        "./src/components/CustomTable.tsx",
+        "./src/components/Members/members.query.ts"
+      ],
+      "./src/components/Members/members.query.ts": [
+        "./node_modules/graphql-request/dist/index.d.ts"
       ],
       "./src/lib/graphql-fetcher.ts": [
         "./node_modules/graphql-request/dist/index.d.ts",
@@ -5832,8 +5833,8 @@
         "./node_modules/@types/react/index.d.ts",
         "./node_modules/next/app.d.ts",
         "./node_modules/next/index.d.ts",
-        "./src/components/GraphQLClientProvider.tsx",
-        "./src/pages/layout.tsx"
+        "./src/components/Layout/Layout.tsx",
+        "./src/providers/GraphQLClientProvider.tsx"
       ],
       "./src/pages/_document.tsx": [
         "./node_modules/@mantine/next/lib/index.d.ts",
@@ -5843,17 +5844,21 @@
         "./node_modules/next/index.d.ts"
       ],
       "./src/pages/index.tsx": [
-        "../common/dist/src/index.d.ts",
+        "./node_modules/@types/react/index.d.ts"
+      ],
+      "./src/pages/members.tsx": [
         "./node_modules/@mantine/core/lib/index.d.ts",
-        "./node_modules/@mantine/prism/lib/index.d.ts",
         "./node_modules/@types/react/index.d.ts",
         "./node_modules/graphql-request/dist/index.d.ts",
         "./node_modules/swr/dist/index.d.ts",
-        "./src/components/GraphQLClientProvider.tsx"
+        "./src/components/Members/MemberTable.tsx",
+        "./src/components/Members/members.query.ts",
+        "./src/providers/GraphQLClientProvider.tsx"
       ],
-      "./src/pages/layout.tsx": [
-        "./node_modules/@mantine/core/lib/index.d.ts",
-        "./node_modules/@types/react/index.d.ts"
+      "./src/providers/GraphQLClientProvider.tsx": [
+        "./node_modules/@types/react/index.d.ts",
+        "./node_modules/swr/dist/index.d.ts",
+        "./src/lib/graphql-fetcher.ts"
       ],
       "./src/queries.ts": [
         "../common/dist/src/index.d.ts"
@@ -5877,10 +5882,15 @@
         "../common/dist/src/interfaces/Commands/UnassignShiftCommand.d.ts"
       ],
       "../common/dist/src/interfaces/Events/EventInterfaces.d.ts": [
-        "../common/dist/src/interfaces/index.d.ts"
+        "../common/dist/src/interfaces/Commands/index.d.ts",
+        "../common/dist/src/interfaces/Events/EventScopeTypes.d.ts",
+        "../common/dist/src/interfaces/Events/EventTypes.d.ts",
+        "../common/dist/src/interfaces/Models/index.d.ts"
       ],
       "../common/dist/src/interfaces/Events/index.d.ts": [
-        "../common/dist/src/interfaces/Events/EventInterfaces.d.ts"
+        "../common/dist/src/interfaces/Events/EventInterfaces.d.ts",
+        "../common/dist/src/interfaces/Events/EventScopeTypes.d.ts",
+        "../common/dist/src/interfaces/Events/EventTypes.d.ts"
       ],
       "../common/dist/src/interfaces/Models/Member.d.ts": [
         "../common/dist/src/interfaces/Models/Timestamped.d.ts"
@@ -7591,31 +7601,6 @@
         "./node_modules/@mantine/notifications/lib/types.d.ts",
         "./node_modules/date-fns/typings.d.ts"
       ],
-      "./node_modules/@mantine/prism/lib/Prism.d.ts": [
-        "./node_modules/@mantine/core/lib/index.d.ts",
-        "./node_modules/@mantine/prism/lib/Prism.styles.d.ts",
-        "./node_modules/@mantine/prism/lib/PrismTabs.styles.d.ts",
-        "./node_modules/@mantine/prism/lib/types.d.ts",
-        "./node_modules/@types/react/index.d.ts"
-      ],
-      "./node_modules/@mantine/prism/lib/Prism.styles.d.ts": [
-        "./node_modules/@mantine/core/lib/index.d.ts"
-      ],
-      "./node_modules/@mantine/prism/lib/PrismTabs.styles.d.ts": [
-        "./node_modules/@mantine/core/lib/index.d.ts"
-      ],
-      "./node_modules/@mantine/prism/lib/index.d.ts": [
-        "./node_modules/@mantine/prism/lib/Prism.d.ts",
-        "./node_modules/@mantine/prism/lib/prism-theme.d.ts"
-      ],
-      "./node_modules/@mantine/prism/lib/prism-theme.d.ts": [
-        "./node_modules/@mantine/core/lib/index.d.ts",
-        "./node_modules/prism-react-renderer/index.d.ts"
-      ],
-      "./node_modules/@mantine/prism/lib/types.d.ts": [
-        "./node_modules/@mantine/core/lib/index.d.ts",
-        "./node_modules/prism-react-renderer/index.d.ts"
-      ],
       "./node_modules/@mantine/ssr/lib/ServerStyles.d.ts": [
         "./node_modules/@emotion/server/types/create-instance.d.ts",
         "./node_modules/@types/react/index.d.ts"
@@ -9086,10 +9071,6 @@
         "./node_modules/next/dist/shared/lib/utils.d.ts",
         "./node_modules/styled-jsx/index.d.ts"
       ],
-      "./node_modules/prism-react-renderer/index.d.ts": [
-        "./node_modules/@types/react/index.d.ts",
-        "./node_modules/prism-react-renderer/index.d.ts"
-      ],
       "./node_modules/react-popper/typings/react-popper.d.ts": [
         "./node_modules/@popperjs/core/index.d.ts",
         "./node_modules/@types/react/index.d.ts",
@@ -9120,10 +9101,14 @@
       "./node_modules/swr/dist/utils/use-swr-config.d.ts": [
         "./node_modules/swr/dist/types.d.ts"
       ],
-      "./src/components/GraphQLClientProvider.tsx": [
-        "./node_modules/@types/react/index.d.ts",
-        "./node_modules/graphql-request/dist/index.d.ts",
-        "./node_modules/swr/dist/index.d.ts"
+      "./node_modules/tabler-icons-react/dist/index.d.ts": [
+        "./node_modules/@types/react/index.d.ts"
+      ],
+      "./src/components/CustomTable.tsx": [
+        "./node_modules/@types/react-table/index.d.ts"
+      ],
+      "./src/components/Layout/Layout.tsx": [
+        "./node_modules/@types/react/index.d.ts"
       ],
       "./src/lib/graphql-fetcher.ts": [
         "./node_modules/graphql-request/dist/index.d.ts",
@@ -9139,8 +9124,10 @@
       "./src/pages/api/hello.ts": [
         "../../node_modules/next/types/index.d.ts"
       ],
-      "./src/pages/layout.tsx": [
-        "./node_modules/@types/react/index.d.ts"
+      "./src/providers/GraphQLClientProvider.tsx": [
+        "./node_modules/@types/react/index.d.ts",
+        "./node_modules/graphql-request/dist/index.d.ts",
+        "./node_modules/swr/dist/index.d.ts"
       ],
       "./src/queries.ts": [
         "../common/dist/src/index.d.ts"
@@ -9169,18 +9156,18 @@
         "./node_modules/date-fns/typings.d.ts"
       ],
       "../common/dist/src/interfaces/Events/EventInterfaces.d.ts": [
-        "../common/dist/src/interfaces/index.d.ts",
-        "./node_modules/date-fns/typings.d.ts"
+        "../common/dist/src/interfaces/Commands/index.d.ts",
+        "../common/dist/src/interfaces/Events/EventScopeTypes.d.ts",
+        "../common/dist/src/interfaces/Events/EventTypes.d.ts",
+        "../common/dist/src/interfaces/Models/index.d.ts"
       ],
       "../common/dist/src/interfaces/Events/index.d.ts": [
         "../common/dist/src/interfaces/Events/EventInterfaces.d.ts",
-        "./node_modules/date-fns/typings.d.ts"
+        "../common/dist/src/interfaces/Events/EventScopeTypes.d.ts",
+        "../common/dist/src/interfaces/Events/EventTypes.d.ts"
       ],
       "../common/dist/src/interfaces/Models/Member.d.ts": [
         "../common/dist/src/interfaces/Models/Timestamped.d.ts",
-        "./node_modules/date-fns/typings.d.ts"
-      ],
-      "../common/dist/src/interfaces/Models/Membership.d.ts": [
         "./node_modules/date-fns/typings.d.ts"
       ],
       "../common/dist/src/interfaces/Models/Shift.d.ts": [
@@ -9585,12 +9572,6 @@
       "./node_modules/@mantine/notifications/lib/index.d.ts",
       "./node_modules/@mantine/notifications/lib/types.d.ts",
       "./node_modules/@mantine/notifications/lib/use-notifications/use-notifications.d.ts",
-      "./node_modules/@mantine/prism/lib/Prism.d.ts",
-      "./node_modules/@mantine/prism/lib/Prism.styles.d.ts",
-      "./node_modules/@mantine/prism/lib/PrismTabs.styles.d.ts",
-      "./node_modules/@mantine/prism/lib/index.d.ts",
-      "./node_modules/@mantine/prism/lib/prism-theme.d.ts",
-      "./node_modules/@mantine/prism/lib/types.d.ts",
       "./node_modules/@mantine/ssr/lib/ServerStyles.d.ts",
       "./node_modules/@mantine/ssr/lib/create-styles-server.d.ts",
       "./node_modules/@mantine/ssr/lib/get-ssr-styles.d.ts",
@@ -9837,7 +9818,6 @@
       "./node_modules/next/server.d.ts",
       "./node_modules/next/types/global.d.ts",
       "./node_modules/next/types/index.d.ts",
-      "./node_modules/prism-react-renderer/index.d.ts",
       "./node_modules/react-popper/typings/react-popper.d.ts",
       "./node_modules/styled-jsx/index.d.ts",
       "./node_modules/swr/dist/constants/revalidate-events.d.ts",
@@ -9846,14 +9826,20 @@
       "./node_modules/swr/dist/use-swr.d.ts",
       "./node_modules/swr/dist/utils/config.d.ts",
       "./node_modules/swr/dist/utils/use-swr-config.d.ts",
-      "./src/components/GraphQLClientProvider.tsx",
+      "./node_modules/tabler-icons-react/dist/index.d.ts",
+      "./src/components/CustomTable.tsx",
+      "./src/components/Layout/Layout.tsx",
+      "./src/components/Layout/_links.tsx",
+      "./src/components/Members/MemberTable.tsx",
+      "./src/components/Members/members.query.ts",
       "./src/lib/cookie.ts",
       "./src/lib/graphql-fetcher.ts",
       "./src/pages/_app.tsx",
       "./src/pages/_document.tsx",
       "./src/pages/api/hello.ts",
       "./src/pages/index.tsx",
-      "./src/pages/layout.tsx",
+      "./src/pages/members.tsx",
+      "./src/providers/GraphQLClientProvider.tsx",
       "./src/queries.ts",
       "../common/dist/src/index.d.ts",
       "../common/dist/src/interfaces/Commands/AssignShiftCommand.d.ts",
@@ -9861,6 +9847,8 @@
       "../common/dist/src/interfaces/Commands/UnassignShiftCommand.d.ts",
       "../common/dist/src/interfaces/Commands/index.d.ts",
       "../common/dist/src/interfaces/Events/EventInterfaces.d.ts",
+      "../common/dist/src/interfaces/Events/EventScopeTypes.d.ts",
+      "../common/dist/src/interfaces/Events/EventTypes.d.ts",
       "../common/dist/src/interfaces/Events/index.d.ts",
       "../common/dist/src/interfaces/Models/Member.d.ts",
       "../common/dist/src/interfaces/Models/Membership.d.ts",
@@ -17788,6 +17776,10 @@
         1
       ],
       [
+        "./node_modules/tabler-icons-react/dist/index.d.ts",
+        1
+      ],
+      [
         "./node_modules/ts-invariant/lib/invariant.d.ts",
         1
       ],
@@ -17948,7 +17940,27 @@
         1
       ],
       [
+        "./src/components/CustomTable.tsx",
+        1
+      ],
+      [
         "./src/components/GraphQLClientProvider.tsx",
+        1
+      ],
+      [
+        "./src/components/Layout/Layout.tsx",
+        1
+      ],
+      [
+        "./src/components/Layout/_links.tsx",
+        1
+      ],
+      [
+        "./src/components/Members/MemberTable.tsx",
+        1
+      ],
+      [
+        "./src/components/Members/members.query.ts",
         1
       ],
       [
@@ -17980,7 +17992,15 @@
         1
       ],
       [
+        "./src/pages/members.tsx",
+        1
+      ],
+      [
         "./src/pages/shifts.tsx",
+        1
+      ],
+      [
+        "./src/providers/GraphQLClientProvider.tsx",
         1
       ],
       [
@@ -18009,6 +18029,14 @@
       ],
       [
         "../common/dist/src/interfaces/Events/EventInterfaces.d.ts",
+        1
+      ],
+      [
+        "../common/dist/src/interfaces/Events/EventScopeTypes.d.ts",
+        1
+      ],
+      [
+        "../common/dist/src/interfaces/Events/EventTypes.d.ts",
         1
       ],
       [

@@ -29,6 +29,8 @@ export interface MembershipType {
 
 export const MembershipStatuses = {
   ACTIVE: 'active',
+  /** The membership is slated to start at a future date */
+  INACTIVE: 'inactive',
   EXPIRED: 'expired',
   PAUSED: 'paused',
 } as const;

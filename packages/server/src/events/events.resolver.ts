@@ -8,7 +8,10 @@ export class EventsResolver {
   constructor(private readonly eventService: EventsService) {}
 
   @Query(() => [CoopEventEntity])
-  async eventsByScopeType(@Args('scopeType') scopeType: CoopEventScopeType) {
-    return await this.eventService.getEventsByScopeType(scopeType);
+  async eventsByScopeType(
+    @Args('scopeType') scopeType: CoopEventScopeType,
+    @Args('scopeId') scopeId: string,
+  ) {
+    return await this.eventService.getEventsByScopeId(scopeType, scopeId);
   }
 }

@@ -1,19 +1,21 @@
 import { Member } from '@bikecoop/common';
-import { Group } from '@mantine/core';
+import { Paper } from '@mantine/core';
 import React from 'react';
 import useSWR from 'swr';
-import { GET_ALL_MEMBERS } from '../../graphql/members';
+import { GET_ALL_MEMBERS } from './members.query';
 import CustomTable from '../CustomTable';
 
 export default function MemberListView(): JSX.Element {
-  const { data: members, error } = useSWR<Record<'getMembers', Member[]>>(GET_ALL_MEMBERS);
+  const { data: members, error } = useSWR<Record<'getMembers', Member[]>>(GET_ALL_MEMBERS, {
+    refreshInterval: 30_000,
+  });
 
   if (error) {
     throw error;
   }
 
   return (
-    <Group position="center" direction="column" grow>
+    <Paper shadow="xs" padding="lg" style={{ overflowX: 'auto' }}>
       <CustomTable<Member>
         columns={[
           {
@@ -24,6 +26,6 @@ export default function MemberListView(): JSX.Element {
         ]}
         data={members?.getMembers || []}
       />
-    </Group>
+    </Paper>
   );
 }

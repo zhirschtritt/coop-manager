@@ -1,8 +1,9 @@
-import {Field, GraphQLISODateTime, ObjectType} from '@nestjs/graphql';
+import {Field, ObjectType} from '@nestjs/graphql';
 import {ShiftTerm} from '@prisma/client';
 import {differenceInDays} from 'date-fns';
 
 import type {ShiftTerm as TermCommon} from '@bikecoop/common';
+import {DateTimeResolver} from 'graphql-scalars';
 
 @ObjectType()
 export class TermEntity implements ShiftTerm {
@@ -12,10 +13,10 @@ export class TermEntity implements ShiftTerm {
   @Field(() => String)
   name!: string;
 
-  @Field(() => GraphQLISODateTime)
+  @Field(() => DateTimeResolver)
   startDate!: Date;
 
-  @Field(() => GraphQLISODateTime)
+  @Field(() => DateTimeResolver)
   endDate!: Date;
 
   @Field(() => Number)

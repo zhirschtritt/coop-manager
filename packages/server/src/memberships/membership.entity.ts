@@ -1,6 +1,7 @@
 import {Membership as MembershipCommon, MembershipStatus} from '@bikecoop/common';
-import {Field, GraphQLISODateTime, ID, ObjectType} from '@nestjs/graphql';
+import {Field, ID, ObjectType} from '@nestjs/graphql';
 import {Membership} from '@prisma/client';
+import {DateTimeResolver} from 'graphql-scalars';
 
 import {MemberEntity} from '../members/member.entity';
 import {MembershipTypeEntity} from './membership-type.entity';
@@ -16,13 +17,12 @@ export class MembershipEntity implements Membership {
   @Field(() => String)
   membershipTypeId!: string;
 
-  @Field(() => GraphQLISODateTime)
+  @Field(() => DateTimeResolver)
   startDate!: Date;
 
-  @Field(() => GraphQLISODateTime)
+  @Field(() => DateTimeResolver)
   endDate!: Date;
 
-  // TODO: create enum? type
   @Field(() => String)
   status!: MembershipStatus;
 

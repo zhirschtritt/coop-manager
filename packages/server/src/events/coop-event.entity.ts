@@ -1,6 +1,6 @@
-import {BaseEvent} from '@bikecoop/common';
-import {Field, GraphQLISODateTime, ID, Int, ObjectType} from '@nestjs/graphql';
-import GraphQLJSON from 'graphql-type-json';
+import {BaseEvent, CoopEventScopeType, CoopEventType} from '@bikecoop/common';
+import {Field, ID, Int, ObjectType} from '@nestjs/graphql';
+import {DateTimeResolver, JSONObjectResolver} from 'graphql-scalars';
 
 @ObjectType()
 export class CoopEventEntity implements BaseEvent {
@@ -11,20 +11,20 @@ export class CoopEventEntity implements BaseEvent {
   sequenceId!: number;
 
   @Field(() => String)
-  type!: string;
+  type!: CoopEventType;
 
   @Field(() => String)
-  scopeType!: string;
+  scopeType!: CoopEventScopeType;
 
   @Field(() => ID)
   scopeId!: string;
 
-  @Field(() => GraphQLISODateTime)
+  @Field(() => DateTimeResolver)
   happenedAt!: Date;
 
-  @Field(() => GraphQLISODateTime)
+  @Field(() => DateTimeResolver)
   insertedAt!: Date;
 
-  @Field(() => GraphQLJSON)
+  @Field(() => JSONObjectResolver)
   data!: Record<string, any>;
 }

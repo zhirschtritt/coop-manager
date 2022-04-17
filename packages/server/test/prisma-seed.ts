@@ -68,6 +68,18 @@ async function main() {
     },
   });
 
+  await prisma.membershipType.upsert({
+    where: {
+      id: '0e844ae0-349a-423c-bad1-40d2603612b8',
+    },
+    update: {},
+    create: {
+      id: '0e844ae0-349a-423c-bad1-40d2603612b8',
+      level: 'staff',
+      name: 'staff-test',
+    },
+  });
+
   console.log(term, member, event, assignment);
 }
 
