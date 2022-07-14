@@ -1,7 +1,12 @@
 {
-  "pg": {
+  "dev": {
     "driver": "pg",
-    "user": "6river",
-    "host": "localhost"
+    "user": {"ENV": "DB_USERNAME"},
+    "password": {"ENV": "DB_PASSWORD"}
+  },
+  "prod": {
+    "driver": "pg",
+    "user": {"ENV": "DB_USERNAME"},
+    "password": {"ENV": "DB_PASSWORD"}
   }
 }

@@ -6,7 +6,6 @@
     "rootDir": ".",
     "outDir": "dist"
   },
-  "include": ["src", "test", "migrations", "connection.ts"],
-  "types": ["node", "jest"],
-  "references": [{"path": "../common"}]
+  "include": ["src", "test", "connection.ts"],
+  "types": ["node", "jest"]
 }

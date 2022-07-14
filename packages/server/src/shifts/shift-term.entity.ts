@@ -1,34 +1,30 @@
-import {
-  Column,
-  Entity,
-  OneToMany,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
-import {ShiftTerm} from '../../../common/src';
+import {Field, ObjectType} from '@nestjs/graphql';
+import {ShiftTerm} from '@prisma/client';
 import {differenceInDays} from 'date-fns';
-import {ShiftEntity} from './shift.entity';
 
-@Entity({name: 'shift_terms'})
-export class ShiftTermEntity implements ShiftTerm {
-  @PrimaryGeneratedColumn('uuid', {name: 'id'})
+import type {ShiftTerm as TermCommon} from '@bikecoop/common';
+import {DateTimeResolver} from 'graphql-scalars';
+
+@ObjectType()
+export class TermEntity implements ShiftTerm {
+  @Field(() => String)
   id!: string;
 
-  @Column({type: 'text', name: 'name'})
+  @Field(() => String)
   name!: string;
 
-  @Column({type: 'timestamptz', name: 'start_date'})
+  @Field(() => DateTimeResolver)
   startDate!: Date;
 
-  @Column({type: 'timestamptz', name: 'end_date'})
+  @Field(() => DateTimeResolver)
   endDate!: Date;
 
-  @Column({type: 'text', name: 'repeat_pattern'})
-  pattern!: string;
-
-  @OneToMany(() => ShiftEntity, (shift) => shift.shiftTermId)
-  shifts!: ShiftEntity[];
-
+  @Field(() => Number)
   get lengthInDays() {
     return differenceInDays(this.startDate, this.endDate);
   }
 }
+
+// type check only
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const s: TermCommon = new TermEntity();

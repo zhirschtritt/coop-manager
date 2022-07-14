@@ -1,15 +1,28 @@
-import {ValidationPipe} from '@nestjs/common';
+import {INestApplication, ValidationPipe} from '@nestjs/common';
 import {NestFactory} from '@nestjs/core';
+import {Logger} from 'nestjs-pino';
 import {AppModule} from './app.module';
-import {ConfigService, config} from './config';
 
-new ConfigService(config());
+// see prisma bug: https://github.com/prisma/studio/issues/614
+// might be fixed in later node version?
+BigInt.prototype.toJSON = function () {
+  const int = Number.parseInt(this.toString());
+  return int ?? this.toString();
+};
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-  app.useGlobalPipes(new ValidationPipe());
+  let app: INestApplication;
+  try {
+    app = await NestFactory.create(AppModule);
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+  const logger = app.get(Logger);
 
-  await app.listen(5000);
+  app.useLogger(logger);
+  app.useGlobalPipes(new ValidationPipe());
+  await app.listen(5020);
 }
 
 bootstrap();

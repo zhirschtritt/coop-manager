@@ -1,42 +1,74 @@
+import {Inject} from '@nestjs/common';
+import {Args, Mutation, Resolver, Query, ResolveField, Parent} from '@nestjs/graphql';
+import {Member, Shift} from '@prisma/client';
+import {DateTimeResolver} from 'graphql-scalars';
+import {MemberEntity} from '../memberships';
+import {PrismaService, PRISMA_SERVICE} from '../prisma';
 import {
-  Args,
-  Mutation,
-  Resolver,
-  Query,
-  GraphQLISODateTime,
-} from '@nestjs/graphql';
-import {InjectRepository} from '@nestjs/typeorm';
-import {Repository} from 'typeorm';
-import {AssignShiftCommandRespone, AssignShiftCommand} from './Commands';
+  AssignShiftCommandResponse,
+  AssignShiftCommandEntity,
+  UnassignShiftCommandResponse,
+  UnassignShiftCommand,
+} from './Commands';
+import {ShiftAssignmentEntity} from './shift-assignment.entity';
+import {TermEntity} from './shift-term.entity';
 import {ShiftEntity} from './shift.entity';
 
 import {ShiftsService} from './shifts.service';
 
-@Resolver()
+@Resolver(() => ShiftEntity)
 export class ShiftsResolver {
   constructor(
     private readonly shiftService: ShiftsService,
-    @InjectRepository(ShiftEntity)
-    private readonly shiftRepo: Repository<ShiftEntity>,
+    @Inject(PRISMA_SERVICE) private readonly prisma: PrismaService,
   ) {}
 
-  @Mutation(() => AssignShiftCommandRespone)
-  async assignShift(
-    @Args('assignShiftCommand') cmd: AssignShiftCommand,
-  ): Promise<AssignShiftCommandRespone> {
-    return await this.shiftService.assignShiftToMember(cmd);
+  @Query(() => ShiftEntity)
+  async getShiftById(@Args('id') id: string) {
+    return await this.prisma.shift.findUnique({where: {id}});
   }
 
   @Query(() => [ShiftEntity])
   async getShifts(
-    @Args('from', {type: () => GraphQLISODateTime}) from: Date,
-    @Args('to', {type: () => GraphQLISODateTime}) to: Date,
-  ): Promise<ShiftEntity[]> {
-    return await this.shiftRepo
-      .createQueryBuilder('shift')
-      .where('shift.startsAt >= :from', {from})
-      .andWhere('shift.endsAt <= :to', {to})
-      .leftJoinAndSelect('shift.members', 'member')
-      .getMany();
+    @Args('from', {type: () => DateTimeResolver, nullable: true}) from?: Date,
+    @Args('to', {type: () => DateTimeResolver, nullable: true}) to?: Date,
+  ): Promise<Shift[]> {
+    return await this.prisma.shift.findMany({where: {startsAt: {gte: from}, endsAt: {gte: to}}});
+  }
+
+  @ResolveField(() => [MemberEntity])
+  async members(@Parent() {id}: ShiftEntity): Promise<Member[]> {
+    return await this.prisma.member.findMany({where: {shiftAssignments: {every: {shiftId: id}}}});
+  }
+
+  @ResolveField(() => TermEntity)
+  async term(@Parent() shift: ShiftEntity) {
+    if (shift.termId) {
+      return await this.prisma.shiftTerm.findUnique({
+        where: {id: shift.termId},
+      });
+    }
+    return null;
+  }
+
+  @ResolveField(() => [ShiftAssignmentEntity])
+  async shiftAssignments(@Parent() shift: ShiftEntity) {
+    return await this.prisma.shiftAssignment.findMany({
+      where: {shiftId: shift.id},
+    });
+  }
+
+  @Mutation(() => AssignShiftCommandResponse)
+  async assignShift(
+    @Args('assignShiftCommand') cmd: AssignShiftCommandEntity,
+  ): Promise<AssignShiftCommandResponse> {
+    return await this.shiftService.assignShiftToMember(cmd);
+  }
+
+  @Mutation(() => UnassignShiftCommandResponse)
+  async unassignShift(
+    @Args('unassignShiftCommand') cmd: UnassignShiftCommand,
+  ): Promise<UnassignShiftCommandResponse> {
+    return await this.shiftService.unassignShiftToMember(cmd);
   }
 }

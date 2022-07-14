@@ -23,16 +23,35 @@
         "LOG_PRETTY": "true"
       },
       "program": "${workspaceFolder}/packages/server/node_modules/jest/bin/jest.js",
-      "args": [
-        "--config",
-        "./jest.json",
-        "--coverage=false",
-        "--timeout=3600000",
-        "--runInBand"
-      ],
+      "args": ["--config", "./jest.json", "--coverage=false", "--timeout=3600000", "--runInBand"],
       "cwd": "${workspaceFolder}/packages/server",
       "skipFiles": ["<node_internals>/**"],
       "preLaunchTask": "build all"
+    },
+    {
+      "name": "Next.js: debug server-side",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "next dev"
+    },
+    {
+      "name": "Next.js: debug client-side",
+      "type": "pwa-chrome",
+      "request": "launch",
+      "url": "http://localhost:3000"
+    },
+    {
+      "name": "Next.js: debug full stack",
+      "type": "node-terminal",
+      "request": "launch",
+      "cwd": "${workspaceFolder}/packages/app",
+      "command": "npm run dev",
+      "console": "integratedTerminal",
+      "serverReadyAction": {
+        "pattern": "started server on .+, url: (https?://.+)",
+        "uriFormat": "%s",
+        "action": "debugWithChrome"
+      }
     }
   ]
 }

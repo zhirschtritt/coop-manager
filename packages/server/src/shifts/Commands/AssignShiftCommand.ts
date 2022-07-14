@@ -1,22 +1,27 @@
 import {InputType, Field, ObjectType} from '@nestjs/graphql';
-import GraphQLJSON from 'graphql-type-json';
-import {Actor, ShiftAssignedEvent} from '../../../../common/src';
-import {CoopEventEntity} from '../../events/coop-event.entity';
+import {Actor, AssignShiftCommand, CoopEvent} from '@bikecoop/common';
+import {JSONObjectResolver} from 'graphql-scalars';
 
 @InputType()
-export class AssignShiftCommand {
+export class AssignShiftCommandEntity implements AssignShiftCommand {
   @Field(() => String)
   shiftId!: string;
 
   @Field(() => String)
+  slot!: string;
+
+  @Field(() => String)
   memberId!: string;
 
-  @Field(() => GraphQLJSON)
+  @Field(() => JSONObjectResolver)
   actor!: Actor;
+
+  @Field(() => String)
+  requestId!: string;
 }
 
 @ObjectType()
-export class AssignShiftCommandRespone {
-  @Field(() => CoopEventEntity)
-  event!: ShiftAssignedEvent;
+export class AssignShiftCommandResponse {
+  @Field(() => [JSONObjectResolver])
+  events!: CoopEvent[];
 }

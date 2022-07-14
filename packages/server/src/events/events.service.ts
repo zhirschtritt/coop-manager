@@ -1,18 +1,30 @@
-import {CoopEventScopeType} from '@bikecoop/common';
-import {Injectable} from '@nestjs/common';
-import {InjectRepository} from '@nestjs/typeorm';
-import {Repository} from 'typeorm';
+import {CoopEvent, CoopEventScopeType, EventDataFrom} from '@bikecoop/common';
+import {Inject, Injectable} from '@nestjs/common';
+import {CoopEvent as PrismaCoopEvent} from '@prisma/client';
+import {Transaction} from '../interfaces';
 
-import {CoopEventEntity} from './coop-event.entity';
+import {PRISMA_SERVICE, PrismaService} from '../prisma';
 
 @Injectable()
 export class EventsService {
   constructor(
-    @InjectRepository(CoopEventEntity)
-    private readonly eventRepo: Repository<CoopEventEntity>,
+    @Inject(PRISMA_SERVICE)
+    private readonly prisma: PrismaService,
   ) {}
 
-  async getEventsByScopeType(scopeType: CoopEventScopeType) {
-    return await this.eventRepo.find({where: {scopeType}});
+  async create<T extends CoopEvent>(data: EventDataFrom<T>, tx?: Transaction): Promise<T> {
+    const db = tx ?? this.prisma;
+    const event = await db.coopEvent.create({data});
+
+    return (event as unknown) as T;
+  }
+
+  async getEventsByScopeId(
+    scopeType: CoopEventScopeType,
+    scopeId: string,
+    tx?: Transaction,
+  ): Promise<PrismaCoopEvent[]> {
+    const db = tx ?? this.prisma;
+    return await db.coopEvent.findMany({where: {scopeType, scopeId}});
   }
 }

@@ -7,10 +7,6 @@
     "composite": true,
     "strict": true,
     "moduleResolution": "node",
-    "baseUrl": "./packages",
-    "paths": {
-      "@bikecoop/common": ["common/src"]
-    },
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,

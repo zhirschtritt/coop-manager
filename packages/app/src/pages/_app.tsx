@@ -1,12 +1,37 @@
-import { ChakraProvider } from '@chakra-ui/react';
-import { AppProps } from 'next/app';
+import { GlobalStyles, MantineProvider, NormalizeCSS } from '@mantine/core';
+import { NotificationsProvider } from '@mantine/notifications';
 
-function MyApp({ Component, pageProps }: AppProps) {
+import { AppProps } from 'next/app';
+import React from 'react';
+
+import { NextComponentType, NextPageContext } from 'next';
+import GraphQLClientProvider from '../providers/GraphQLClientProvider';
+import Layout from '../components/Layout/Layout';
+
+export default function App({
+  Component,
+  pageProps,
+}: AppProps & {
+  Component: NextComponentType<NextPageContext, any, unknown> & {
+    getLayout(e: JSX.Element): JSX.Element;
+  };
+}): JSX.Element {
   return (
-    <ChakraProvider>
-      <Component {...pageProps} />
-    </ChakraProvider>
+    <MantineProvider
+      theme={{
+        /** Put your mantine theme override here */
+        colorScheme: 'light',
+      }}
+    >
+      <NormalizeCSS />
+      <GlobalStyles />
+      <GraphQLClientProvider>
+        <NotificationsProvider>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </NotificationsProvider>
+      </GraphQLClientProvider>
+    </MantineProvider>
   );
 }
-
-export default MyApp;

@@ -1,17 +1,12 @@
-import {Controller, Get} from '@nestjs/common';
-import {InjectRepository} from '@nestjs/typeorm';
-import {Repository} from 'typeorm';
-import {MemberEntity} from '../memberships';
+import {Controller, Get, Inject} from '@nestjs/common';
+import {PrismaService, PRISMA_SERVICE} from '../prisma';
 
 @Controller('members')
 export class MembersController {
-  constructor(
-    @InjectRepository(MemberEntity)
-    private readonly memberRepo: Repository<MemberEntity>,
-  ) {}
+  constructor(@Inject(PRISMA_SERVICE) private readonly prisma: PrismaService) {}
 
   @Get()
   async findAll() {
-    return await this.memberRepo.find();
+    return await this.prisma.member.findMany();
   }
 }

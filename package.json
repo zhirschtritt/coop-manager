@@ -5,8 +5,9 @@
   "scripts": {
     "clean": "rimraf \"packages/**/lib\" \"packages/**/*.tsbuildinfo\"",
     "build": "tsc -b tsconfig.build.json",
-    "test": "lerna run test",
-    "version": "lerna version"
+    "test": "npx lerna run test",
+    "version": "npx lerna version",
+    "build:common": "npx lerna run build --scope @bikecoop/common"
   },
   "devDependencies": {
     "lerna": "4.0.0",

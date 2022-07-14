@@ -1,30 +1,33 @@
-import {
-  Column,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
-import {ShiftAssignment} from '@bikecoop/common';
-import {MemberEntity} from '../members/member.entity';
+import {ShiftAssignment as ShiftAssignmentCommon} from '@bikecoop/common';
+import {Field, ObjectType} from '@nestjs/graphql';
+import {Member, Shift, ShiftAssignment} from '@prisma/client';
 import {ShiftEntity} from './shift.entity';
+import {MemberEntity} from '../memberships';
 
-@Entity({name: 'shift_assignments'})
+@ObjectType()
 export class ShiftAssignmentEntity implements ShiftAssignment {
-  @PrimaryGeneratedColumn('uuid', {name: 'id'})
+  @Field(() => String)
   id!: string;
 
-  @Column({type: 'uuid', name: 'member_id'})
+  @Field(() => String)
   memberId!: string;
 
-  @Column({type: 'uuid', name: 'shift_id'})
+  @Field(() => String)
   shiftId!: string;
 
-  @ManyToOne(() => MemberEntity, (member) => member.shifts)
-  @JoinColumn({name: 'member_id'})
-  member!: MemberEntity;
+  @Field(() => MemberEntity)
+  member!: Member;
 
-  @ManyToOne(() => ShiftEntity, (shift) => shift.shiftAssignments)
-  @JoinColumn({name: 'shift_id'})
-  shift!: ShiftEntity;
+  @Field(() => ShiftEntity)
+  shift!: Shift;
+
+  @Field(() => String)
+  createdBy!: string;
+
+  @Field(() => String)
+  slot!: string;
 }
+
+// type check only
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const s: ShiftAssignmentCommon = new ShiftAssignmentEntity();
