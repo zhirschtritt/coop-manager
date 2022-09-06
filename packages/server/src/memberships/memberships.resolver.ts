@@ -1,8 +1,11 @@
 import {Inject} from '@nestjs/common';
-import {Args, Mutation, Query, Resolver} from '@nestjs/graphql';
+import {Args, Mutation, Parent, Query, ResolveField, Resolver} from '@nestjs/graphql';
+import {MembershipType} from '@prisma/client';
+
 import {CommandResponse} from '../interfaces';
 import {PRISMA_SERVICE, PrismaService} from '../prisma';
 import {CreateMembershipCommand} from './commands/CreateMembershipCommand';
+import {MembershipTypeEntity} from './membership-type.entity';
 import {MembershipEntity} from './membership.entity';
 import {MembershipsService} from './memberships.service';
 
@@ -16,6 +19,16 @@ export class MembershipResolver {
   @Query(() => [MembershipEntity])
   async getMemberships(): Promise<MembershipEntity[]> {
     return (await this.prisma.membership.findMany({})) as any;
+  }
+
+  @ResolveField(() => MembershipTypeEntity)
+  async membershipType(@Parent() {id}: MembershipEntity): Promise<MembershipType> {
+    return await this.prisma.membershipType.findFirst({
+      where: {
+        memberships: {every: {id}},
+      },
+      rejectOnNotFound: true,
+    });
   }
 
   @Mutation(() => CommandResponse)

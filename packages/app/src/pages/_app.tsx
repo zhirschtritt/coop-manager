@@ -1,4 +1,4 @@
-import { GlobalStyles, MantineProvider, NormalizeCSS } from '@mantine/core';
+import { MantineProvider } from '@mantine/core';
 import { NotificationsProvider } from '@mantine/notifications';
 
 import { AppProps } from 'next/app';
@@ -18,13 +18,19 @@ export default function App({
 }): JSX.Element {
   return (
     <MantineProvider
+      withGlobalStyles
+      withNormalizeCSS
       theme={{
-        /** Put your mantine theme override here */
         colorScheme: 'light',
+        breakpoints: {
+          xs: 500,
+          sm: 800,
+          md: 1000,
+          lg: 1200,
+          xl: 1400,
+        },
       }}
     >
-      <NormalizeCSS />
-      <GlobalStyles />
       <GraphQLClientProvider>
         <NotificationsProvider>
           <Layout>

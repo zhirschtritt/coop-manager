@@ -5,7 +5,7 @@ import {AppModule} from './app.module';
 
 // see prisma bug: https://github.com/prisma/studio/issues/614
 // might be fixed in later node version?
-BigInt.prototype.toJSON = function () {
+(BigInt.prototype as any).toJSON = function () {
   const int = Number.parseInt(this.toString());
   return int ?? this.toString();
 };

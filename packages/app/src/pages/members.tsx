@@ -4,7 +4,7 @@ import React from 'react';
 import { useSWRConfig } from 'swr';
 import { useGraphQLClient } from '../providers/GraphQLClientProvider';
 import MemberListView from '../components/Members/MemberTable';
-import { GET_ALL_MEMBERS } from '../components/Members/members.query';
+import { GetAllMembersQuery } from '../components/Members/members.query';
 
 export default function Members(): JSX.Element {
   const { mutate } = useSWRConfig();
@@ -21,12 +21,12 @@ export default function Members(): JSX.Element {
       `,
       { email: `${Math.round(Math.random() * 100)}@email.com` }
     );
-    mutate(GET_ALL_MEMBERS);
+    mutate(GetAllMembersQuery.query);
   };
 
   return (
     <>
-      <Container mb={20}>
+      <Container>
         <Button onClick={createNewMember} my="md">
           Create new Member
         </Button>

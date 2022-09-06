@@ -1,4 +1,4 @@
-import { AppShell, Header, Navbar, Title, UnstyledButton } from '@mantine/core';
+import { AppShell, Header, Navbar, Title } from '@mantine/core';
 import Link from 'next/link';
 import React, { PropsWithChildren } from 'react';
 import { MainLinks } from './_links';
@@ -8,8 +8,9 @@ export default function Layout({ children }: PropsWithChildren<unknown>) {
     <>
       <AppShell
         padding="md"
+        navbarOffsetBreakpoint="sm"
         navbar={
-          <Navbar width={{ base: 300 }} padding="xs">
+          <Navbar width={{ sm: 200, lg: 300 }} hiddenBreakpoint="sm">
             <Navbar.Section>
               <MainLinks />
             </Navbar.Section>
@@ -17,11 +18,9 @@ export default function Layout({ children }: PropsWithChildren<unknown>) {
         }
         header={
           <Link href="/" passHref>
-            <UnstyledButton>
-              <Header height={60} padding="xs">
-                <Title order={3}>Somerville Bike Kitchen</Title>
-              </Header>
-            </UnstyledButton>
+            <Header height={60}>
+              <Title order={3}>Somerville Bike Kitchen</Title>
+            </Header>
           </Link>
         }
         styles={(theme) => ({

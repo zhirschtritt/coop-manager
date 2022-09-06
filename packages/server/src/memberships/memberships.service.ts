@@ -1,22 +1,22 @@
 import {
   allSettledAndThrow,
   chainUuidV5,
+  CoopEvent,
   CoopEventScopeTypes,
   CoopEventTypes,
   EventDataFrom,
   MembershipCreatedEvent,
   MembershipStartedEvent,
   MembershipStatuses,
-  CoopEvent,
 } from '@bikecoop/common';
-import {Cron} from '@nestjs/schedule';
 import {Injectable} from '@nestjs/common';
-import {InjectPinoLogger, PinoLogger} from 'nestjs-pino';
-import {CommandHandler} from '../events/CommandHandler';
-import {CreateMembershipCommand} from './commands/CreateMembershipCommand';
+import {Cron} from '@nestjs/schedule';
 import {endOfDay} from 'date-fns';
+import {InjectPinoLogger, PinoLogger} from 'nestjs-pino';
+
+import {CommandHandler} from '../events/CommandHandler';
 import {EventsService} from '../events/events.service';
-import events from 'events';
+import {CreateMembershipCommand} from './commands/CreateMembershipCommand';
 
 @Injectable()
 export class MembershipsService {

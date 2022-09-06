@@ -29,7 +29,7 @@ export class ShiftsResolver {
   }
 
   @Query(() => [ShiftEntity])
-  async getShifts(
+  async shifts(
     @Args('from', {type: () => DateTimeResolver, nullable: true}) from?: Date,
     @Args('to', {type: () => DateTimeResolver, nullable: true}) to?: Date,
   ): Promise<Shift[]> {
@@ -38,7 +38,7 @@ export class ShiftsResolver {
 
   @ResolveField(() => [MemberEntity])
   async members(@Parent() {id}: ShiftEntity): Promise<Member[]> {
-    return await this.prisma.member.findMany({where: {shiftAssignments: {every: {shiftId: id}}}});
+    return await this.prisma.member.findMany({where: {shiftAssignments: {some: {shiftId: id}}}});
   }
 
   @ResolveField(() => TermEntity)

@@ -31,7 +31,7 @@ type MembershipEntity {
   endDate: DateTime!
   status: String!
   member: MemberEntity!
-  memberShipType: MembershipTypeEntity!
+  membershipType: MembershipTypeEntity
 }
 
 type MembershipTypeEntity {
@@ -67,7 +67,6 @@ type MemberEntity {
   createdAt: DateTime!
   updatedAt: DateTime!
   meta: JSONObject!
-  membershipTypes: [MembershipTypeEntity!]!
   memberships: [MembershipEntity!]!
   shifts: [ShiftEntity!]!
 }
@@ -106,9 +105,9 @@ type Query {
   getMemberships: [MembershipEntity!]!
   eventsByScopeType(scopeType: String!, scopeId: String!): [CoopEventEntity!]!
   getShiftById(id: String!): ShiftEntity!
-  getShifts(from: DateTime, to: DateTime): [ShiftEntity!]!
+  shifts(from: DateTime, to: DateTime): [ShiftEntity!]!
   getAssignments: [ShiftAssignmentEntity!]!
-  getMembers: [MemberEntity!]!
+  getMembers(membershipLevel: String): [MemberEntity!]!
 }
 
 type Mutation {

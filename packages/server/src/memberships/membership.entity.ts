@@ -29,8 +29,8 @@ export class MembershipEntity implements Membership {
   @Field(() => MemberEntity)
   member?: MemberEntity;
 
-  @Field(() => MembershipTypeEntity)
-  memberShipType?: MembershipTypeEntity;
+  @Field(() => MembershipTypeEntity, {nullable: true})
+  membershipType?: MembershipTypeEntity;
 }
 
 // type check only

@@ -1,6 +1,7 @@
 import {Inject} from '@nestjs/common';
 import {Args, Mutation, Parent, Query, ResolveField, Resolver} from '@nestjs/graphql';
-import {Member, Membership, Shift} from '@prisma/client';
+import {Member, Membership, Shift, Prisma} from '@prisma/client';
+import {id} from 'date-fns/locale';
 
 import {MemberEntity, MembershipEntity} from '../memberships';
 import {PrismaService, PRISMA_SERVICE} from '../prisma';
@@ -11,8 +12,27 @@ export class MemberResolver {
   constructor(@Inject(PRISMA_SERVICE) private readonly prisma: PrismaService) {}
 
   @Query(() => [MemberEntity])
-  async getMembers(): Promise<MemberEntity[]> {
-    return await this.prisma.member.findMany({});
+  async getMembers(
+    @Args('membershipLevel', {nullable: true}) membershipLevel?: string,
+  ): Promise<MemberEntity[]> {
+    let where: Prisma.MemberWhereInput = {};
+
+    if (membershipLevel) {
+      where = {
+        ...where,
+        memberships: {
+          some: {
+            membershipType: {
+              level: membershipLevel,
+            },
+          },
+        },
+      };
+    }
+
+    return await this.prisma.member.findMany({
+      where,
+    });
   }
 
   @ResolveField(() => [MembershipEntity])

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Friends } from 'tabler-icons-react';
+import { Friends, CheckupList } from 'tabler-icons-react';
 import { ThemeIcon, UnstyledButton, Group, Text } from '@mantine/core';
 import Link from 'next/link';
 
@@ -46,6 +46,12 @@ const data = [
     color: 'blue',
     label: 'Members',
     linkTo: '/members',
+  },
+  {
+    icon: <CheckupList size={16} />,
+    color: 'teal',
+    label: 'Shifts',
+    linkTo: '/shifts',
   },
 ];
 
