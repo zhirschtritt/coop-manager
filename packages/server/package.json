@@ -41,7 +41,7 @@
     "@nestjs/platform-express": "^9.0.11",
     "@nestjs/schedule": "^2.1.0",
     "@prisma/client": "^4.3.1",
-    "apollo-server-express": "^3.6.3",
+    "apollo-server-express": "^3.10.2",
     "class-transformer": "^0.4.0",
     "class-validator": "^0.13.1",
     "date-fns": "2.23.0",

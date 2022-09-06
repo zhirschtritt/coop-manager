@@ -4,6 +4,6 @@
   "references": [
     {"path": "packages/common"},
     {"path": "packages/server"},
-    {"path": "packages/app"}
+    {"path": "packages/web"}
   ]
 }
