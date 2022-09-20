@@ -7,7 +7,6 @@
       "name": "Run server",
       "runtimeExecutable": "npm",
       "runtimeArgs": ["run-script", "start:debug"],
-      "port": 9229,
       "skipFiles": ["<node_internals>/**"],
       "cwd": "${workspaceFolder}/packages/server",
       "preLaunchTask": "build all",
