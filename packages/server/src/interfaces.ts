@@ -1,6 +1,6 @@
-import {ObjectType, Field} from '@nestjs/graphql';
-import {CoopEvent, PrismaClient} from '@prisma/client';
-import {JSONObjectResolver} from 'graphql-scalars';
+import { ObjectType, Field } from '@nestjs/graphql';
+import { CoopEvent, PrismaClient } from '@prisma/client';
+import { JSONObjectResolver } from 'graphql-scalars';
 
 export type Transaction = Parameters<Parameters<PrismaClient['$transaction']>[0]>[0];
 

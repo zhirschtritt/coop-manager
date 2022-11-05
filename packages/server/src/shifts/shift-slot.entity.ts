@@ -1,7 +1,7 @@
-import {Field, ObjectType} from '@nestjs/graphql';
+import { Field, ObjectType } from '@nestjs/graphql';
 
-import type {ShiftSlot, ShiftSlotData} from '@bikecoop/common';
-import {DateTimeResolver, JSONObjectResolver} from 'graphql-scalars';
+import type { ShiftSlot, ShiftSlotData } from '@bikecoop/common';
+import { DateTimeResolver, JSONObjectResolver } from 'graphql-scalars';
 
 @ObjectType()
 export class ShiftSlotEntity implements ShiftSlot {

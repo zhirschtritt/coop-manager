@@ -1,9 +1,9 @@
-import {Module, FactoryProvider} from '@nestjs/common';
+import { Module, FactoryProvider } from '@nestjs/common';
 
-import {PrismaModule} from '../prisma';
-import {CommandHandler} from './CommandHandler';
-import {EventsResolver} from './events.resolver';
-import {EventsService} from './events.service';
+import { PrismaModule } from '../prisma';
+import { CommandHandler } from './CommandHandler';
+import { EventsResolver } from './events.resolver';
+import { EventsService } from './events.service';
 import {
   MembershipCreatedHandler,
   MembershipStartedHandler,

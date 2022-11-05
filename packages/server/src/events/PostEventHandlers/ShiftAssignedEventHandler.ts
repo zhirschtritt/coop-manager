@@ -1,7 +1,7 @@
-import {CoopEventTypes, ShiftAssignedEvent} from '@bikecoop/common';
-import {EventHandler} from './EventHandler';
-import {Transaction} from '../../interfaces';
-import {Injectable} from '@nestjs/common';
+import { CoopEventTypes, ShiftAssignedEvent } from '@bikecoop/common';
+import { EventHandler } from './EventHandler';
+import { Transaction } from '../../interfaces';
+import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class ShiftAssignedEventHandler extends EventHandler<ShiftAssignedEvent> {

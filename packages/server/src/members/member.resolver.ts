@@ -1,11 +1,10 @@
-import {Inject} from '@nestjs/common';
-import {Args, Mutation, Parent, Query, ResolveField, Resolver} from '@nestjs/graphql';
-import {Member, Membership, Shift, Prisma} from '@prisma/client';
-import {id} from 'date-fns/locale';
+import { Inject } from '@nestjs/common';
+import { Args, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
+import { Member, Membership, Shift, Prisma } from '@prisma/client';
 
-import {MemberEntity, MembershipEntity} from '../memberships';
-import {PrismaService, PRISMA_SERVICE} from '../prisma';
-import {CreateNewMember, UpdateMember} from './commands';
+import { MemberEntity, MembershipEntity } from '../memberships';
+import { PrismaService, PRISMA_SERVICE } from '../prisma';
+import { CreateNewMember, UpdateMember } from './commands';
 
 @Resolver(() => MemberEntity)
 export class MemberResolver {
@@ -13,7 +12,7 @@ export class MemberResolver {
 
   @Query(() => [MemberEntity])
   async getMembers(
-    @Args('membershipLevel', {nullable: true}) membershipLevel?: string,
+    @Args('membershipLevel', { nullable: true }) membershipLevel?: string,
   ): Promise<MemberEntity[]> {
     let where: Prisma.MemberWhereInput = {};
 
@@ -36,10 +35,10 @@ export class MemberResolver {
   }
 
   @ResolveField(() => [MembershipEntity])
-  async memberships(@Parent() {id}: MemberEntity): Promise<Membership[]> {
+  async memberships(@Parent() { id }: MemberEntity): Promise<Membership[]> {
     const res = await this.prisma.member.findUnique({
-      where: {id},
-      include: {memberships: true},
+      where: { id },
+      include: { memberships: true },
       rejectOnNotFound: true,
     });
 
@@ -47,7 +46,7 @@ export class MemberResolver {
   }
 
   @ResolveField(() => [MembershipEntity])
-  async shifts(@Parent() {id}: MemberEntity): Promise<Shift[]> {
+  async shifts(@Parent() { id }: MemberEntity): Promise<Shift[]> {
     return await this.prisma.shift.findMany({
       where: {
         shiftAssignments: {
@@ -61,11 +60,11 @@ export class MemberResolver {
 
   @Mutation(() => MemberEntity)
   async newMember(@Args('member') member: CreateNewMember): Promise<Member> {
-    return await this.prisma.member.create({data: member});
+    return await this.prisma.member.create({ data: member });
   }
 
   @Mutation(() => MemberEntity)
   async updateMember(@Args('member') member: UpdateMember): Promise<Member> {
-    return await this.prisma.member.update({data: member, where: {id: member.id}});
+    return await this.prisma.member.update({ data: member, where: { id: member.id } });
   }
 }

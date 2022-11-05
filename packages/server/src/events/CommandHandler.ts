@@ -1,11 +1,11 @@
-import {CoopEvent} from '@bikecoop/common';
-import {forwardRef, Inject, Injectable} from '@nestjs/common';
+import { CoopEvent } from '@bikecoop/common';
+import { forwardRef, Inject, Injectable } from '@nestjs/common';
 
-import {PRISMA_SERVICE, PrismaService} from '../prisma';
-import {EVENT_HANDLERS} from './events.module';
-import {Transaction} from '../interfaces';
-import {EventHandler} from './PostEventHandlers';
-import {InjectPinoLogger, PinoLogger} from 'nestjs-pino';
+import { PRISMA_SERVICE, PrismaService } from '../prisma';
+import { EVENT_HANDLERS } from './events.module';
+import { Transaction } from '../interfaces';
+import { EventHandler } from './PostEventHandlers';
+import { InjectPinoLogger, PinoLogger } from 'nestjs-pino';
 
 export type CommandResponse<T> = T & Record<'events', CoopEvent[]>;
 

@@ -1,5 +1,5 @@
-import {Controller, Get, Inject} from '@nestjs/common';
-import {PrismaService, PRISMA_SERVICE} from '../prisma';
+import { Controller, Get, Inject } from '@nestjs/common';
+import { PrismaService, PRISMA_SERVICE } from '../prisma';
 
 @Controller('members')
 export class MembersController {

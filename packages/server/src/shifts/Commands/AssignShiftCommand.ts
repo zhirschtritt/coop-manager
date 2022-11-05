@@ -1,10 +1,10 @@
-import {InputType, Field, ObjectType} from '@nestjs/graphql';
-import {Actor, AssignShiftCommand, CoopEvent} from '@bikecoop/common';
-import {JSONObjectResolver} from 'graphql-scalars';
+import { InputType, Field, ObjectType } from '@nestjs/graphql';
+import { Actor, AssignShiftCommand, CoopEvent } from '@bikecoop/common';
+import { JSONObjectResolver } from 'graphql-scalars';
 
 @InputType()
 class SlotDefinitionInput {
-  @Field(() => String, {nullable: true})
+  @Field(() => String, { nullable: true })
   id!: string;
 
   @Field(() => String)
@@ -29,7 +29,7 @@ export class AssignShiftCommandEntity implements AssignShiftCommand {
   requestId!: string;
 
   @Field(() => SlotDefinitionInput)
-  slot!: {id?: string; name: string; data: Record<string, unknown>};
+  slot!: { id?: string; name: string; data: Record<string, unknown> };
 }
 
 @ObjectType()

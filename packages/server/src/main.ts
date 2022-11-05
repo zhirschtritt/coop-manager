@@ -1,7 +1,7 @@
-import {INestApplication, ValidationPipe} from '@nestjs/common';
-import {NestFactory} from '@nestjs/core';
-import {Logger} from 'nestjs-pino';
-import {AppModule} from './app.module';
+import { INestApplication, ValidationPipe } from '@nestjs/common';
+import { NestFactory } from '@nestjs/core';
+import { Logger } from 'nestjs-pino';
+import { AppModule } from './app.module';
 
 // see prisma bug: https://github.com/prisma/studio/issues/614
 // might be fixed in later node version?

@@ -1,7 +1,7 @@
-import {CoopEventTypes, MembershipCreatedEvent, MembershipStatuses} from '@bikecoop/common';
-import {EventHandler} from './EventHandler';
-import {Transaction} from '../../interfaces';
-import {Injectable} from '@nestjs/common';
+import { CoopEventTypes, MembershipCreatedEvent, MembershipStatuses } from '@bikecoop/common';
+import { EventHandler } from './EventHandler';
+import { Transaction } from '../../interfaces';
+import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class MembershipCreatedHandler extends EventHandler<MembershipCreatedEvent> {
@@ -10,7 +10,7 @@ export class MembershipCreatedHandler extends EventHandler<MembershipCreatedEven
   }
 
   async handle(event: MembershipCreatedEvent, transaction: Transaction): Promise<void> {
-    const {startDate, endDate, memberId, membershipId, membershipTypeId} = event.data;
+    const { startDate, endDate, memberId, membershipId, membershipTypeId } = event.data;
 
     await transaction.membership.create({
       data: {

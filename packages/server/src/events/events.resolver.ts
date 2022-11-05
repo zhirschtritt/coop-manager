@@ -1,7 +1,7 @@
-import {Args, Resolver, Query} from '@nestjs/graphql';
-import {CoopEventScopeType} from '@bikecoop/common';
-import {CoopEventEntity} from './coop-event.entity';
-import {EventsService} from './events.service';
+import { Args, Resolver, Query } from '@nestjs/graphql';
+import { CoopEventScopeType } from '@bikecoop/common';
+import { CoopEventEntity } from './coop-event.entity';
+import { EventsService } from './events.service';
 
 @Resolver(() => CoopEventEntity)
 export class EventsResolver {

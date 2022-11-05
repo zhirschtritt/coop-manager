@@ -1,10 +1,10 @@
-import {Field, InputType} from '@nestjs/graphql';
-import {Prisma} from '@prisma/client';
-import {JSONObjectResolver, EmailAddressResolver, UUIDResolver} from 'graphql-scalars';
+import { Field, InputType } from '@nestjs/graphql';
+import { Prisma } from '@prisma/client';
+import { JSONObjectResolver, EmailAddressResolver, UUIDResolver } from 'graphql-scalars';
 
 @InputType()
 export class CreateNewMember implements Prisma.MemberCreateInput {
-  @Field(() => UUIDResolver, {nullable: true})
+  @Field(() => UUIDResolver, { nullable: true })
   id?: string | undefined;
 
   @Field(() => String)
@@ -16,6 +16,6 @@ export class CreateNewMember implements Prisma.MemberCreateInput {
   @Field(() => EmailAddressResolver)
   email!: string;
 
-  @Field(() => JSONObjectResolver, {nullable: true})
+  @Field(() => JSONObjectResolver, { nullable: true })
   meta?: Prisma.InputJsonObject;
 }

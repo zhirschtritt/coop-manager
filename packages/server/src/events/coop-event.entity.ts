@@ -1,6 +1,6 @@
-import {BaseEvent, CoopEventScopeType, CoopEventType} from '@bikecoop/common';
-import {Field, ID, Int, ObjectType} from '@nestjs/graphql';
-import {DateTimeResolver, JSONObjectResolver} from 'graphql-scalars';
+import { BaseEvent, CoopEventScopeType, CoopEventType } from '@bikecoop/common';
+import { Field, ID, Int, ObjectType } from '@nestjs/graphql';
+import { DateTimeResolver, JSONObjectResolver } from 'graphql-scalars';
 
 @ObjectType()
 export class CoopEventEntity implements BaseEvent {

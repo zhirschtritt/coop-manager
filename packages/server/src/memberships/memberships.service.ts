@@ -9,14 +9,14 @@ import {
   MembershipStartedEvent,
   MembershipStatuses,
 } from '@bikecoop/common';
-import {Injectable} from '@nestjs/common';
-import {Cron} from '@nestjs/schedule';
-import {endOfDay} from 'date-fns';
-import {InjectPinoLogger, PinoLogger} from 'nestjs-pino';
+import { Injectable } from '@nestjs/common';
+import { Cron } from '@nestjs/schedule';
+import { endOfDay } from 'date-fns';
+import { InjectPinoLogger, PinoLogger } from 'nestjs-pino';
 
-import {CommandHandler} from '../events/CommandHandler';
-import {EventsService} from '../events/events.service';
-import {CreateMembershipCommand} from './commands/CreateMembershipCommand';
+import { CommandHandler } from '../events/CommandHandler';
+import { EventsService } from '../events/events.service';
+import { CreateMembershipCommand } from './commands/CreateMembershipCommand';
 
 @Injectable()
 export class MembershipsService {
@@ -39,11 +39,14 @@ export class MembershipsService {
       const toStart = await tx.membership.findMany({
         where: {
           status: MembershipStatuses.INACTIVE,
-          startDate: {lte: endOfDay(now)},
+          startDate: { lte: endOfDay(now) },
         },
       });
 
-      this.logger.debug({toStart: toStart.map((t) => t.id)}, `Found ${toStart.length} memberships to start`);
+      this.logger.debug(
+        { toStart: toStart.map((t) => t.id) },
+        `Found ${toStart.length} memberships to start`,
+      );
 
       const events: EventDataFrom<MembershipStartedEvent>[] = toStart.map((membership) => {
         return {
@@ -60,15 +63,15 @@ export class MembershipsService {
         events.map(async (e) => await this.eventDatastore.create(e)) as any,
       );
 
-      return {events: createdEvents};
+      return { events: createdEvents };
     });
   }
 
   async createMembership(cmd: CreateMembershipCommand) {
     return await this.commandHandler.handleInTransaction(async (tx) => {
       await allSettledAndThrow([
-        tx.member.findUnique({where: {id: cmd.memberId}, rejectOnNotFound: true}),
-        tx.membershipType.findUnique({where: {id: cmd.membershipTypeId}, rejectOnNotFound: true}),
+        tx.member.findUnique({ where: { id: cmd.memberId }, rejectOnNotFound: true }),
+        tx.membershipType.findUnique({ where: { id: cmd.membershipTypeId }, rejectOnNotFound: true }),
       ]);
 
       /**
@@ -86,14 +89,14 @@ export class MembershipsService {
 
       const createMembershipEventId = this.membershipCreatedEventId(membershipId);
 
-      const dupeMembership = await tx.membership.findUnique({where: {id: membershipId}});
+      const dupeMembership = await tx.membership.findUnique({ where: { id: membershipId } });
 
       if (dupeMembership) {
         const events: (MembershipCreatedEvent | MembershipStartedEvent)[] = (await tx.coopEvent.findMany({
-          where: {id: {in: [createMembershipEventId, this.membershipStartedEventId(membershipId)]}},
+          where: { id: { in: [createMembershipEventId, this.membershipStartedEventId(membershipId)] } },
         })) as any;
 
-        return {events};
+        return { events };
       }
 
       const now = new Date();
@@ -129,7 +132,7 @@ export class MembershipsService {
         allEvents.push(await this.eventDatastore.create(startedEvent));
       }
 
-      return {events: allEvents};
+      return { events: allEvents };
     });
   }
 

@@ -1,11 +1,11 @@
-import {Actor} from '@bikecoop/common';
-import {Field, InputType} from '@nestjs/graphql';
-import {UUIDResolver, DateResolver, JSONObjectResolver} from 'graphql-scalars';
+import { Actor } from '@bikecoop/common';
+import { Field, InputType } from '@nestjs/graphql';
+import { UUIDResolver, DateResolver, JSONObjectResolver } from 'graphql-scalars';
 
 // TODO: extend command interface from common
 @InputType()
 export class CreateMembershipCommand {
-  @Field(() => UUIDResolver, {nullable: true})
+  @Field(() => UUIDResolver, { nullable: true })
   id?: string | undefined;
 
   @Field(() => UUIDResolver)

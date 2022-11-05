@@ -1,12 +1,12 @@
 {
   "dev": {
     "driver": "pg",
-    "user": {"ENV": "DB_USERNAME"},
-    "password": {"ENV": "DB_PASSWORD"}
+    "user": { "ENV": "DB_USERNAME" },
+    "password": { "ENV": "DB_PASSWORD" }
   },
   "prod": {
     "driver": "pg",
-    "user": {"ENV": "DB_USERNAME"},
-    "password": {"ENV": "DB_PASSWORD"}
+    "user": { "ENV": "DB_USERNAME" },
+    "password": { "ENV": "DB_PASSWORD" }
   }
 }

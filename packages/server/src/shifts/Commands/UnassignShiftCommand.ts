@@ -1,6 +1,6 @@
-import {Actor, CoopEvent, UnassignShiftCommand as UnassignShiftCommandOAS} from '@bikecoop/common';
-import {Field, InputType, ObjectType} from '@nestjs/graphql';
-import {JSONObjectResolver} from 'graphql-scalars';
+import { Actor, CoopEvent, UnassignShiftCommand as UnassignShiftCommandOAS } from '@bikecoop/common';
+import { Field, InputType, ObjectType } from '@nestjs/graphql';
+import { JSONObjectResolver } from 'graphql-scalars';
 
 @InputType()
 export class UnassignShiftCommand implements UnassignShiftCommandOAS {

@@ -1,7 +1,7 @@
-import {CoopEventTypes, MembershipStatuses, MembershipStartedEvent} from '@bikecoop/common';
-import {EventHandler} from './EventHandler';
-import {Transaction} from '../../interfaces';
-import {Injectable} from '@nestjs/common';
+import { CoopEventTypes, MembershipStatuses, MembershipStartedEvent } from '@bikecoop/common';
+import { EventHandler } from './EventHandler';
+import { Transaction } from '../../interfaces';
+import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class MembershipStartedHandler extends EventHandler<MembershipStartedEvent> {

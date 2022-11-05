@@ -21,7 +21,6 @@
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/no-parameter-properties": "off",
     "comma-dangle": ["error", "always-multiline"],
-    "object-curly-spacing": ["error", "never"],
     "semi-style": ["error", "last"],
     "semi": 2,
     "quotes": ["error", "single"]

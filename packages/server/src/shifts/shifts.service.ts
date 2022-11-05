@@ -10,11 +10,11 @@ import {
   ShiftSlot,
   ShiftUnassignedEvent,
 } from '@bikecoop/common';
-import {ConflictException, Injectable, NotFoundException} from '@nestjs/common';
-import {InjectPinoLogger, PinoLogger} from 'nestjs-pino';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import { InjectPinoLogger, PinoLogger } from 'nestjs-pino';
 
-import {CommandHandler} from '../events/CommandHandler';
-import {AssignShiftCommandResponse, UnassignShiftCommand, UnassignShiftCommandResponse} from './Commands';
+import { CommandHandler } from '../events/CommandHandler';
+import { AssignShiftCommandResponse, UnassignShiftCommand, UnassignShiftCommandResponse } from './Commands';
 
 @Injectable()
 export class ShiftsService {
@@ -31,13 +31,13 @@ export class ShiftsService {
     return await this.commandHandler.handleInTransaction(async (tx) => {
       const [shift, member] = await allSettledAndThrow([
         tx.shift.findUniqueOrThrow({
-          where: {id: cmd.shiftId},
+          where: { id: cmd.shiftId },
           include: {
             shiftAssignments: true,
-            slots: {where: cmd.slot.id ? {id: cmd.slot.id} : {name: cmd.slot.name}},
+            slots: { where: cmd.slot.id ? { id: cmd.slot.id } : { name: cmd.slot.name } },
           },
         }),
-        tx.member.findUniqueOrThrow({where: {id: cmd.memberId}}),
+        tx.member.findUniqueOrThrow({ where: { id: cmd.memberId } }),
       ]);
 
       const shiftSlot = shift.slots[0] as ShiftSlot | undefined;
@@ -59,23 +59,23 @@ export class ShiftsService {
       // handle duplicate command
       if (dupeShiftAssignment) {
         this.logger.debug(
-          {cmd, shiftAssignment: dupeShiftAssignment},
+          { cmd, shiftAssignment: dupeShiftAssignment },
           'Handling duplicate shift assignment command',
         );
 
         const event = await tx.coopEvent.findUnique({
-          where: {id: dupeShiftAssignment.createdBy},
+          where: { id: dupeShiftAssignment.createdBy },
           rejectOnNotFound: true,
         });
 
-        return {events: [event as any as CoopEvent]};
+        return { events: [event as any as CoopEvent] };
       }
 
       // else, handle new command
       if (shift.shiftAssignments.length) {
         if (shiftSlot.data.maxInstances && shift.shiftAssignments.length + 1 > shiftSlot.data.maxInstances) {
           throw new ConflictException(
-            {cmd, shift},
+            { cmd, shift },
             'Slot would exceed max instance limit, cannot assign shift',
           );
         }
@@ -96,9 +96,9 @@ export class ShiftsService {
         },
       };
 
-      const event = await tx.coopEvent.create({data: eventArgs});
+      const event = await tx.coopEvent.create({ data: eventArgs });
 
-      return {events: [event as any as CoopEvent]};
+      return { events: [event as any as CoopEvent] };
     });
   }
 
@@ -111,17 +111,20 @@ export class ShiftsService {
       );
 
       const dupeEvent = (await tx.coopEvent.findUnique({
-        where: {id: eventId},
+        where: { id: eventId },
       })) as ShiftUnassignedEvent | null;
 
       if (dupeEvent) {
-        this.logger.debug({cmd, event: dupeEvent}, 'Handling duplicate command from unassign shift request');
-        return {events: [dupeEvent]};
+        this.logger.debug(
+          { cmd, event: dupeEvent },
+          'Handling duplicate command from unassign shift request',
+        );
+        return { events: [dupeEvent] };
       }
 
       const shiftAssignment = await tx.shiftAssignment.findUniqueOrThrow({
-        where: {id: cmd.shiftAssignmentId},
-        include: {shiftSlot: true},
+        where: { id: cmd.shiftAssignmentId },
+        include: { shiftSlot: true },
       });
 
       const eventInfo: EventDataFrom<ShiftUnassignedEvent> = {
@@ -140,7 +143,7 @@ export class ShiftsService {
         },
       };
 
-      const event: ShiftUnassignedEvent = (await tx.coopEvent.create({data: eventInfo})) as any;
+      const event: ShiftUnassignedEvent = (await tx.coopEvent.create({ data: eventInfo })) as any;
 
       return {
         events: [event],
@@ -148,7 +151,7 @@ export class ShiftsService {
     });
   }
 
-  private makeAssignmentId(ctx: {shiftId: string; memberId: string; slotId: string}): string {
+  private makeAssignmentId(ctx: { shiftId: string; memberId: string; slotId: string }): string {
     return chainUuidV5(ShiftsService.SHIFT_ASSIGNMENT_NS, ctx.shiftId, ctx.memberId, ctx.slotId);
   }
 }

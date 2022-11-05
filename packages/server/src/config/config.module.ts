@@ -1,6 +1,6 @@
-import {Module} from '@nestjs/common';
-import {rawConfig} from './config';
-import {ConfigService} from './config.service';
+import { Module } from '@nestjs/common';
+import { rawConfig } from './config';
+import { ConfigService } from './config.service';
 
 export const CONFIG_SERVICE = Symbol('ConfigService');
 

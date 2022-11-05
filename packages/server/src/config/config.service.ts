@@ -1,5 +1,5 @@
 import Joi from '@hapi/joi';
-import {ConfigSchema} from './config';
+import { ConfigSchema } from './config';
 import * as _ from 'lodash';
 
 class ConfigMissingException extends Error {
@@ -15,7 +15,7 @@ export class ConfigService {
   }
 
   private validate(config: unknown, schema: Joi.Schema) {
-    const {error, value: validatedConfig} = schema.validate(config);
+    const { error, value: validatedConfig } = schema.validate(config);
     if (error) {
       throw new Error(`Config validation error: ${error.message}`);
     }

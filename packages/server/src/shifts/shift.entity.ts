@@ -1,7 +1,7 @@
-import {Shift as ShiftCommon, ShiftSlot} from '@bikecoop/common';
-import {Field, ObjectType} from '@nestjs/graphql';
-import {Shift} from '@prisma/client';
-import {DateTimeResolver, JSONObjectResolver} from 'graphql-scalars';
+import { Shift as ShiftCommon, ShiftSlot } from '@bikecoop/common';
+import { Field, ObjectType } from '@nestjs/graphql';
+import { Shift } from '@prisma/client';
+import { DateTimeResolver, JSONObjectResolver } from 'graphql-scalars';
 
 @ObjectType()
 export class ShiftEntity implements Shift {

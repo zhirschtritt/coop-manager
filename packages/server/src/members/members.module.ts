@@ -1,8 +1,8 @@
-import {Module} from '@nestjs/common';
-import {PrismaModule} from '../prisma';
+import { Module } from '@nestjs/common';
+import { PrismaModule } from '../prisma';
 
-import {MemberResolver} from './member.resolver';
-import {MembersController} from './members.controller';
+import { MemberResolver } from './member.resolver';
+import { MembersController } from './members.controller';
 
 @Module({
   providers: [MemberResolver],

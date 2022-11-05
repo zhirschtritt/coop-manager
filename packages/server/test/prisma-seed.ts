@@ -1,15 +1,15 @@
-import {MembershipStatuses} from '@bikecoop/common';
-import {PrismaClient} from '@prisma/client';
+import { MembershipStatuses } from '@bikecoop/common';
+import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 import Chance from 'chance';
-import {addMonths} from 'date-fns';
+import { addMonths } from 'date-fns';
 
 const chance = new Chance();
 
 async function main() {
   await prisma.$transaction(async (prisma) => {
     const term = await prisma.shiftTerm.upsert({
-      where: {id: '0c73c618-84a5-4d91-8eaf-acfec9476033'},
+      where: { id: '0c73c618-84a5-4d91-8eaf-acfec9476033' },
       update: {},
       create: {
         id: '0c73c618-84a5-4d91-8eaf-acfec9476033',
@@ -23,19 +23,19 @@ async function main() {
             slots: {
               createMany: {
                 data: [
-                  {data: {}, name: 'primary-shift'},
-                  {data: {}, name: 'volunteer'},
+                  { data: {}, name: 'primary-shift' },
+                  { data: {}, name: 'volunteer' },
                 ],
               },
             },
           },
         },
       },
-      include: {shifts: {select: {id: true, slots: {select: {id: true}}}}},
+      include: { shifts: { select: { id: true, slots: { select: { id: true } } } } },
     });
 
     const member = await prisma.member.upsert({
-      where: {id: '83892c42-588f-45c2-9d43-f9874a98c5f2'},
+      where: { id: '83892c42-588f-45c2-9d43-f9874a98c5f2' },
       update: {},
       create: {
         id: '83892c42-588f-45c2-9d43-f9874a98c5f2',
@@ -49,7 +49,7 @@ async function main() {
     });
 
     const event = await prisma.coopEvent.upsert({
-      where: {id: 'c0906f35-3335-4db5-a553-88a0b3a6ffa0'},
+      where: { id: 'c0906f35-3335-4db5-a553-88a0b3a6ffa0' },
       update: {},
       create: {
         id: 'c0906f35-3335-4db5-a553-88a0b3a6ffa0',
@@ -65,7 +65,7 @@ async function main() {
     });
 
     const assignment = await prisma.shiftAssignment.upsert({
-      where: {id: 'ce044592-e5c8-4cc8-a939-0c6cf02bc212'},
+      where: { id: 'ce044592-e5c8-4cc8-a939-0c6cf02bc212' },
       update: {},
       create: {
         id: 'ce044592-e5c8-4cc8-a939-0c6cf02bc212',

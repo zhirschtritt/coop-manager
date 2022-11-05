@@ -1,9 +1,9 @@
-import {MemberLevel, MembershipType as MembershipTypeCommon} from '@bikecoop/common';
-import {Field, ObjectType} from '@nestjs/graphql';
-import {MembershipType} from '@prisma/client';
-import {DateTimeResolver, UUIDResolver} from 'graphql-scalars';
-import {MemberEntity} from '../members/member.entity';
-import {MembershipEntity} from './membership.entity';
+import { MemberLevel, MembershipType as MembershipTypeCommon } from '@bikecoop/common';
+import { Field, ObjectType } from '@nestjs/graphql';
+import { MembershipType } from '@prisma/client';
+import { DateTimeResolver, UUIDResolver } from 'graphql-scalars';
+import { MemberEntity } from '../members/member.entity';
+import { MembershipEntity } from './membership.entity';
 
 @ObjectType()
 export class MembershipTypeEntity implements MembershipType {

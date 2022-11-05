@@ -1,9 +1,9 @@
-import {Member as MemberCommon} from '@bikecoop/common';
-import {Field, ID, ObjectType} from '@nestjs/graphql';
-import {Member, Prisma} from '@prisma/client';
-import {DateTimeResolver, JSONObjectResolver} from 'graphql-scalars';
-import {MembershipEntity} from '../memberships';
-import {ShiftEntity} from '../shifts/shift.entity';
+import { Member as MemberCommon } from '@bikecoop/common';
+import { Field, ID, ObjectType } from '@nestjs/graphql';
+import { Member, Prisma } from '@prisma/client';
+import { DateTimeResolver, JSONObjectResolver } from 'graphql-scalars';
+import { MembershipEntity } from '../memberships';
+import { ShiftEntity } from '../shifts/shift.entity';
 
 @ObjectType()
 export class MemberEntity implements Member {
