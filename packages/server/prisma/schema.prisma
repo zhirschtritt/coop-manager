@@ -9,15 +9,15 @@ datasource db {
 }
 
 model CoopEvent {
-  id               String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  sequenceId       BigInt            @unique @default(autoincrement()) @map("sequence_id")
-  type             String
-  scopeType        String            @map("scope_type")
-  scopeId          String            @map("scope_id")
-  happenedAt       DateTime          @map("happened_at") @db.Timestamptz(6)
-  insertedAt       DateTime          @default(now()) @map("inserted_at") @db.Timestamptz(6)
-  data             Json
-  shiftAssignments ShiftAssignment[]
+  id              String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  sequenceId      BigInt            @unique @default(autoincrement()) @map("sequence_id")
+  type            String
+  scopeType       String            @map("scope_type")
+  scopeId         String            @map("scope_id")
+  happenedAt      DateTime          @map("happened_at") @db.Timestamptz(6)
+  insertedAt      DateTime          @default(now()) @map("inserted_at") @db.Timestamptz(6)
+  data            Json
+  shiftAssignment ShiftAssignment[]
 
   @@index([data(ops: JsonbPathOps)], map: "ix_coop_event_data", type: Gin)
   @@index([scopeType, scopeId, happenedAt], map: "ix_coop_event_happened_at")
@@ -109,13 +109,13 @@ model ShiftTerm {
 }
 
 model Shift {
-  id              String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  startsAt        DateTime          @map("start_at") @db.Timestamptz(6)
-  endsAt          DateTime          @map("end_at") @db.Timestamptz(6)
-  termId          String?           @map("shift_term_id") @db.Uuid
-  term            ShiftTerm?        @relation(fields: [termId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  ShiftAssignment ShiftAssignment[]
-  slots           ShiftSlot[]
+  id               String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  startsAt         DateTime          @map("start_at") @db.Timestamptz(6)
+  endsAt           DateTime          @map("end_at") @db.Timestamptz(6)
+  termId           String?           @map("shift_term_id") @db.Uuid
+  term             ShiftTerm?        @relation(fields: [termId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  shiftAssignments ShiftAssignment[]
+  slots            ShiftSlot[]
 
   @@index([endsAt], map: "ix_shifts_end_at")
   @@index([termId], map: "ix_shifts_shift_term_id")
@@ -124,12 +124,12 @@ model Shift {
 }
 
 model ShiftSlot {
-  id              String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  shiftId         String            @map("shift_id") @db.Uuid
-  name            String
-  data            Json
-  shift           Shift             @relation(fields: [shiftId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  shiftAssignment ShiftAssignment[]
+  id               String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  shiftId          String            @map("shift_id") @db.Uuid
+  name             String
+  data             Json              @db.JsonB
+  shift            Shift             @relation(fields: [shiftId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  shiftAssignments ShiftAssignment[]
 
   @@unique([name, shiftId], map: "ix_unique_slot_name_and_shift")
   @@index([data(ops: JsonbPathOps)], map: "ix_shift_slots_data", type: Gin)

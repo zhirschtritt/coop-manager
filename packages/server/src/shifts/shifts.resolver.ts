@@ -11,6 +11,7 @@ import {
   UnassignShiftCommand,
 } from './Commands';
 import {ShiftAssignmentEntity} from './shift-assignment.entity';
+import {ShiftSlotEntity} from './shift-slot.entity';
 import {TermEntity} from './shift-term.entity';
 import {ShiftEntity} from './shift.entity';
 
@@ -24,8 +25,8 @@ export class ShiftsResolver {
   ) {}
 
   @Query(() => ShiftEntity)
-  async getShiftById(@Args('id') id: string) {
-    return await this.prisma.shift.findUnique({where: {id}});
+  async shift(@Args('id') id: string) {
+    return await this.prisma.shift.findUniqueOrThrow({where: {id}});
   }
 
   @Query(() => [ShiftEntity])
@@ -54,6 +55,13 @@ export class ShiftsResolver {
   @ResolveField(() => [ShiftAssignmentEntity])
   async shiftAssignments(@Parent() shift: ShiftEntity) {
     return await this.prisma.shiftAssignment.findMany({
+      where: {shiftId: shift.id},
+    });
+  }
+
+  @ResolveField(() => [ShiftSlotEntity])
+  async slots(@Parent() shift: ShiftEntity) {
+    return await this.prisma.shiftSlot.findMany({
       where: {shiftId: shift.id},
     });
   }

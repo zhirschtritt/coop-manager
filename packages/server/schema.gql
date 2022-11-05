@@ -53,7 +53,7 @@ type ShiftEntity {
   startsAt: DateTime!
   endsAt: DateTime!
   termId: String!
-  slots: JSONObject!
+  slots: [JSONObject!]!
   members: [MemberEntity!]!
   term: TermEntity!
   shiftAssignments: [ShiftAssignmentEntity!]!
@@ -75,6 +75,14 @@ type CommandResponse {
   events: [JSONObject!]!
 }
 
+type ShiftSlotEntity {
+  id: String!
+  name: String!
+  shiftId: String!
+  endDate: DateTime!
+  data: JSONObject!
+}
+
 type ShiftAssignmentEntity {
   id: String!
   memberId: String!
@@ -82,7 +90,8 @@ type ShiftAssignmentEntity {
   member: MemberEntity!
   shift: ShiftEntity!
   createdBy: String!
-  slot: String!
+  slot: ShiftSlotEntity!
+  shiftSlotId: String!
 }
 
 type TermEntity {
@@ -90,6 +99,7 @@ type TermEntity {
   name: String!
   startDate: DateTime!
   endDate: DateTime!
+  repeatPattern: String
   lengthInDays: Float!
 }
 
@@ -104,7 +114,7 @@ type UnassignShiftCommandResponse {
 type Query {
   getMemberships: [MembershipEntity!]!
   eventsByScopeType(scopeType: String!, scopeId: String!): [CoopEventEntity!]!
-  getShiftById(id: String!): ShiftEntity!
+  shift(id: String!): ShiftEntity!
   shifts(from: DateTime, to: DateTime): [ShiftEntity!]!
   getAssignments: [ShiftAssignmentEntity!]!
   getMembers(membershipLevel: String): [MemberEntity!]!
@@ -135,10 +145,16 @@ scalar Date
 
 input AssignShiftCommandEntity {
   shiftId: String!
-  slot: String!
   memberId: String!
   actor: JSONObject!
   requestId: String!
+  slot: SlotDefinitionInput!
+}
+
+input SlotDefinitionInput {
+  id: String
+  name: String!
+  data: JSONObject!
 }
 
 input UnassignShiftCommand {

@@ -16,7 +16,7 @@ export class ShiftAssignedEventHandler extends EventHandler<ShiftAssignedEvent> 
         memberId: event.data.memberId,
         shiftId: event.data.shiftId,
         createdBy: event.id,
-        slot: event.data.slot,
+        shiftSlotId: event.data.slotId,
       },
     });
   }

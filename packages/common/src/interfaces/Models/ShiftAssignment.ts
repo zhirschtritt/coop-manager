@@ -10,6 +10,6 @@ export interface ShiftAssignment {
   /** Event that created this assignment */
   createdBy: string;
 
-  /** Name of the shift slot that this assignment fulfills, eg. "default", "primary", "backup", etc */
-  slot: string;
+  /** The shift slot id for this assignment */
+  shiftSlotId: string;
 }

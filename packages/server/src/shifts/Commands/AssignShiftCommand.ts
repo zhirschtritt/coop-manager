@@ -3,12 +3,21 @@ import {Actor, AssignShiftCommand, CoopEvent} from '@bikecoop/common';
 import {JSONObjectResolver} from 'graphql-scalars';
 
 @InputType()
+class SlotDefinitionInput {
+  @Field(() => String, {nullable: true})
+  id!: string;
+
+  @Field(() => String)
+  name!: string;
+
+  @Field(() => JSONObjectResolver)
+  data!: Record<string, unknown>;
+}
+
+@InputType()
 export class AssignShiftCommandEntity implements AssignShiftCommand {
   @Field(() => String)
   shiftId!: string;
-
-  @Field(() => String)
-  slot!: string;
 
   @Field(() => String)
   memberId!: string;
@@ -18,6 +27,9 @@ export class AssignShiftCommandEntity implements AssignShiftCommand {
 
   @Field(() => String)
   requestId!: string;
+
+  @Field(() => SlotDefinitionInput)
+  slot!: {id?: string; name: string; data: Record<string, unknown>};
 }
 
 @ObjectType()

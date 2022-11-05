@@ -1,8 +1,9 @@
-import {ShiftAssignment as ShiftAssignmentCommon} from '@bikecoop/common';
+import {ShiftAssignment as ShiftAssignmentCommon, ShiftSlot} from '@bikecoop/common';
 import {Field, ObjectType} from '@nestjs/graphql';
 import {Member, Shift, ShiftAssignment} from '@prisma/client';
 import {ShiftEntity} from './shift.entity';
 import {MemberEntity} from '../memberships';
+import {ShiftSlotEntity} from './shift-slot.entity';
 
 @ObjectType()
 export class ShiftAssignmentEntity implements ShiftAssignment {
@@ -24,8 +25,11 @@ export class ShiftAssignmentEntity implements ShiftAssignment {
   @Field(() => String)
   createdBy!: string;
 
+  @Field(() => ShiftSlotEntity)
+  slot!: ShiftSlot;
+
   @Field(() => String)
-  slot!: string;
+  shiftSlotId!: string;
 }
 
 // type check only

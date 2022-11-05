@@ -7,10 +7,10 @@ import {DateTimeResolver} from 'graphql-scalars';
 
 @ObjectType()
 export class TermEntity implements ShiftTerm {
-  @Field(() => String)
+  @Field()
   id!: string;
 
-  @Field(() => String)
+  @Field()
   name!: string;
 
   @Field(() => DateTimeResolver)
@@ -18,6 +18,9 @@ export class TermEntity implements ShiftTerm {
 
   @Field(() => DateTimeResolver)
   endDate!: Date;
+
+  @Field(() => String, {nullable: true})
+  repeatPattern!: string | null;
 
   @Field(() => Number)
   get lengthInDays() {

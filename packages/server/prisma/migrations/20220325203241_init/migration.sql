@@ -77,7 +77,8 @@ create table shift_slots (
 	  id uuid primary key default gen_random_uuid(),
     shift_id uuid not null references shifts,
     name text not null,
-    data jsonb not null constraint shift_slots_data_type check (jsonb_typeof(data) = 'object')
+    data jsonb not null default '{}'::jsonb
+    constraint shift_slots_data_type check (jsonb_typeof(data) = 'object')
 );
 
 create table shift_assignments (
