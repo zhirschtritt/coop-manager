@@ -8,23 +8,27 @@ export namespace GetAllShiftsQuery {
         id
         startsAt
         endsAt
-        slots
-        shiftAssignments {
-          id
-          slot
-          member {
+        slots {
+          name
+          shiftAssignments {
             id
-            firstName
-            lastName
+            member {
+              id
+              firstName
+              lastName
+            }
           }
         }
       }
     }
   `;
 
-  export type ShiftResponse = Pick<Shift, 'id' | 'startsAt' | 'endsAt' | 'slots'> & {
-    shiftAssignments: (Pick<ShiftAssignment, 'id' | 'slot'> & {
-      member: Pick<Member, 'id' | 'firstName' | 'lastName'>;
-    })[];
+  export type ShiftResponse = Pick<Shift, 'id' | 'startsAt' | 'endsAt'> & {
+    slots: {
+      name: string;
+      shiftAssignments: (Pick<ShiftAssignment, 'id'> & {
+        member: Pick<Member, 'id' | 'firstName' | 'lastName'>;
+      })[];
+    }[];
   };
 }

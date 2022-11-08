@@ -1,7 +1,8 @@
 import { Shift as ShiftCommon, ShiftSlot } from '@bikecoop/common';
 import { Field, ObjectType } from '@nestjs/graphql';
 import { Shift } from '@prisma/client';
-import { DateTimeResolver, JSONObjectResolver } from 'graphql-scalars';
+import { DateTimeResolver } from 'graphql-scalars';
+import { ShiftSlotEntity } from './shift-slot.entity';
 
 @ObjectType()
 export class ShiftEntity implements Shift {
@@ -17,7 +18,7 @@ export class ShiftEntity implements Shift {
   @Field(() => String)
   termId!: string | null;
 
-  @Field(() => [JSONObjectResolver])
+  @Field(() => [ShiftSlotEntity])
   slots!: ShiftSlot[];
 }
 

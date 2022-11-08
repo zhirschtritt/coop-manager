@@ -23,11 +23,10 @@ export class MembershipResolver {
 
   @ResolveField(() => MembershipTypeEntity)
   async membershipType(@Parent() { id }: MembershipEntity): Promise<MembershipType> {
-    return await this.prisma.membershipType.findFirst({
+    return await this.prisma.membershipType.findFirstOrThrow({
       where: {
         memberships: { every: { id } },
       },
-      rejectOnNotFound: true,
     });
   }
 

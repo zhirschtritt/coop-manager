@@ -18,17 +18,15 @@ export class ShiftAssignmentsResolver {
 
   @ResolveField(() => [MemberEntity])
   async member(@Parent() { memberId }: ShiftAssignmentEntity): Promise<Member> {
-    return await this.prisma.member.findUnique({
+    return await this.prisma.member.findUniqueOrThrow({
       where: { id: memberId },
-      rejectOnNotFound: true,
     });
   }
 
   @ResolveField(() => [ShiftEntity])
   async shift(@Parent() { shiftId }: ShiftAssignmentEntity): Promise<Shift> {
-    return await this.prisma.shift.findUnique({
+    return await this.prisma.shift.findUniqueOrThrow({
       where: { id: shiftId },
-      rejectOnNotFound: true,
     });
   }
 }

@@ -70,8 +70,8 @@ export class MembershipsService {
   async createMembership(cmd: CreateMembershipCommand) {
     return await this.commandHandler.handleInTransaction(async (tx) => {
       await allSettledAndThrow([
-        tx.member.findUnique({ where: { id: cmd.memberId }, rejectOnNotFound: true }),
-        tx.membershipType.findUnique({ where: { id: cmd.membershipTypeId }, rejectOnNotFound: true }),
+        tx.member.findUniqueOrThrow({ where: { id: cmd.memberId } }),
+        tx.membershipType.findUniqueOrThrow({ where: { id: cmd.membershipTypeId } }),
       ]);
 
       /**

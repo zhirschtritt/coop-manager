@@ -1,7 +1,8 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 
-import type { ShiftSlot, ShiftSlotData } from '@bikecoop/common';
+import type { ShiftAssignment, ShiftSlot, ShiftSlotData } from '@bikecoop/common';
 import { DateTimeResolver, JSONObjectResolver } from 'graphql-scalars';
+import { ShiftAssignmentEntity } from './shift-assignment.entity';
 
 @ObjectType()
 export class ShiftSlotEntity implements ShiftSlot {
@@ -19,6 +20,9 @@ export class ShiftSlotEntity implements ShiftSlot {
 
   @Field(() => JSONObjectResolver)
   data!: ShiftSlotData;
+
+  @Field(() => [ShiftAssignmentEntity], { defaultValue: [] })
+  shiftAssignments!: ShiftAssignment[];
 }
 
 // type check only

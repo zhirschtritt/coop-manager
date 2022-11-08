@@ -41,7 +41,6 @@ export class ShiftsService {
       ]);
 
       const shiftSlot = shift.slots[0] as ShiftSlot | undefined;
-
       if (!shiftSlot) {
         // TODO: FUTURE: we could create a non-existent slot here by default
         // or if specified in the command structure somehow
@@ -63,9 +62,8 @@ export class ShiftsService {
           'Handling duplicate shift assignment command',
         );
 
-        const event = await tx.coopEvent.findUnique({
+        const event = await tx.coopEvent.findUniqueOrThrow({
           where: { id: dupeShiftAssignment.createdBy },
-          rejectOnNotFound: true,
         });
 
         return { events: [event as any as CoopEvent] };

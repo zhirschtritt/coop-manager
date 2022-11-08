@@ -48,14 +48,34 @@ A field whose value is a generic Universally Unique Identifier: https://en.wikip
 """
 scalar UUID
 
+type ShiftAssignmentEntity {
+  id: String!
+  memberId: String!
+  shiftId: String!
+  member: MemberEntity!
+  shift: ShiftEntity!
+  createdBy: String!
+  slot: ShiftSlotEntity!
+  shiftSlotId: String!
+}
+
+type ShiftSlotEntity {
+  id: String!
+  name: String!
+  shiftId: String!
+  endDate: DateTime!
+  data: JSONObject!
+  shiftAssignments: [ShiftAssignmentEntity!]!
+}
+
 type ShiftEntity {
   id: String!
   startsAt: DateTime!
   endsAt: DateTime!
   termId: String!
-  slots: [JSONObject!]!
+  slots: [ShiftSlotEntity!]!
   members: [MemberEntity!]!
-  term: TermEntity!
+  term: TermEntity
   shiftAssignments: [ShiftAssignmentEntity!]!
 }
 
@@ -73,25 +93,6 @@ type MemberEntity {
 
 type CommandResponse {
   events: [JSONObject!]!
-}
-
-type ShiftSlotEntity {
-  id: String!
-  name: String!
-  shiftId: String!
-  endDate: DateTime!
-  data: JSONObject!
-}
-
-type ShiftAssignmentEntity {
-  id: String!
-  memberId: String!
-  shiftId: String!
-  member: MemberEntity!
-  shift: ShiftEntity!
-  createdBy: String!
-  slot: ShiftSlotEntity!
-  shiftSlotId: String!
 }
 
 type TermEntity {
@@ -114,7 +115,7 @@ type UnassignShiftCommandResponse {
 type Query {
   getMemberships: [MembershipEntity!]!
   eventsByScopeType(scopeType: String!, scopeId: String!): [CoopEventEntity!]!
-  shift(id: String!): ShiftEntity!
+  shift(id: String!): ShiftSlotEntity!
   shifts(from: DateTime, to: DateTime): [ShiftEntity!]!
   getAssignments: [ShiftAssignmentEntity!]!
   getMembers(membershipLevel: String): [MemberEntity!]!
@@ -153,8 +154,7 @@ input AssignShiftCommandEntity {
 
 input SlotDefinitionInput {
   id: String
-  name: String!
-  data: JSONObject!
+  name: String
 }
 
 input UnassignShiftCommand {

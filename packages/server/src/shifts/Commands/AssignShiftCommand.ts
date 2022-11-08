@@ -7,11 +7,8 @@ class SlotDefinitionInput {
   @Field(() => String, { nullable: true })
   id!: string;
 
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   name!: string;
-
-  @Field(() => JSONObjectResolver)
-  data!: Record<string, unknown>;
 }
 
 @InputType()

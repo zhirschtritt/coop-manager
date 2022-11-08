@@ -36,10 +36,9 @@ export class MemberResolver {
 
   @ResolveField(() => [MembershipEntity])
   async memberships(@Parent() { id }: MemberEntity): Promise<Membership[]> {
-    const res = await this.prisma.member.findUnique({
+    const res = await this.prisma.member.findUniqueOrThrow({
       where: { id },
       include: { memberships: true },
-      rejectOnNotFound: true,
     });
 
     return res.memberships ?? [];

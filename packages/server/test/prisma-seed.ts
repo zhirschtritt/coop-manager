@@ -3,6 +3,7 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 import Chance from 'chance';
 import { addMonths } from 'date-fns';
+import { addMembersAndShifts } from './add-members-shifts';
 
 const chance = new Chance();
 
@@ -64,7 +65,7 @@ async function main() {
       },
     });
 
-    const assignment = await prisma.shiftAssignment.upsert({
+    await prisma.shiftAssignment.upsert({
       where: { id: 'ce044592-e5c8-4cc8-a939-0c6cf02bc212' },
       update: {},
       create: {
@@ -95,9 +96,9 @@ async function main() {
         },
       },
     });
-
-    console.log(term, member, event, assignment);
   });
+
+  await addMembersAndShifts(prisma);
 }
 
 main()

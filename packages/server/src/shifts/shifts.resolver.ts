@@ -29,7 +29,7 @@ export class ShiftsResolver {
     return await this.prisma.shift.findUniqueOrThrow({ where: { id } });
   }
 
-  @Query(() => [ShiftEntity])
+  @Query(() => [ShiftEntity], { defaultValue: [] })
   async shifts(
     @Args('from', { type: () => DateTimeResolver, nullable: true }) from?: Date,
     @Args('to', { type: () => DateTimeResolver, nullable: true }) to?: Date,
@@ -42,7 +42,7 @@ export class ShiftsResolver {
     return await this.prisma.member.findMany({ where: { shiftAssignments: { some: { shiftId: id } } } });
   }
 
-  @ResolveField(() => TermEntity)
+  @ResolveField(() => TermEntity, { nullable: true })
   async term(@Parent() shift: ShiftEntity) {
     if (shift.termId) {
       return await this.prisma.shiftTerm.findUnique({
