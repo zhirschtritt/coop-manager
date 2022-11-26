@@ -5,9 +5,7 @@
     "sourceType": "module"
   },
   "plugins": ["@typescript-eslint/eslint-plugin"],
-  "extends": [
-    "plugin:@typescript-eslint/recommended"
-  ],
+  "extends": ["plugin:@typescript-eslint/recommended"],
   "root": true,
   "env": {
     "node": true,
@@ -21,18 +19,8 @@
     "@typescript-eslint/explicit-member-accessibility": "off",
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/no-parameter-properties": "off",
-    "comma-dangle": [
-      "error",
-      "always-multiline"
-    ],
-    "object-curly-spacing": [
-      "error",
-      "never"
-    ],
-    "semi-style": [
-      "error",
-      "last"
-    ],
+    "comma-dangle": ["error", "always-multiline"],
+    "semi-style": ["error", "last"],
     "semi": 2,
     "quotes": ["error", "single"]
   }

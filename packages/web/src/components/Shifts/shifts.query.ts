@@ -1,4 +1,4 @@
-import { Member, Shift, ShiftAssignment } from '@bikecoop/common';
+import { Member, Shift, ShiftAssignment, ShiftSlotData } from '@bikecoop/common';
 import { gql } from 'graphql-request';
 
 export namespace GetAllShiftsQuery {
@@ -10,12 +10,14 @@ export namespace GetAllShiftsQuery {
         endsAt
         slots {
           name
+          data
           shiftAssignments {
             id
             member {
               id
               firstName
               lastName
+              image
             }
           }
         }
@@ -26,8 +28,9 @@ export namespace GetAllShiftsQuery {
   export type ShiftResponse = Pick<Shift, 'id' | 'startsAt' | 'endsAt'> & {
     slots: {
       name: string;
+      data: ShiftSlotData;
       shiftAssignments: (Pick<ShiftAssignment, 'id'> & {
-        member: Pick<Member, 'id' | 'firstName' | 'lastName'>;
+        member: Pick<Member, 'id' | 'firstName' | 'lastName' | 'image'>;
       })[];
     }[];
   };

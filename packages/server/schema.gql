@@ -86,6 +86,7 @@ type MemberEntity {
   lastName: String!
   createdAt: DateTime!
   updatedAt: DateTime!
+  image: String!
   meta: JSONObject!
   memberships: [MembershipEntity!]!
   shifts: [ShiftEntity!]!

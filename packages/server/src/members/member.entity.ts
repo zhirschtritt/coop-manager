@@ -25,6 +25,9 @@ export class MemberEntity implements Member {
   @Field(() => DateTimeResolver)
   updatedAt!: Date;
 
+  @Field(() => String)
+  image!: string;
+
   /** Not in use yet, could contain other denormalized member information in the future */
   @Field(() => JSONObjectResolver)
   meta!: Prisma.JsonValue;

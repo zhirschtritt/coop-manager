@@ -34,7 +34,10 @@ export class ShiftsResolver {
     @Args('from', { type: () => DateTimeResolver, nullable: true }) from?: Date,
     @Args('to', { type: () => DateTimeResolver, nullable: true }) to?: Date,
   ): Promise<Shift[]> {
-    return await this.prisma.shift.findMany({ where: { startsAt: { gte: from }, endsAt: { gte: to } } });
+    return await this.prisma.shift.findMany({
+      where: { startsAt: { gte: from }, endsAt: { gte: to } },
+      orderBy: { startsAt: 'asc' },
+    });
   }
 
   @ResolveField(() => [MemberEntity])

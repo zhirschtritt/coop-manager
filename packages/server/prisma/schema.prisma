@@ -33,6 +33,7 @@ model Member {
   firstName        String            @map("first_name")
   lastName         String            @map("last_name")
   email            String            @unique
+  image            String            @default(dbgenerated("null"))
   meta             Json?
   memberships      Membership[]
   shiftAssignments ShiftAssignment[]
@@ -127,7 +128,7 @@ model ShiftSlot {
   id               String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   shiftId          String            @map("shift_id") @db.Uuid
   name             String
-  data             Json              @db.JsonB
+  data             Json              @default("{}") @db.JsonB
   shift            Shift             @relation(fields: [shiftId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   shiftAssignments ShiftAssignment[]
 

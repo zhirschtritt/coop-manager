@@ -1,6 +1,8 @@
 import React from 'react';
-import ShiftsTable from '../components/Shifts/ShiftsTable';
+import AllShiftsView from '../components/Shifts/AllShiftsView';
+// import ShiftsTable from '../components/Shifts/ShiftsTable';
 
 export default function Members(): JSX.Element {
-  return <ShiftsTable />;
+  // return <ShiftsTable />;
+  return <AllShiftsView />;
 }
