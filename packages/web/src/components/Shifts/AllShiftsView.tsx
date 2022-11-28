@@ -17,7 +17,7 @@ export default function AllShiftsView(): JSX.Element {
   return (
     <Stack spacing="xs">
       {shiftResponse?.shifts.map((shift) => (
-        <SingleShiftView shift={shift} />
+        <SingleShiftView key={shift.id} shift={shift} />
       ))}
     </Stack>
   );

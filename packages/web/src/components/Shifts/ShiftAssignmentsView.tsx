@@ -29,7 +29,7 @@ export function SlotAssignmentsView({
     <ScrollArea type="scroll">
       <Flex direction="row" align="flex-start">
         {slots.map((slot) => (
-          <SlotView slot={slot} />
+          <SlotView key={slot.name} slot={slot} />
         ))}
       </Flex>
     </ScrollArea>

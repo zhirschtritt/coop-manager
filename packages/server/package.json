@@ -59,6 +59,7 @@
     "rimraf": "^3.0.2",
     "rrule": "^2.6.8",
     "rxjs": "7.3.0",
+    "supertokens-node": "^12.1.1",
     "uuid": "^8.3.2"
   },
   "devDependencies": {

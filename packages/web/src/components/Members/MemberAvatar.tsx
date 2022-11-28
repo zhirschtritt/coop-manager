@@ -26,8 +26,8 @@ export function MemberAvatarGroup({ members }: { members: MemberSubset[] }) {
 
   return (
     <Avatar.Group>
-      {members.map((m) => (
-        <MemberAvatar member={m} />
+      {members.map((m, idx) => (
+        <MemberAvatar key={idx} member={m} />
       ))}
     </Avatar.Group>
   );

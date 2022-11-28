@@ -1,7 +1,10 @@
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { Logger } from 'nestjs-pino';
+import supertokens from 'supertokens-node';
+
 import { AppModule } from './app.module';
+import { SupertokensExceptionFilter } from './auth/auth.filter';
 
 // see prisma bug: https://github.com/prisma/studio/issues/614
 // might be fixed in later node version?
@@ -14,6 +17,14 @@ async function bootstrap() {
   let app: INestApplication;
   try {
     app = await NestFactory.create(AppModule);
+    app.enableCors({
+      origin: 'http://localhost:3000',
+      allowedHeaders: ['content-type', ...supertokens.getAllCORSHeaders()],
+      credentials: true,
+    });
+
+    app.setGlobalPrefix('api');
+    app.useGlobalFilters(new SupertokensExceptionFilter());
   } catch (err) {
     console.error(err);
     throw err;

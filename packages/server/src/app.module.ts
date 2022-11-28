@@ -11,9 +11,22 @@ import { MembershipsModule } from './memberships/memberships.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { ShiftsModule } from './shifts';
 import { MembershipsService } from './memberships/memberships.service';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
+    AuthModule.forRoot({
+      connectionURI: 'http://localhost:3567',
+      // apiKey: <API_KEY(if configured)>,
+      appInfo: {
+        // https://supertokens.com/docs/thirdpartypasswordless/appinfo
+        appName: 'bike-coop-manager',
+        apiDomain: 'http://localhost:5020',
+        websiteDomain: 'http://localhost:3000',
+        apiBasePath: '/api/auth',
+        websiteBasePath: '/auth',
+      },
+    }),
     LoggerModule.forRoot({
       pinoHttp: {
         prettyPrint: process.env.NODE_ENV !== 'production',
@@ -24,12 +37,17 @@ import { MembershipsService } from './memberships/memberships.service';
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: 'schema.gql',
+      cors: {
+        origin: 'http://localhost:3000',
+        credentials: true,
+      },
     }),
     MembershipsModule,
     ShiftsModule,
     MembersModule,
     EventsModule,
     PrismaModule,
+    AuthModule,
   ],
   controllers: [AppController, MembersController],
   providers: [AppService, MembershipsService],
