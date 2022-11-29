@@ -1,55 +1,90 @@
 import {
   AppShell,
   Burger,
+  Flex,
   Header,
   MediaQuery,
+  Menu,
   Navbar,
-  Title,
-  useMantineTheme,
-  Group,
-  Center,
+  NavLink,
+  Text,
 } from '@mantine/core';
-import Link from 'next/link';
+import { useDisclosure } from '@mantine/hooks';
 import React, { PropsWithChildren, useState } from 'react';
-import { MainLinks } from './_links';
+import { CheckupList, Friends } from 'tabler-icons-react';
+
+const HEADER_HEIGHT = 40;
+
+export const links = [
+  {
+    icon: <CheckupList size={16} />,
+    color: 'teal',
+    label: 'Shifts',
+    href: '/shifts',
+  },
+  {
+    icon: <Friends size={16} />,
+    color: 'blue',
+    label: 'Members',
+    href: '/members',
+  },
+];
 
 export default function Layout({ children }: PropsWithChildren<unknown>) {
-  const theme = useMantineTheme();
+  const [opened, { toggle, close }] = useDisclosure(false);
+  const [active, setActive] = useState(0);
 
-  const [opened, setOpened] = useState(false);
+  const items = links.map((link, idx) => (
+    <NavLink
+      {...link}
+      active={active === idx}
+      component="a"
+      key={link.label}
+      onClick={() => {
+        setActive(idx);
+        close();
+      }}
+    />
+  ));
 
   return (
     <AppShell
-      padding="md"
+      padding="xs"
       navbarOffsetBreakpoint="sm"
-      navbar={
-        <Navbar p="md" hiddenBreakpoint="sm" hidden={!opened} width={{ sm: 200, lg: 300 }}>
-          <Navbar.Section>
-            <Center>
-              <Link href="/" passHref>
-                <Title order={4}>Somerville Bike Kitchen</Title>
-              </Link>
-            </Center>
-          </Navbar.Section>
-          <Navbar.Section>
-            <MainLinks onClick={() => setOpened(!opened)} />
-          </Navbar.Section>
-        </Navbar>
-      }
       header={
-        <Header height={60}>
-          <Group>
+        <Header height={HEADER_HEIGHT} sx={{ position: 'absolute' }}>
+          <Flex justify="flex-start" align="center" h={HEADER_HEIGHT}>
             <MediaQuery largerThan="sm" styles={{ display: 'none' }}>
-              <Burger
+              <Menu
+                onClose={close}
                 opened={opened}
-                onClick={() => setOpened((o) => !o)}
-                size="sm"
-                color={theme.colors.gray[6]}
-                mr="xl"
-              />
+                position="bottom-end"
+                transition="pop-top-right"
+                shadow="md"
+              >
+                <Menu.Target>
+                  <Burger opened={opened} onClick={toggle} size="sm" />
+                </Menu.Target>
+                <Menu.Dropdown>
+                  {items.map((i) => (
+                    <Menu.Item>{i}</Menu.Item>
+                  ))}
+                </Menu.Dropdown>
+              </Menu>
             </MediaQuery>
-          </Group>
+
+            <Text fw={500} pl={10}>
+              Somerville Bike Kitchen
+            </Text>
+          </Flex>
         </Header>
+      }
+      navbar={
+        <MediaQuery smallerThan="sm" styles={{ display: 'none' }}>
+          <Navbar width={{ base: 150 }} height={500} p="xs" withBorder={false}>
+            {items}
+          </Navbar>
+        </MediaQuery>
       }
       styles={(t) => ({
         main: {

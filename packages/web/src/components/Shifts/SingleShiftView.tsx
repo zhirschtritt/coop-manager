@@ -1,8 +1,8 @@
-import { Card, Text, Stack, Group, Badge } from '@mantine/core';
+import { Badge, Card, Group, Stack, Text } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { format } from 'date-fns';
-import { SlotAssignmentsView } from './ShiftAssignmentsView';
 
+import { SlotAssignmentsView } from './ShiftAssignmentsView';
 import { GetAllShiftsQuery } from './shifts.query';
 
 function timeWithAmPm(stringyDate: string | Date) {
@@ -19,7 +19,7 @@ export default function SingleShiftView({
   );
   const largeScreen = useMediaQuery('(min-width: 400px)');
 
-  const unfulfilledBadge =
+  const badges =
     unfulfilled && largeScreen ? (
       <Badge radius="xs" color="red" variant="dot">
         Unfulfilled
@@ -27,12 +27,12 @@ export default function SingleShiftView({
     ) : null;
 
   return (
-    <Card shadow="xs" p="lg" radius="md" maw={750} miw={275}>
+    <Card shadow="xs" p="lg" radius="md" miw={275}>
       <Card.Section p="sm">
         <Stack style={{ gap: 0 }}>
           <Group align="start" position="apart" spacing="xs">
             <Text fw={500}>{format(new Date(s.startsAt), 'eeee, MMMM d, y')}</Text>
-            {unfulfilledBadge}
+            {badges}
           </Group>
           <Text fz="xs">{`${timeWithAmPm(s.startsAt)} - ${timeWithAmPm(s.endsAt)}`}</Text>
         </Stack>
