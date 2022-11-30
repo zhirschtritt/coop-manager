@@ -10,7 +10,7 @@ import {
   Text,
 } from '@mantine/core';
 import Link from 'next/link';
-import { useDisclosure } from '@mantine/hooks';
+import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import React, { PropsWithChildren, useState } from 'react';
 import { CheckupList, Friends } from 'tabler-icons-react';
 
@@ -35,6 +35,8 @@ export default function Layout({ children }: PropsWithChildren<unknown>) {
   const [opened, { toggle, close }] = useDisclosure(false);
   const [active, setActive] = useState(0);
 
+  const largerThanSm = useMediaQuery('(min-width: 768px)');
+
   const items = links.map((link, idx) => (
     <NavLink
       {...link}
@@ -53,7 +55,7 @@ export default function Layout({ children }: PropsWithChildren<unknown>) {
       padding="xs"
       navbarOffsetBreakpoint="sm"
       header={
-        <Header height={HEADER_HEIGHT} sx={{ position: 'absolute' }}>
+        <Header height={HEADER_HEIGHT} sx={{ position: largerThanSm ? 'fixed' : 'absolute' }}>
           <Flex justify="flex-start" align="center" h={HEADER_HEIGHT}>
             <MediaQuery largerThan="sm" styles={{ display: 'none' }}>
               <Menu
@@ -82,7 +84,7 @@ export default function Layout({ children }: PropsWithChildren<unknown>) {
       }
       navbar={
         <MediaQuery smallerThan="sm" styles={{ display: 'none' }}>
-          <Navbar width={{ base: 150 }} height={500} p="xs" withBorder={false}>
+          <Navbar width={{ base: 150 }} p="xs" withBorder>
             {items}
           </Navbar>
         </MediaQuery>

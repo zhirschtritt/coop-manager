@@ -1,4 +1,3 @@
-import { Skeleton } from '@mantine/core';
 import React from 'react';
 import { SessionAuth } from 'supertokens-auth-react/recipe/session';
 import useSWR from 'swr';
@@ -15,10 +14,6 @@ export default function Shifts() {
       refreshInterval: 30_000,
     }
   );
-
-  if (!data) {
-    return <Skeleton radius="lg" animate width="100%" />;
-  }
 
   if (error) {
     throw error;

@@ -92,7 +92,7 @@ async function main() {
       data: {},
       shiftAssignment: {
         createMany: {
-          data: members.map((m) => {
+          data: [...members, ...members].map((m) => {
             const s = chance.pickone(shifts);
             return { memberId: m.id, shiftId: s.id, shiftSlotId: chance.pickone(s.slots).id };
           }),

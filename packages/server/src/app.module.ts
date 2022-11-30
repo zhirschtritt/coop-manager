@@ -1,17 +1,16 @@
+import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
-import { ApolloDriverConfig, ApolloDriver } from '@nestjs/apollo';
 import { LoggerModule } from 'nestjs-pino';
 
 import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { AuthModule } from './auth/auth.module';
 import { EventsModule } from './events/events.module';
 import { MembersController, MembersModule } from './members';
 import { MembershipsModule } from './memberships/memberships.module';
+import { MembershipsService } from './memberships/memberships.service';
 import { PrismaModule } from './prisma/prisma.module';
 import { ShiftsModule } from './shifts';
-import { MembershipsService } from './memberships/memberships.service';
-import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -50,6 +49,6 @@ import { AuthModule } from './auth/auth.module';
     AuthModule,
   ],
   controllers: [AppController, MembersController],
-  providers: [AppService, MembershipsService],
+  providers: [MembershipsService],
 })
 export class AppModule {}
