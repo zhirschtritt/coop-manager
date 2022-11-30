@@ -1,13 +1,28 @@
 import { Button, Container } from '@mantine/core';
 import { gql } from 'graphql-request';
 import React from 'react';
-import { useSWRConfig } from 'swr';
-import { useGraphQLClient } from '../providers/GraphQLClientProvider';
-import MemberListView from '../components/Members/MemberTable';
-import { GetAllMembersQuery } from '../components/Members/members.query';
+import { SessionAuth } from 'supertokens-auth-react/recipe/session';
+import useSWR, { useSWRConfig } from 'swr';
 
-export default function Members(): JSX.Element {
+import Layout from '../components/Layout/layout';
+import { GetAllMembersQuery } from '../components/Members/members.query';
+import MemberListView from '../components/Members/MemberTable';
+import { useGraphQLClient } from '../providers/GraphQLClientProvider';
+import { NextPageWithLayout } from './_app';
+
+const Members: NextPageWithLayout = () => {
   const { mutate } = useSWRConfig();
+
+  const { data: members, error } = useSWR<Record<'getMembers', GetAllMembersQuery.Response[]>>(
+    GetAllMembersQuery.query,
+    {
+      refreshInterval: 30_000,
+    }
+  );
+
+  if (error) {
+    throw error;
+  }
 
   const client = useGraphQLClient();
   const createNewMember = () => {
@@ -25,13 +40,21 @@ export default function Members(): JSX.Element {
   };
 
   return (
-    <>
-      <Container>
-        <Button onClick={createNewMember} my="md">
-          Create new Member
-        </Button>
-        <MemberListView />
-      </Container>
-    </>
+    <Container>
+      <Button onClick={createNewMember} my="md">
+        Create new Member
+      </Button>
+      <MemberListView members={members?.getMembers ?? []} />
+    </Container>
   );
-}
+};
+
+export default Members;
+
+Members.getLayout = function getLayout(page: React.ReactElement) {
+  return (
+    <SessionAuth>
+      <Layout>{page}</Layout>
+    </SessionAuth>
+  );
+};

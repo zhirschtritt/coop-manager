@@ -1,20 +1,15 @@
-import SuperTokensReact, { SuperTokensWrapper } from 'supertokens-auth-react';
-
 import { MantineProvider } from '@mantine/core';
 import { NotificationsProvider } from '@mantine/notifications';
-
+import { NextPage } from 'next';
 import { AppProps } from 'next/app';
 import React from 'react';
+import SuperTokensReact, { SuperTokensWrapper } from 'supertokens-auth-react';
 
-import { NextComponentType, NextPageContext } from 'next';
-
-import Layout from '../components/Layout/Layout';
-import GraphQLClientProvider from '../providers/GraphQLClientProvider';
 import { frontendConfig } from '../config/supertokensConfig';
+import GraphQLClientProvider from '../providers/GraphQLClientProvider';
 
 if (typeof window !== 'undefined') {
   // we only want to call this init function on the frontend, so we check typeof window !== 'undefined'
-  console.log('supertokens init');
   SuperTokensReact.init(frontendConfig());
 }
 
@@ -29,23 +24,23 @@ const theme: any = {
   },
 };
 
+export type NextPageWithLayout = NextPage & {
+  getLayout?: (page: React.ReactElement) => React.ReactNode;
+};
+
 export default function App({
   Component,
   pageProps,
 }: AppProps & {
-  Component: NextComponentType<NextPageContext, any, unknown> & {
-    getLayout(e: JSX.Element): JSX.Element;
-  };
-}): JSX.Element {
+  Component: NextPageWithLayout;
+}) {
+  const getLayout = Component.getLayout ?? ((page) => page);
+
   return (
     <SuperTokensWrapper>
       <MantineProvider withGlobalStyles withNormalizeCSS theme={theme}>
         <GraphQLClientProvider>
-          <NotificationsProvider>
-            <Layout>
-              <Component {...pageProps} />
-            </Layout>
-          </NotificationsProvider>
+          <NotificationsProvider>{getLayout(<Component {...pageProps} />)}</NotificationsProvider>
         </GraphQLClientProvider>
       </MantineProvider>
     </SuperTokensWrapper>

@@ -9,6 +9,7 @@ import {
   NavLink,
   Text,
 } from '@mantine/core';
+import Link from 'next/link';
 import { useDisclosure } from '@mantine/hooks';
 import React, { PropsWithChildren, useState } from 'react';
 import { CheckupList, Friends } from 'tabler-icons-react';
@@ -38,7 +39,7 @@ export default function Layout({ children }: PropsWithChildren<unknown>) {
     <NavLink
       {...link}
       active={active === idx}
-      component="a"
+      component={Link}
       key={link.label}
       onClick={() => {
         setActive(idx);
@@ -67,7 +68,7 @@ export default function Layout({ children }: PropsWithChildren<unknown>) {
                 </Menu.Target>
                 <Menu.Dropdown>
                   {items.map((i) => (
-                    <Menu.Item>{i}</Menu.Item>
+                    <Menu.Item key={i.key}>{i}</Menu.Item>
                   ))}
                 </Menu.Dropdown>
               </Menu>
