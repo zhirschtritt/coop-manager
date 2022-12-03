@@ -1,20 +1,38 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
+import { GaxiosError } from 'gaxios';
+import { admin_directory_v1, google } from 'googleapis';
 import supertokens from 'supertokens-node';
-import Session from 'supertokens-node/recipe/session';
-import ThirdPartyPasswordless from 'supertokens-node/recipe/thirdpartypasswordless';
+import { EmailDeliveryInterface } from 'supertokens-node/lib/build/ingredients/emaildelivery/types';
+import { TypePasswordlessEmailDeliveryInput } from 'supertokens-node/lib/build/recipe/passwordless/types';
 import Dashboard from 'supertokens-node/recipe/dashboard';
 import { SMTPService } from 'supertokens-node/recipe/passwordless/emaildelivery';
+import Session from 'supertokens-node/recipe/session';
+import ThirdPartyPasswordless from 'supertokens-node/recipe/thirdpartypasswordless';
 
-import { ConfigInjectionToken, AuthModuleConfig } from '../config.interface';
+import { AuthModuleConfig, ConfigInjectionToken } from '../config.interface';
 
 @Injectable()
-export class SupertokensService {
+export class SupertokensService implements OnModuleInit {
   constructor(@Inject(ConfigInjectionToken) config: AuthModuleConfig) {
     if (!process.env.SUPERTOKENS_DASHBOARD_API_KEY) {
       throw new Error('Missing env variable SUPERTOKENS_DASHBOARD_API_KEY');
     }
-    if (!process.env.SENDGRID_SMTP_PASS) {
-      throw new Error('Missing env variable SENDGRID_SMTP_PASS');
+
+    let sendGridSmtp: EmailDeliveryInterface<TypePasswordlessEmailDeliveryInput> | undefined;
+    if (process.env.SENDGRID_SMTP_PASS) {
+      sendGridSmtp = new SMTPService({
+        smtpSettings: {
+          host: 'smtp.sendgrid.net',
+          authUsername: 'apikey',
+          password: process.env.SENDGRID_SMTP_PASS,
+          port: 465,
+          from: {
+            name: 'Bike Coop Manager Auth',
+            email: process.env.GOOGLE_ADMIN_EMAIL,
+          },
+          secure: true,
+        },
+      });
     }
 
     supertokens.init({
@@ -32,19 +50,7 @@ export class SupertokensService {
           contactMethod: 'EMAIL',
           providers: [],
           emailDelivery: {
-            service: new SMTPService({
-              smtpSettings: {
-                host: 'smtp.sendgrid.net',
-                authUsername: 'apikey',
-                password: process.env.SENDGRID_SMTP_PASS,
-                port: 465,
-                from: {
-                  name: 'Bike Coop Manager Auth',
-                  email: 'auth@somervillebikekitchen.org',
-                },
-                secure: true,
-              },
-            }),
+            service: sendGridSmtp,
           },
           override: {
             apis: (original: ThirdPartyPasswordless.APIInterface) => {
@@ -59,8 +65,53 @@ export class SupertokensService {
                     throw new Error('Must sign up with email!');
                   }
 
-                  // TODO: check if email is in staff/volunteer/etc google group
-                  // or just in environmental variable for starters
+                  // If coop uses google groups to manage membership status,
+                  // check with google admin api
+                  const staffGroupKey = process.env.GOOGLE_GROUP_KEY_STAFF;
+                  if (staffGroupKey) {
+                    const directoryApiClient = google.admin({ version: 'directory_v1' });
+
+                    let googleGroupMember: admin_directory_v1.Schema$Member;
+                    try {
+                      const { data } = await directoryApiClient.members.get({
+                        groupKey: staffGroupKey,
+                        memberKey: input.email,
+                      });
+                      googleGroupMember = data;
+                    } catch (err: any) {
+                      const gaxiosErr: GaxiosError<admin_directory_v1.Schema$Member> = err;
+                      if (gaxiosErr.code && Number.parseInt(gaxiosErr.code) === 404) {
+                        return {
+                          status: 'GENERAL_ERROR',
+                          message: 'Email is not associated with any member in "staff" google group',
+                        };
+                      }
+                      // TODO: log error details here and report bug to sentry
+                      return {
+                        status: 'GENERAL_ERROR',
+                        message: 'Unknown error contacting google workspace admin API',
+                      };
+                    }
+
+                    if (googleGroupMember.status !== 'ACTIVE') {
+                      return {
+                        status: 'GENERAL_ERROR',
+                        message: 'Member must have status ACTIVE in "staff" google group',
+                      };
+                    }
+                  } else {
+                    // else confirm user is already pre-registered with supertokens
+                    const [existingUser] = await ThirdPartyPasswordless.getUsersByEmail(input.email);
+
+                    // if a user with this email doesn't already exist and we are not
+                    // checking against an existing external staff list, return error
+                    if (!existingUser) {
+                      return {
+                        status: 'GENERAL_ERROR',
+                        message: 'Email is not associated with registered user',
+                      };
+                    }
+                  }
 
                   return await original.createCodePOST(input);
                 },
@@ -71,5 +122,16 @@ export class SupertokensService {
         Session.init(),
       ],
     });
+  }
+
+  async onModuleInit() {
+    if (process.env.GOOGLE_GROUP_KEY_STAFF) {
+      const authClient = await google.auth.getClient({
+        keyFile: process.env.GOOGLE_APPLICATION_CREDENTIALS,
+        scopes: ['https://www.googleapis.com/auth/admin.directory.group.member'],
+        clientOptions: { subject: process.env.GOOGLE_ADMIN_EMAIL },
+      });
+      google.options({ auth: authClient });
+    }
   }
 }

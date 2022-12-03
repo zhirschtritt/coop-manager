@@ -47,6 +47,7 @@
     "date-fns": "2.23.0",
     "db-migrate-pg": "^1.2.2",
     "dotenv": "^8.2.0",
+    "googleapis": "^109.0.1",
     "graphql": "^16.6.0",
     "graphql-scalars": "^1.18.0",
     "graphql-tools": "8.3.5",
