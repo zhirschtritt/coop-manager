@@ -2,20 +2,17 @@
   "name": "bike-coop-manager",
   "version": "1.0.0",
   "description": "Membership coop manager service",
+  "private": true,
   "scripts": {
-    "clean": "rimraf \"packages/**/lib\" \"packages/**/*.tsbuildinfo\"",
-    "build": "tsc -b tsconfig.build.json",
-    "bootstrap": "npx lerna bootstrap",
-    "test": "npx lerna run test",
-    "version": "npx lerna version",
-    "build:common": "npx lerna run build --scope @bikecoop/common"
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "devDependencies": {
-    "lerna": "^5.6.2",
-    "rimraf": "3.0.2",
-    "typescript": "4.8.2"
+    "eslint": "^7.32.0",
+    "prettier": "^2.5.1",
+    "turbo": "latest"
   },
-  "workspaces": [
-    "packages/*"
-  ]
+  "packageManager": "pnpm@7.15.0"
 }

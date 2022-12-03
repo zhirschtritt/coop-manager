@@ -10,6 +10,7 @@
     "build:all": "lerna run build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "npm-run-all build migrate:deploy start:nest",
+    "dev": "npm-run-all build migrate:deploy start:nest",
     "start:nest": "nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug",
@@ -31,7 +32,7 @@
     "prisma:generate": "npx prisma generate"
   },
   "dependencies": {
-    "@bikecoop/common": "^1.0.0",
+    "@bikecoop/common": "*",
     "@hapi/joi": "17.1.1",
     "@nestjs/apollo": "^10.1.0",
     "@nestjs/common": "^9.0.11",

@@ -1,6 +1,5 @@
 import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
-import { GaxiosError } from 'gaxios';
-import { admin_directory_v1, google } from 'googleapis';
+import { admin_directory_v1, google, Common as GoogleCommon } from 'googleapis';
 import supertokens from 'supertokens-node';
 import { EmailDeliveryInterface } from 'supertokens-node/lib/build/ingredients/emaildelivery/types';
 import { TypePasswordlessEmailDeliveryInput } from 'supertokens-node/lib/build/recipe/passwordless/types';
@@ -28,7 +27,7 @@ export class SupertokensService implements OnModuleInit {
           port: 465,
           from: {
             name: 'Bike Coop Manager Auth',
-            email: process.env.GOOGLE_ADMIN_EMAIL,
+            email: process.env.GOOGLE_ADMIN_EMAIL!,
           },
           secure: true,
         },
@@ -79,7 +78,7 @@ export class SupertokensService implements OnModuleInit {
                       });
                       googleGroupMember = data;
                     } catch (err: any) {
-                      const gaxiosErr: GaxiosError<admin_directory_v1.Schema$Member> = err;
+                      const gaxiosErr: GoogleCommon.GaxiosError<admin_directory_v1.Schema$Member> = err;
                       if (gaxiosErr.code && Number.parseInt(gaxiosErr.code) === 404) {
                         return {
                           status: 'GENERAL_ERROR',
