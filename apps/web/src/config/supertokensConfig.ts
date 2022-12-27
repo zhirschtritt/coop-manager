@@ -6,7 +6,7 @@ import { SuperTokensConfig } from 'supertokens-auth-react/lib/build/types';
 const appInfo = {
   //  https://supertokens.com/docs/thirdpartyemailpassword/appinfo
   appName: 'bike-coop-manager',
-  apiDomain: 'http://localhost:5020',
+  apiDomain: 'http://host.docker.internal:5020',
   websiteDomain: 'http://localhost:3000',
   apiBasePath: '/api/auth',
   websiteBasePath: '/auth',

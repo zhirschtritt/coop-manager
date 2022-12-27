@@ -5,26 +5,5 @@
   "editor.formatOnSave": true,
   "eslint.validate": ["javascript", "javascriptreact", "tsx", "typescript"],
   "typescript.surveys.enabled": false,
-  "typescript.implementationsCodeLens.enabled": true,
-  "workbench.colorCustomizations": {
-    "activityBar.activeBackground": "#f8cee6",
-    "activityBar.activeBorder": "#6aa718",
-    "activityBar.background": "#f8cee6",
-    "activityBar.foreground": "#15202b",
-    "activityBar.inactiveForeground": "#15202b99",
-    "activityBarBadge.background": "#6aa718",
-    "activityBarBadge.foreground": "#15202b",
-    "sash.hoverBorder": "#f8cee6",
-    "statusBar.background": "#f1a2d0",
-    "statusBar.foreground": "#15202b",
-    "statusBarItem.hoverBackground": "#ea76ba",
-    "statusBarItem.remoteBackground": "#f1a2d0",
-    "statusBarItem.remoteForeground": "#15202b",
-    "titleBar.activeBackground": "#f1a2d0",
-    "titleBar.activeForeground": "#15202b",
-    "titleBar.inactiveBackground": "#f1a2d099",
-    "titleBar.inactiveForeground": "#15202b99",
-    "commandCenter.border": "#15202b99"
-  },
-  "peacock.remoteColor": "#f1a2d0"
+  "typescript.implementationsCodeLens.enabled": true
 }

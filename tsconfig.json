@@ -2,6 +2,7 @@
   "compilerOptions": {
     "target": "es2020",
     "module": "commonjs",
+    "lib": ["ES2020"],
     "declaration": true,
     "sourceMap": true,
     "composite": true,
@@ -14,11 +15,5 @@
     "experimentalDecorators": true,
     "allowUnreachableCode": false
   },
-  "exclude": [
-    "**/coverage/",
-    "**/dist*/",
-    "**/node_modules/",
-    "**/scripts/",
-    "**/*.d.ts"
-  ]
+  "exclude": ["**/coverage/", "**/dist*/", "**/node_modules/", "**/scripts/", "**/*.d.ts"]
 }

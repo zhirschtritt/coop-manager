@@ -9,8 +9,9 @@
     "build": "tsc",
     "build:all": "lerna run build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
-    "start": "npm-run-all build migrate:deploy start:nest",
-    "dev": "npm-run-all build migrate:deploy start:nest",
+    "prestart": "npm-run-all migrate:deploy",
+    "start": "node dist/src/main.js",
+    "dev": "npm-run-all build migrate:deploy start:dev",
     "start:nest": "nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug",
@@ -22,14 +23,13 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "prisma:pull": "npx prisma db pull",
-    "prisma:seed": "npx prisma db seed",
     "migrate:dev": "npx prisma migrate dev",
     "migrate:dev:create": "npx prisma migrate dev --create-only",
     "migrate:deploy": "npx prisma migrate deploy",
     "migrate:reset": "npx prisma migrate reset",
     "migrate:resolve": "npx prisma migrate resolve",
-    "prisma:generate": "npx prisma generate"
+    "prisma:generate": "npx prisma generate",
+    "prisma:seed": "npx prisma db seed"
   },
   "dependencies": {
     "@bikecoop/common": "*",

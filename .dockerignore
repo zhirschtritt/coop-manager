@@ -1,0 +1,167 @@
+# flyctl launch added from .gitignore
+# See http://help.github.com/ignore-files/ for more about ignoring files.
+
+# compiled output
+**/dist
+**/tmp
+
+# dependencies
+**/node_modules
+
+# IDEs and editors
+.idea
+**/.project
+**/.classpath
+**/.c9
+**/*.launch
+**/.settings
+**/*.sublime-workspace
+
+# IDE - VSCode
+**/.vscode/*
+!**/.vscode/settings.json
+!**/.vscode/tasks.json
+!**/.vscode/launch.json
+!**/.vscode/extensions.json
+
+# misc
+.sass-cache
+connect.lock
+coverage
+libpeerconnection.log
+**/npm-debug.log
+**/yarn-error.log
+**/testem.log
+typings
+
+# System Files
+**/.DS_Store
+**/Thumbs.db
+
+# local env files
+**/.env
+**/.env.local
+**/.env.development.local
+**/.env.test.local
+**/.env.production.local
+
+**/.tsconfig.tsbuildinfo
+**/gcp-service-acct.json
+
+# turbo
+**/.turbo
+
+# flyctl launch added from apps/server/.gitignore
+# compiled output
+apps/server/dist
+apps/server/node_modules
+
+# Logs
+apps/server/**/logs
+apps/server/**/*.log
+apps/server/**/npm-debug.log*
+apps/server/**/yarn-debug.log*
+apps/server/**/yarn-error.log*
+apps/server/**/lerna-debug.log*
+
+# OS
+apps/server/**/.DS_Store
+
+# Tests
+apps/server/coverage
+apps/server/.nyc_output
+
+# IDEs and editors
+apps/server/.idea
+apps/server/**/.project
+apps/server/**/.classpath
+apps/server/**/.c9
+apps/server/**/*.launch
+apps/server/**/.settings
+apps/server/**/*.sublime-workspace
+
+# IDE - VSCode
+apps/server/**/.vscode/*
+!apps/server/**/.vscode/settings.json
+!apps/server/**/.vscode/tasks.json
+!apps/server/**/.vscode/launch.json
+!apps/server/**/.vscode/extensions.json
+
+# flyctl launch added from apps/web/.gitignore
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+apps/web/node_modules
+apps/web/.pnp
+apps/web/**/.pnp.js
+
+# testing
+apps/web/coverage
+
+# next.js
+apps/web/.next
+apps/web/out
+
+# production
+apps/web/build
+
+# misc
+apps/web/**/.DS_Store
+apps/web/**/*.pem
+
+# debug
+apps/web/**/npm-debug.log*
+apps/web/**/yarn-debug.log*
+apps/web/**/yarn-error.log*
+
+# local env files
+apps/web/**/.env.local
+apps/web/**/.env.development
+apps/web/**/.env.test
+apps/web/**/.env.production
+
+# vercel
+apps/web/**/.vercel
+apps/web/**/.next
+
+# flyctl launch added from node_modules/.pnpm/cpu-features@0.0.2/node_modules/cpu-features/deps/cpu_features/.gitignore
+node_modules/.pnpm/cpu-features@0.0.2/node_modules/cpu-features/deps/cpu_features/**/cmake_build
+node_modules/.pnpm/cpu-features@0.0.2/node_modules/cpu-features/deps/cpu_features/**/build
+
+node_modules/.pnpm/cpu-features@0.0.2/node_modules/cpu-features/deps/cpu_features/**/*.swp
+
+# flyctl launch added from packages/common/.gitignore
+# compiled output
+packages/common/dist
+packages/common/node_modules
+
+# Logs
+packages/common/**/logs
+packages/common/**/*.log
+packages/common/**/npm-debug.log*
+packages/common/**/yarn-debug.log*
+packages/common/**/yarn-error.log*
+packages/common/**/lerna-debug.log*
+
+# OS
+packages/common/**/.DS_Store
+
+# Tests
+packages/common/coverage
+packages/common/.nyc_output
+
+# IDEs and editors
+packages/common/.idea
+packages/common/**/.project
+packages/common/**/.classpath
+packages/common/**/.c9
+packages/common/**/*.launch
+packages/common/**/.settings
+packages/common/**/*.sublime-workspace
+
+# IDE - VSCode
+packages/common/**/.vscode/*
+!packages/common/**/.vscode/settings.json
+!packages/common/**/.vscode/tasks.json
+!packages/common/**/.vscode/launch.json
+!packages/common/**/.vscode/extensions.json

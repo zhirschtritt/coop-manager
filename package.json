@@ -4,6 +4,7 @@
   "description": "Membership coop manager service",
   "private": true,
   "scripts": {
+    "preinstall": "npx only-allow pnpm",
     "build": "turbo run build",
     "dev": "turbo run dev",
     "lint": "turbo run lint",
@@ -11,7 +12,7 @@
   },
   "devDependencies": {
     "eslint": "^7.32.0",
-    "prettier": "^2.5.1",
+    "prettier": "^2.8.1",
     "turbo": "latest"
   },
   "packageManager": "pnpm@7.15.0"

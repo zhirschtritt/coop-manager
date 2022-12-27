@@ -5,7 +5,7 @@ type Fetcher = NonNullable<SWRConfiguration['fetcher']>;
 
 export default function createFetcher(): { client: GraphQLClient; fetcher: Fetcher } {
   const graphQLClient = new GraphQLClient(
-    process.env.GRAPHQL_URL || 'http://localhost:5020/graphql',
+    process.env.GRAPHQL_URL || 'http://host.docker.internal:5020/graphql',
     {
       credentials: 'include',
       mode: 'cors',
