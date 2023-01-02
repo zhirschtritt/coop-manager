@@ -44,7 +44,7 @@ Thumbs.db
 .env.test.local
 .env.production.local
 
-.tsconfig.tsbuildinfo
+tsconfig.tsbuildinfo
 gcp-service-acct.json
 
 # turbo

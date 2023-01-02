@@ -8,7 +8,9 @@
     "build": "turbo run build",
     "dev": "turbo run dev",
     "lint": "turbo run lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "prune:web": "turbo prune --scope=@bikecoop/web --docker",
+    "prune:server": "turbo prune --scope=@bikecoop/server --docker"
   },
   "devDependencies": {
     "eslint": "^7.32.0",

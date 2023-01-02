@@ -21,7 +21,7 @@ import { ShiftsModule } from './shifts';
         // https://supertokens.com/docs/thirdpartypasswordless/appinfo
         appName: 'bike-coop-manager',
         apiDomain: 'http://localhost:5020',
-        websiteDomain: 'http://localhost:3000',
+        websiteDomain: process.env.WEB_URL || 'http://localhost:3000',
         apiBasePath: '/api/auth',
         websiteBasePath: '/auth',
       },
@@ -35,9 +35,9 @@ import { ShiftsModule } from './shifts';
     }),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
-      autoSchemaFile: 'schema.gql',
+      autoSchemaFile: true,
       cors: {
-        origin: 'http://localhost:3000',
+        origin: process.env.WEB_URL || 'http://localhost:3000',
         credentials: true,
       },
     }),

@@ -9,7 +9,7 @@ RUN corepack enable && corepack prepare pnpm@7.7.0 --activate
 # PRUNER -----------------------------------
 FROM base as pruner
 COPY . .
-RUN pnpm dlx turbo prune --scope=@bikecoop/web --docker
+RUN pnpm dlx turbo prune --scope=@bikecoop/server --docker
 
 # BUILDER ----------------------------------
 FROM base as builder
@@ -29,26 +29,22 @@ COPY --from=pruner /app/out/full .
 COPY turbo.json turbo.json
 RUN pnpm build
 
-# RUNNER (WEB) -----------------------------------
-FROM node:16-alpine AS web
+# RUNNER (SERVER) -----------------------------------
+FROM node:alpine3.16 AS runner
 WORKDIR /app
 
 RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 nextjs
-USER nextjs
+RUN adduser --system --uid 1001 nodejs
+USER nodejs
 
-COPY --from=builder /app/apps/web/next.config.js .
-COPY --from=builder /app/apps/web/package.json .
+COPY --from=builder /app/apps/server/package.json .
+COPY --from=builder /app/node_modules ./node_modules
 
-COPY --from=builder --chown=nextjs:nodejs /app/apps/web/.next/standalone .
-COPY --from=builder --chown=nextjs:nodejs /app/apps/web/public ./apps/web/public
-COPY --from=builder --chown=nextjs:nodejs /app/apps/web/.next/static ./apps/web/.next/static
+COPY --from=builder --chown=nodejs:nodejs /app/packages/common packages/common
+COPY --from=builder --chown=nodejs:nodejs /app/apps/server apps/server
 
-ENV NEXT_TELEMETRY_DISABLED 1
-ENV NEXT_PUBLIC_ENV dev
-ENV NEXT_PUBLIC_NHOST_PLATFORM false
+ENV PORT 5020
+EXPOSE 5020
 
-ENV PORT 3000
-EXPOSE 3000
-
-CMD node ./apps/web/server.js
+RUN npm run prisma:generate
+CMD node apps/server/dist/src/main.js

@@ -18,7 +18,7 @@ async function bootstrap() {
   try {
     app = await NestFactory.create(AppModule);
     app.enableCors({
-      origin: 'http://localhost:3000',
+      origin: process.env.WEB_URL || 'http://localhost:3000',
       allowedHeaders: ['content-type', ...supertokens.getAllCORSHeaders()],
       credentials: true,
     });

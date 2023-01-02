@@ -45,7 +45,7 @@ export class SupertokensService implements OnModuleInit {
           apiKey: process.env.SUPERTOKENS_DASHBOARD_API_KEY,
         }),
         ThirdPartyPasswordless.init({
-          flowType: 'USER_INPUT_CODE_AND_MAGIC_LINK',
+          flowType: 'MAGIC_LINK',
           contactMethod: 'EMAIL',
           providers: [],
           emailDelivery: {
@@ -85,7 +85,7 @@ export class SupertokensService implements OnModuleInit {
                           message: 'Email is not associated with any member in "staff" google group',
                         };
                       }
-                      // TODO: log error details here and report bug to sentry
+                      // TODO: log error details here and report bug to monitoring service
                       return {
                         status: 'GENERAL_ERROR',
                         message: 'Unknown error contacting google workspace admin API',
@@ -126,7 +126,10 @@ export class SupertokensService implements OnModuleInit {
   async onModuleInit() {
     if (process.env.GOOGLE_GROUP_KEY_STAFF) {
       const authClient = await google.auth.getClient({
-        keyFile: process.env.GOOGLE_APPLICATION_CREDENTIALS,
+        credentials: {
+          client_email: process.env.GOOGLE_AUTH_CLIENT_EMAIL,
+          private_key: process.env.GOOGLE_AUTH_PRIVATE_KEY,
+        },
         scopes: ['https://www.googleapis.com/auth/admin.directory.group.member'],
         clientOptions: { subject: process.env.GOOGLE_ADMIN_EMAIL },
       });

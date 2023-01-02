@@ -10,9 +10,8 @@
     "build:all": "lerna run build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "prestart": "npm-run-all migrate:deploy",
-    "start": "node dist/src/main.js",
     "dev": "npm-run-all build migrate:deploy start:dev",
-    "start:nest": "nest start",
+    "start": "nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug",
     "start:prod": "node dist/src/main",
@@ -29,7 +28,8 @@
     "migrate:reset": "npx prisma migrate reset",
     "migrate:resolve": "npx prisma migrate resolve",
     "prisma:generate": "npx prisma generate",
-    "prisma:seed": "npx prisma db seed"
+    "prisma:seed": "npx prisma db seed",
+    "deploy": "flyctl deploy -r ewr --auto-confirm --detach --push"
   },
   "dependencies": {
     "@bikecoop/common": "*",
