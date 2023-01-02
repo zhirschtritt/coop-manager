@@ -28,7 +28,6 @@ import { ShiftsModule } from './shifts';
     }),
     LoggerModule.forRoot({
       pinoHttp: {
-        prettyPrint: process.env.NODE_ENV !== 'production',
         autoLogging: false,
         level: 'trace',
       },
