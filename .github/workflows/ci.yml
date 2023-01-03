@@ -83,7 +83,7 @@ jobs:
           context: .
           push: true
           file: apps/server/Dockerfile
-          tags: ${{ needs.tag.outputs.tag_name }}
+          tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
       # - name: Build and push frontend image
