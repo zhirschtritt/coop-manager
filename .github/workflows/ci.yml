@@ -1,14 +1,8 @@
 name: CI
 
-env:
-  REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}
-
 on:
   push:
     branches: ['main', 'fix/**', 'feat/**']
-  pull_request:
-    types: [opened, synchronize]
 
 jobs:
   build:
@@ -42,6 +36,7 @@ jobs:
       #   run: pnpm test
 
   tag:
+    name: Tag and release
     needs: build
     runs-on: ubuntu-latest
     outputs:
@@ -55,8 +50,12 @@ jobs:
           bump_version_scheme: minor
 
   push:
+    name: Build docker images and push to ghcr
     needs: tag
     runs-on: ubuntu-latest
+    env:
+      REGISTRY: ghcr.io
+      IMAGE_NAME: ${{ github.repository }}
     permissions:
       contents: read
       packages: write
@@ -78,16 +77,14 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
-
       - name: Build and push server image
         uses: docker/build-push-action@v3
         with:
           context: .
           push: true
-          file: '{context}/apps/server/Dockerfile'
-          tags: ${{ needs.tag.outputs.tag_name }}
+          file: apps/server/Dockerfile
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
 
       # - name: Build and push frontend image
       #   uses: docker/build-push-action@v3
