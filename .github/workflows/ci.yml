@@ -46,3 +46,27 @@ jobs:
       - uses: rymndhng/release-on-push-action@master
         with:
           bump_version_scheme: minor
+
+  push:
+    needs: tag
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Build and push server image
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          push: true
+          file: ${context}/apps/server/Dockerfile
+          tags: ${{ steps.release.outputs.tag_name }}
+
+      # - name: Build and push frontend image
+      #   uses: docker/build-push-action@v3
+      #   with:
+      #     context: .
+      #     push: true
+      #     file: ${context}/apps/web/Dockerfile
+      #     tags: ${{ steps.release.outputs.tag_name }}
+      #     labels: user:app/latest
