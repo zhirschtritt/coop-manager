@@ -3,6 +3,8 @@
 # compiled output
 dist
 tmp
+gen
+bin
 
 # dependencies
 node_modules

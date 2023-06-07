@@ -1,0 +1,63 @@
+syntax = "proto3";
+
+package coop_manager.v1;
+
+import "google/protobuf/timestamp.proto";
+// import "coop_manager/shared/shared.proto";
+
+option go_package = "github.com/zhirschtritt/coop_manager/rpc/gen/coop_manager/v1;coopv1";
+
+enum ActorType {
+  ACTOR_TYPE_USER = 0;
+  ACTOR_TYPE_DEVICE = 1;
+}
+
+message Actor {
+  string type = 1;
+  string id = 2;
+}
+
+message ShiftSlot {
+  oneof identifier {
+    string id = 1;
+    string name = 2;
+  }
+}
+
+message AssignShiftRequest {
+  string request_id = 1;
+  string shift_id = 2;
+  string user_id = 3;
+  Actor actor = 4;
+  ShiftSlot slot = 5;
+}
+message AssignShiftResponse {
+  string shift_assignment_id = 2;
+}
+
+message UnassignShiftRequest {
+  string request_id = 1;
+  string shift_assignment_id = 2;
+  string user_id = 3;
+  Actor actor = 4;
+}
+message UnassignShiftResponse {}
+
+message ListShiftsRequest {}
+
+message ShiftDetails {
+  string id = 1;
+  google.protobuf.Timestamp starts_at = 2;
+  google.protobuf.Timestamp ends_at = 3;
+}
+
+message ListShiftsResponse {
+  repeated ShiftDetails shifts = 1;
+  string next_page_cursor = 2;
+}
+
+service CoopShiftService {
+  rpc AssignShift(AssignShiftRequest) returns (AssignShiftResponse) {}
+  rpc UnassignShift(UnassignShiftRequest) returns (UnassignShiftResponse) {}
+  rpc ListShifts(ListShiftsRequest) returns (ListShiftsResponse) {}
+}

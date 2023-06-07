@@ -1,0 +1,11 @@
+add-global-variants	= "true"
+output = "internal/models"
+
+[psql]
+  dbname = "coop_manager"
+  host   = "localhost"
+  port   = 5432
+  user   = "postgres"
+  pass   = "postgres"
+  blacklist = ["migrations"]
+  sslmode = "disable"

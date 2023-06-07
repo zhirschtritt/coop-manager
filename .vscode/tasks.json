@@ -12,6 +12,16 @@
         "base": "$tsc",
         "fileLocation": ["relative", "${workspaceRoot}"]
       }
+    },
+    {
+      "label": "build server",
+      "group": "build",
+      "type": "shell",
+      "command": "npm run build:server",
+      "problemMatcher": {
+        "base": "$tsc",
+        "fileLocation": ["relative", "${workspaceRoot}"]
+      }
     }
   ]
 }

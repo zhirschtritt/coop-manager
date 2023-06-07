@@ -1,5 +1,4 @@
-import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
-import { admin_directory_v1, google, Common as GoogleCommon } from 'googleapis';
+import { admin_directory_v1, Common as GoogleCommon, google } from 'googleapis';
 import supertokens from 'supertokens-node';
 import { EmailDeliveryInterface } from 'supertokens-node/lib/build/ingredients/emaildelivery/types';
 import { TypePasswordlessEmailDeliveryInput } from 'supertokens-node/lib/build/recipe/passwordless/types';
@@ -7,6 +6,8 @@ import Dashboard from 'supertokens-node/recipe/dashboard';
 import { SMTPService } from 'supertokens-node/recipe/passwordless/emaildelivery';
 import Session from 'supertokens-node/recipe/session';
 import ThirdPartyPasswordless from 'supertokens-node/recipe/thirdpartypasswordless';
+
+import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
 
 import { AuthModuleConfig, ConfigInjectionToken } from '../config.interface';
 
@@ -27,6 +28,7 @@ export class SupertokensService implements OnModuleInit {
           port: 465,
           from: {
             name: 'Bike Coop Manager Auth',
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             email: process.env.GOOGLE_ADMIN_EMAIL!,
           },
           secure: true,
@@ -128,7 +130,7 @@ export class SupertokensService implements OnModuleInit {
       const authClient = await google.auth.getClient({
         credentials: {
           client_email: process.env.GOOGLE_AUTH_CLIENT_EMAIL,
-          private_key: process.env.GOOGLE_AUTH_PRIVATE_KEY,
+          private_key: process.env.GOOGLE_AUTH_PRIVATE_KEY?.replace(/\\n/gm, '\n'),
         },
         scopes: ['https://www.googleapis.com/auth/admin.directory.group.member'],
         clientOptions: { subject: process.env.GOOGLE_ADMIN_EMAIL },

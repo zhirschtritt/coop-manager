@@ -2,14 +2,21 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "Launch Package",
+      "type": "go",
+      "request": "launch",
+      "mode": "auto",
+      "program": "${workspaceFolder}/coop_manager/cmd/app/main.go"
+    },
+    {
       "type": "node",
       "request": "launch",
       "name": "Run server",
       "runtimeExecutable": "npm",
       "runtimeArgs": ["run-script", "start:debug"],
       "skipFiles": ["<node_internals>/**"],
-      "cwd": "${workspaceFolder}/packages/server",
-      "preLaunchTask": "build all",
+      "cwd": "${workspaceFolder}/apps/server",
+      "preLaunchTask": "build server",
       "outputCapture": "std"
     },
     {

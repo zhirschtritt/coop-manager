@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package coop_manager.shared;
+
+option go_package = "github.com/zhirschtritt/coop_manager/rpc/gen/coop_manager/shared;coopv1_shared";
+
+enum SomeSharedThing {
+  TEST = 0;
+}

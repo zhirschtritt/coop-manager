@@ -1,0 +1,14 @@
+version: v1
+plugins:
+  - plugin: go
+    out: rpc/gen
+    opt: paths=source_relative
+  - plugin: connect-go
+    out: rpc/gen
+    opt: paths=source_relative
+  - plugin: buf.build/bufbuild/es
+    out: ui/src/generated
+    opt: target=ts
+  - plugin: buf.build/bufbuild/connect-es
+    out: ui/src/generated
+    opt: target=ts
