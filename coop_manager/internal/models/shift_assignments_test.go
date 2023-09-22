@@ -149,7 +149,7 @@ func testShiftAssignmentsExists(t *testing.T) {
 		t.Error(err)
 	}
 
-	e, err := ShiftAssignmentExists(ctx, tx, o.ID)
+	e, err := ShiftAssignmentExists(ctx, tx, o.MemberID, o.ShiftID, o.ShiftSlotID, o.OrganizationID)
 	if err != nil {
 		t.Errorf("Unable to check if ShiftAssignment exists: %s", err)
 	}
@@ -175,7 +175,7 @@ func testShiftAssignmentsFind(t *testing.T) {
 		t.Error(err)
 	}
 
-	shiftAssignmentFound, err := FindShiftAssignment(ctx, tx, o.ID)
+	shiftAssignmentFound, err := FindShiftAssignment(ctx, tx, o.MemberID, o.ShiftID, o.ShiftSlotID, o.OrganizationID)
 	if err != nil {
 		t.Error(err)
 	}
@@ -616,6 +616,67 @@ func testShiftAssignmentToOneMemberUsingMember(t *testing.T) {
 	}
 }
 
+func testShiftAssignmentToOneOrganizationUsingOrganization(t *testing.T) {
+	ctx := context.Background()
+	tx := MustTx(boil.BeginTx(ctx, nil))
+	defer func() { _ = tx.Rollback() }()
+
+	var local ShiftAssignment
+	var foreign Organization
+
+	seed := randomize.NewSeed()
+	if err := randomize.Struct(seed, &local, shiftAssignmentDBTypes, false, shiftAssignmentColumnsWithDefault...); err != nil {
+		t.Errorf("Unable to randomize ShiftAssignment struct: %s", err)
+	}
+	if err := randomize.Struct(seed, &foreign, organizationDBTypes, false, organizationColumnsWithDefault...); err != nil {
+		t.Errorf("Unable to randomize Organization struct: %s", err)
+	}
+
+	if err := foreign.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+
+	local.OrganizationID = foreign.ID
+	if err := local.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+
+	check, err := local.Organization().One(ctx, tx)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if check.ID != foreign.ID {
+		t.Errorf("want: %v, got %v", foreign.ID, check.ID)
+	}
+
+	ranAfterSelectHook := false
+	AddOrganizationHook(boil.AfterSelectHook, func(ctx context.Context, e boil.ContextExecutor, o *Organization) error {
+		ranAfterSelectHook = true
+		return nil
+	})
+
+	slice := ShiftAssignmentSlice{&local}
+	if err = local.L.LoadOrganization(ctx, tx, false, (*[]*ShiftAssignment)(&slice), nil); err != nil {
+		t.Fatal(err)
+	}
+	if local.R.Organization == nil {
+		t.Error("struct should have been eager loaded")
+	}
+
+	local.R.Organization = nil
+	if err = local.L.LoadOrganization(ctx, tx, true, &local, nil); err != nil {
+		t.Fatal(err)
+	}
+	if local.R.Organization == nil {
+		t.Error("struct should have been eager loaded")
+	}
+
+	if !ranAfterSelectHook {
+		t.Error("failed to run AfterSelect hook for relationship")
+	}
+}
+
 func testShiftAssignmentToOneShiftUsingShift(t *testing.T) {
 	ctx := context.Background()
 	tx := MustTx(boil.BeginTx(ctx, nil))
@@ -840,16 +901,65 @@ func testShiftAssignmentToOneSetOpMemberUsingMember(t *testing.T) {
 			t.Error("foreign key was wrong value", a.MemberID)
 		}
 
-		zero := reflect.Zero(reflect.TypeOf(a.MemberID))
-		reflect.Indirect(reflect.ValueOf(&a.MemberID)).Set(zero)
-
-		if err = a.Reload(ctx, tx); err != nil {
-			t.Fatal("failed to reload", err)
+		if exists, err := ShiftAssignmentExists(ctx, tx, a.MemberID, a.ShiftID, a.ShiftSlotID, a.OrganizationID); err != nil {
+			t.Fatal(err)
+		} else if !exists {
+			t.Error("want 'a' to exist")
 		}
 
-		if a.MemberID != x.ID {
-			t.Error("foreign key was wrong value", a.MemberID, x.ID)
+	}
+}
+func testShiftAssignmentToOneSetOpOrganizationUsingOrganization(t *testing.T) {
+	var err error
+
+	ctx := context.Background()
+	tx := MustTx(boil.BeginTx(ctx, nil))
+	defer func() { _ = tx.Rollback() }()
+
+	var a ShiftAssignment
+	var b, c Organization
+
+	seed := randomize.NewSeed()
+	if err = randomize.Struct(seed, &a, shiftAssignmentDBTypes, false, strmangle.SetComplement(shiftAssignmentPrimaryKeyColumns, shiftAssignmentColumnsWithoutDefault)...); err != nil {
+		t.Fatal(err)
+	}
+	if err = randomize.Struct(seed, &b, organizationDBTypes, false, strmangle.SetComplement(organizationPrimaryKeyColumns, organizationColumnsWithoutDefault)...); err != nil {
+		t.Fatal(err)
+	}
+	if err = randomize.Struct(seed, &c, organizationDBTypes, false, strmangle.SetComplement(organizationPrimaryKeyColumns, organizationColumnsWithoutDefault)...); err != nil {
+		t.Fatal(err)
+	}
+
+	if err := a.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+	if err = b.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+
+	for i, x := range []*Organization{&b, &c} {
+		err = a.SetOrganization(ctx, tx, i != 0, x)
+		if err != nil {
+			t.Fatal(err)
 		}
+
+		if a.R.Organization != x {
+			t.Error("relationship struct not set to correct value")
+		}
+
+		if x.R.ShiftAssignments[0] != &a {
+			t.Error("failed to append to foreign relationship struct")
+		}
+		if a.OrganizationID != x.ID {
+			t.Error("foreign key was wrong value", a.OrganizationID)
+		}
+
+		if exists, err := ShiftAssignmentExists(ctx, tx, a.MemberID, a.ShiftID, a.ShiftSlotID, a.OrganizationID); err != nil {
+			t.Fatal(err)
+		} else if !exists {
+			t.Error("want 'a' to exist")
+		}
+
 	}
 }
 func testShiftAssignmentToOneSetOpShiftUsingShift(t *testing.T) {
@@ -897,16 +1007,12 @@ func testShiftAssignmentToOneSetOpShiftUsingShift(t *testing.T) {
 			t.Error("foreign key was wrong value", a.ShiftID)
 		}
 
-		zero := reflect.Zero(reflect.TypeOf(a.ShiftID))
-		reflect.Indirect(reflect.ValueOf(&a.ShiftID)).Set(zero)
-
-		if err = a.Reload(ctx, tx); err != nil {
-			t.Fatal("failed to reload", err)
+		if exists, err := ShiftAssignmentExists(ctx, tx, a.MemberID, a.ShiftID, a.ShiftSlotID, a.OrganizationID); err != nil {
+			t.Fatal(err)
+		} else if !exists {
+			t.Error("want 'a' to exist")
 		}
 
-		if a.ShiftID != x.ID {
-			t.Error("foreign key was wrong value", a.ShiftID, x.ID)
-		}
 	}
 }
 func testShiftAssignmentToOneSetOpShiftSlotUsingShiftSlot(t *testing.T) {
@@ -954,16 +1060,12 @@ func testShiftAssignmentToOneSetOpShiftSlotUsingShiftSlot(t *testing.T) {
 			t.Error("foreign key was wrong value", a.ShiftSlotID)
 		}
 
-		zero := reflect.Zero(reflect.TypeOf(a.ShiftSlotID))
-		reflect.Indirect(reflect.ValueOf(&a.ShiftSlotID)).Set(zero)
-
-		if err = a.Reload(ctx, tx); err != nil {
-			t.Fatal("failed to reload", err)
+		if exists, err := ShiftAssignmentExists(ctx, tx, a.MemberID, a.ShiftID, a.ShiftSlotID, a.OrganizationID); err != nil {
+			t.Fatal(err)
+		} else if !exists {
+			t.Error("want 'a' to exist")
 		}
 
-		if a.ShiftSlotID != x.ID {
-			t.Error("foreign key was wrong value", a.ShiftSlotID, x.ID)
-		}
 	}
 }
 
@@ -1041,7 +1143,7 @@ func testShiftAssignmentsSelect(t *testing.T) {
 }
 
 var (
-	shiftAssignmentDBTypes = map[string]string{`ID`: `uuid`, `MemberID`: `uuid`, `ShiftID`: `uuid`, `CreatedBy`: `uuid`, `ShiftSlotID`: `uuid`}
+	shiftAssignmentDBTypes = map[string]string{`OrganizationID`: `uuid`, `MemberID`: `uuid`, `ShiftID`: `uuid`, `ShiftSlotID`: `uuid`, `CreatedBy`: `uuid`}
 	_                      = bytes.MinRead
 )
 

@@ -800,6 +800,67 @@ func testShiftToManyAddOpShiftSlots(t *testing.T) {
 		}
 	}
 }
+func testShiftToOneOrganizationUsingOrganization(t *testing.T) {
+	ctx := context.Background()
+	tx := MustTx(boil.BeginTx(ctx, nil))
+	defer func() { _ = tx.Rollback() }()
+
+	var local Shift
+	var foreign Organization
+
+	seed := randomize.NewSeed()
+	if err := randomize.Struct(seed, &local, shiftDBTypes, false, shiftColumnsWithDefault...); err != nil {
+		t.Errorf("Unable to randomize Shift struct: %s", err)
+	}
+	if err := randomize.Struct(seed, &foreign, organizationDBTypes, false, organizationColumnsWithDefault...); err != nil {
+		t.Errorf("Unable to randomize Organization struct: %s", err)
+	}
+
+	if err := foreign.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+
+	local.OrganizationID = foreign.ID
+	if err := local.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+
+	check, err := local.Organization().One(ctx, tx)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if check.ID != foreign.ID {
+		t.Errorf("want: %v, got %v", foreign.ID, check.ID)
+	}
+
+	ranAfterSelectHook := false
+	AddOrganizationHook(boil.AfterSelectHook, func(ctx context.Context, e boil.ContextExecutor, o *Organization) error {
+		ranAfterSelectHook = true
+		return nil
+	})
+
+	slice := ShiftSlice{&local}
+	if err = local.L.LoadOrganization(ctx, tx, false, (*[]*Shift)(&slice), nil); err != nil {
+		t.Fatal(err)
+	}
+	if local.R.Organization == nil {
+		t.Error("struct should have been eager loaded")
+	}
+
+	local.R.Organization = nil
+	if err = local.L.LoadOrganization(ctx, tx, true, &local, nil); err != nil {
+		t.Fatal(err)
+	}
+	if local.R.Organization == nil {
+		t.Error("struct should have been eager loaded")
+	}
+
+	if !ranAfterSelectHook {
+		t.Error("failed to run AfterSelect hook for relationship")
+	}
+}
+
 func testShiftToOneShiftTermUsingShiftTerm(t *testing.T) {
 	ctx := context.Background()
 	tx := MustTx(boil.BeginTx(ctx, nil))
@@ -861,6 +922,63 @@ func testShiftToOneShiftTermUsingShiftTerm(t *testing.T) {
 	}
 }
 
+func testShiftToOneSetOpOrganizationUsingOrganization(t *testing.T) {
+	var err error
+
+	ctx := context.Background()
+	tx := MustTx(boil.BeginTx(ctx, nil))
+	defer func() { _ = tx.Rollback() }()
+
+	var a Shift
+	var b, c Organization
+
+	seed := randomize.NewSeed()
+	if err = randomize.Struct(seed, &a, shiftDBTypes, false, strmangle.SetComplement(shiftPrimaryKeyColumns, shiftColumnsWithoutDefault)...); err != nil {
+		t.Fatal(err)
+	}
+	if err = randomize.Struct(seed, &b, organizationDBTypes, false, strmangle.SetComplement(organizationPrimaryKeyColumns, organizationColumnsWithoutDefault)...); err != nil {
+		t.Fatal(err)
+	}
+	if err = randomize.Struct(seed, &c, organizationDBTypes, false, strmangle.SetComplement(organizationPrimaryKeyColumns, organizationColumnsWithoutDefault)...); err != nil {
+		t.Fatal(err)
+	}
+
+	if err := a.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+	if err = b.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+
+	for i, x := range []*Organization{&b, &c} {
+		err = a.SetOrganization(ctx, tx, i != 0, x)
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		if a.R.Organization != x {
+			t.Error("relationship struct not set to correct value")
+		}
+
+		if x.R.Shifts[0] != &a {
+			t.Error("failed to append to foreign relationship struct")
+		}
+		if a.OrganizationID != x.ID {
+			t.Error("foreign key was wrong value", a.OrganizationID)
+		}
+
+		zero := reflect.Zero(reflect.TypeOf(a.OrganizationID))
+		reflect.Indirect(reflect.ValueOf(&a.OrganizationID)).Set(zero)
+
+		if err = a.Reload(ctx, tx); err != nil {
+			t.Fatal("failed to reload", err)
+		}
+
+		if a.OrganizationID != x.ID {
+			t.Error("foreign key was wrong value", a.OrganizationID, x.ID)
+		}
+	}
+}
 func testShiftToOneSetOpShiftTermUsingShiftTerm(t *testing.T) {
 	var err error
 
@@ -1044,7 +1162,7 @@ func testShiftsSelect(t *testing.T) {
 }
 
 var (
-	shiftDBTypes = map[string]string{`ID`: `uuid`, `StartAt`: `timestamp with time zone`, `EndAt`: `timestamp with time zone`, `ShiftTermID`: `uuid`}
+	shiftDBTypes = map[string]string{`ID`: `uuid`, `OrganizationID`: `uuid`, `StartAt`: `timestamp with time zone`, `EndAt`: `timestamp with time zone`, `ShiftTermID`: `uuid`}
 	_            = bytes.MinRead
 )
 

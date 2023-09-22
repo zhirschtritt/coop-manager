@@ -16,12 +16,12 @@ func TestParent(t *testing.T) {
 	t.Run("Members", testMembers)
 	t.Run("MembershipTypes", testMembershipTypes)
 	t.Run("Memberships", testMemberships)
+	t.Run("Organizations", testOrganizations)
 	t.Run("SchemaMigrations", testSchemaMigrations)
 	t.Run("ShiftAssignments", testShiftAssignments)
 	t.Run("ShiftSlots", testShiftSlots)
 	t.Run("ShiftTerms", testShiftTerms)
 	t.Run("Shifts", testShifts)
-	t.Run("Test1s", testTest1s)
 }
 
 func TestDelete(t *testing.T) {
@@ -29,12 +29,12 @@ func TestDelete(t *testing.T) {
 	t.Run("Members", testMembersDelete)
 	t.Run("MembershipTypes", testMembershipTypesDelete)
 	t.Run("Memberships", testMembershipsDelete)
+	t.Run("Organizations", testOrganizationsDelete)
 	t.Run("SchemaMigrations", testSchemaMigrationsDelete)
 	t.Run("ShiftAssignments", testShiftAssignmentsDelete)
 	t.Run("ShiftSlots", testShiftSlotsDelete)
 	t.Run("ShiftTerms", testShiftTermsDelete)
 	t.Run("Shifts", testShiftsDelete)
-	t.Run("Test1s", testTest1sDelete)
 }
 
 func TestQueryDeleteAll(t *testing.T) {
@@ -42,12 +42,12 @@ func TestQueryDeleteAll(t *testing.T) {
 	t.Run("Members", testMembersQueryDeleteAll)
 	t.Run("MembershipTypes", testMembershipTypesQueryDeleteAll)
 	t.Run("Memberships", testMembershipsQueryDeleteAll)
+	t.Run("Organizations", testOrganizationsQueryDeleteAll)
 	t.Run("SchemaMigrations", testSchemaMigrationsQueryDeleteAll)
 	t.Run("ShiftAssignments", testShiftAssignmentsQueryDeleteAll)
 	t.Run("ShiftSlots", testShiftSlotsQueryDeleteAll)
 	t.Run("ShiftTerms", testShiftTermsQueryDeleteAll)
 	t.Run("Shifts", testShiftsQueryDeleteAll)
-	t.Run("Test1s", testTest1sQueryDeleteAll)
 }
 
 func TestSliceDeleteAll(t *testing.T) {
@@ -55,12 +55,12 @@ func TestSliceDeleteAll(t *testing.T) {
 	t.Run("Members", testMembersSliceDeleteAll)
 	t.Run("MembershipTypes", testMembershipTypesSliceDeleteAll)
 	t.Run("Memberships", testMembershipsSliceDeleteAll)
+	t.Run("Organizations", testOrganizationsSliceDeleteAll)
 	t.Run("SchemaMigrations", testSchemaMigrationsSliceDeleteAll)
 	t.Run("ShiftAssignments", testShiftAssignmentsSliceDeleteAll)
 	t.Run("ShiftSlots", testShiftSlotsSliceDeleteAll)
 	t.Run("ShiftTerms", testShiftTermsSliceDeleteAll)
 	t.Run("Shifts", testShiftsSliceDeleteAll)
-	t.Run("Test1s", testTest1sSliceDeleteAll)
 }
 
 func TestExists(t *testing.T) {
@@ -68,12 +68,12 @@ func TestExists(t *testing.T) {
 	t.Run("Members", testMembersExists)
 	t.Run("MembershipTypes", testMembershipTypesExists)
 	t.Run("Memberships", testMembershipsExists)
+	t.Run("Organizations", testOrganizationsExists)
 	t.Run("SchemaMigrations", testSchemaMigrationsExists)
 	t.Run("ShiftAssignments", testShiftAssignmentsExists)
 	t.Run("ShiftSlots", testShiftSlotsExists)
 	t.Run("ShiftTerms", testShiftTermsExists)
 	t.Run("Shifts", testShiftsExists)
-	t.Run("Test1s", testTest1sExists)
 }
 
 func TestFind(t *testing.T) {
@@ -81,12 +81,12 @@ func TestFind(t *testing.T) {
 	t.Run("Members", testMembersFind)
 	t.Run("MembershipTypes", testMembershipTypesFind)
 	t.Run("Memberships", testMembershipsFind)
+	t.Run("Organizations", testOrganizationsFind)
 	t.Run("SchemaMigrations", testSchemaMigrationsFind)
 	t.Run("ShiftAssignments", testShiftAssignmentsFind)
 	t.Run("ShiftSlots", testShiftSlotsFind)
 	t.Run("ShiftTerms", testShiftTermsFind)
 	t.Run("Shifts", testShiftsFind)
-	t.Run("Test1s", testTest1sFind)
 }
 
 func TestBind(t *testing.T) {
@@ -94,12 +94,12 @@ func TestBind(t *testing.T) {
 	t.Run("Members", testMembersBind)
 	t.Run("MembershipTypes", testMembershipTypesBind)
 	t.Run("Memberships", testMembershipsBind)
+	t.Run("Organizations", testOrganizationsBind)
 	t.Run("SchemaMigrations", testSchemaMigrationsBind)
 	t.Run("ShiftAssignments", testShiftAssignmentsBind)
 	t.Run("ShiftSlots", testShiftSlotsBind)
 	t.Run("ShiftTerms", testShiftTermsBind)
 	t.Run("Shifts", testShiftsBind)
-	t.Run("Test1s", testTest1sBind)
 }
 
 func TestOne(t *testing.T) {
@@ -107,12 +107,12 @@ func TestOne(t *testing.T) {
 	t.Run("Members", testMembersOne)
 	t.Run("MembershipTypes", testMembershipTypesOne)
 	t.Run("Memberships", testMembershipsOne)
+	t.Run("Organizations", testOrganizationsOne)
 	t.Run("SchemaMigrations", testSchemaMigrationsOne)
 	t.Run("ShiftAssignments", testShiftAssignmentsOne)
 	t.Run("ShiftSlots", testShiftSlotsOne)
 	t.Run("ShiftTerms", testShiftTermsOne)
 	t.Run("Shifts", testShiftsOne)
-	t.Run("Test1s", testTest1sOne)
 }
 
 func TestAll(t *testing.T) {
@@ -120,12 +120,12 @@ func TestAll(t *testing.T) {
 	t.Run("Members", testMembersAll)
 	t.Run("MembershipTypes", testMembershipTypesAll)
 	t.Run("Memberships", testMembershipsAll)
+	t.Run("Organizations", testOrganizationsAll)
 	t.Run("SchemaMigrations", testSchemaMigrationsAll)
 	t.Run("ShiftAssignments", testShiftAssignmentsAll)
 	t.Run("ShiftSlots", testShiftSlotsAll)
 	t.Run("ShiftTerms", testShiftTermsAll)
 	t.Run("Shifts", testShiftsAll)
-	t.Run("Test1s", testTest1sAll)
 }
 
 func TestCount(t *testing.T) {
@@ -133,12 +133,12 @@ func TestCount(t *testing.T) {
 	t.Run("Members", testMembersCount)
 	t.Run("MembershipTypes", testMembershipTypesCount)
 	t.Run("Memberships", testMembershipsCount)
+	t.Run("Organizations", testOrganizationsCount)
 	t.Run("SchemaMigrations", testSchemaMigrationsCount)
 	t.Run("ShiftAssignments", testShiftAssignmentsCount)
 	t.Run("ShiftSlots", testShiftSlotsCount)
 	t.Run("ShiftTerms", testShiftTermsCount)
 	t.Run("Shifts", testShiftsCount)
-	t.Run("Test1s", testTest1sCount)
 }
 
 func TestHooks(t *testing.T) {
@@ -146,12 +146,12 @@ func TestHooks(t *testing.T) {
 	t.Run("Members", testMembersHooks)
 	t.Run("MembershipTypes", testMembershipTypesHooks)
 	t.Run("Memberships", testMembershipsHooks)
+	t.Run("Organizations", testOrganizationsHooks)
 	t.Run("SchemaMigrations", testSchemaMigrationsHooks)
 	t.Run("ShiftAssignments", testShiftAssignmentsHooks)
 	t.Run("ShiftSlots", testShiftSlotsHooks)
 	t.Run("ShiftTerms", testShiftTermsHooks)
 	t.Run("Shifts", testShiftsHooks)
-	t.Run("Test1s", testTest1sHooks)
 }
 
 func TestInsert(t *testing.T) {
@@ -163,6 +163,8 @@ func TestInsert(t *testing.T) {
 	t.Run("MembershipTypes", testMembershipTypesInsertWhitelist)
 	t.Run("Memberships", testMembershipsInsert)
 	t.Run("Memberships", testMembershipsInsertWhitelist)
+	t.Run("Organizations", testOrganizationsInsert)
+	t.Run("Organizations", testOrganizationsInsertWhitelist)
 	t.Run("SchemaMigrations", testSchemaMigrationsInsert)
 	t.Run("SchemaMigrations", testSchemaMigrationsInsertWhitelist)
 	t.Run("ShiftAssignments", testShiftAssignmentsInsert)
@@ -173,20 +175,27 @@ func TestInsert(t *testing.T) {
 	t.Run("ShiftTerms", testShiftTermsInsertWhitelist)
 	t.Run("Shifts", testShiftsInsert)
 	t.Run("Shifts", testShiftsInsertWhitelist)
-	t.Run("Test1s", testTest1sInsert)
-	t.Run("Test1s", testTest1sInsertWhitelist)
 }
 
 // TestToOne tests cannot be run in parallel
 // or deadlocks can occur.
 func TestToOne(t *testing.T) {
+	t.Run("CoopEventToOrganizationUsingOrganization", testCoopEventToOneOrganizationUsingOrganization)
+	t.Run("MemberToOrganizationUsingOrganization", testMemberToOneOrganizationUsingOrganization)
+	t.Run("MembershipTypeToOrganizationUsingOrganization", testMembershipTypeToOneOrganizationUsingOrganization)
+	t.Run("MembershipToCoopEventUsingCreatedByCoopEvent", testMembershipToOneCoopEventUsingCreatedByCoopEvent)
 	t.Run("MembershipToMemberUsingMember", testMembershipToOneMemberUsingMember)
 	t.Run("MembershipToMembershipTypeUsingMembershipType", testMembershipToOneMembershipTypeUsingMembershipType)
+	t.Run("MembershipToOrganizationUsingOrganization", testMembershipToOneOrganizationUsingOrganization)
 	t.Run("ShiftAssignmentToCoopEventUsingCreatedByCoopEvent", testShiftAssignmentToOneCoopEventUsingCreatedByCoopEvent)
 	t.Run("ShiftAssignmentToMemberUsingMember", testShiftAssignmentToOneMemberUsingMember)
+	t.Run("ShiftAssignmentToOrganizationUsingOrganization", testShiftAssignmentToOneOrganizationUsingOrganization)
 	t.Run("ShiftAssignmentToShiftUsingShift", testShiftAssignmentToOneShiftUsingShift)
 	t.Run("ShiftAssignmentToShiftSlotUsingShiftSlot", testShiftAssignmentToOneShiftSlotUsingShiftSlot)
+	t.Run("ShiftSlotToOrganizationUsingOrganization", testShiftSlotToOneOrganizationUsingOrganization)
 	t.Run("ShiftSlotToShiftUsingShift", testShiftSlotToOneShiftUsingShift)
+	t.Run("ShiftTermToOrganizationUsingOrganization", testShiftTermToOneOrganizationUsingOrganization)
+	t.Run("ShiftToOrganizationUsingOrganization", testShiftToOneOrganizationUsingOrganization)
 	t.Run("ShiftToShiftTermUsingShiftTerm", testShiftToOneShiftTermUsingShiftTerm)
 }
 
@@ -197,10 +206,21 @@ func TestOneToOne(t *testing.T) {}
 // TestToMany tests cannot be run in parallel
 // or deadlocks can occur.
 func TestToMany(t *testing.T) {
+	t.Run("CoopEventToCreatedByMemberships", testCoopEventToManyCreatedByMemberships)
 	t.Run("CoopEventToCreatedByShiftAssignments", testCoopEventToManyCreatedByShiftAssignments)
+	t.Run("MemberToOrganizations", testMemberToManyOrganizations)
 	t.Run("MemberToMemberships", testMemberToManyMemberships)
 	t.Run("MemberToShiftAssignments", testMemberToManyShiftAssignments)
 	t.Run("MembershipTypeToMemberships", testMembershipTypeToManyMemberships)
+	t.Run("OrganizationToCoopEvents", testOrganizationToManyCoopEvents)
+	t.Run("OrganizationToMembers", testOrganizationToManyMembers)
+	t.Run("OrganizationToMembers", testOrganizationToManyMembers)
+	t.Run("OrganizationToMembershipTypes", testOrganizationToManyMembershipTypes)
+	t.Run("OrganizationToMemberships", testOrganizationToManyMemberships)
+	t.Run("OrganizationToShiftAssignments", testOrganizationToManyShiftAssignments)
+	t.Run("OrganizationToShiftSlots", testOrganizationToManyShiftSlots)
+	t.Run("OrganizationToShiftTerms", testOrganizationToManyShiftTerms)
+	t.Run("OrganizationToShifts", testOrganizationToManyShifts)
 	t.Run("ShiftSlotToShiftAssignments", testShiftSlotToManyShiftAssignments)
 	t.Run("ShiftTermToShifts", testShiftTermToManyShifts)
 	t.Run("ShiftToShiftAssignments", testShiftToManyShiftAssignments)
@@ -210,13 +230,22 @@ func TestToMany(t *testing.T) {
 // TestToOneSet tests cannot be run in parallel
 // or deadlocks can occur.
 func TestToOneSet(t *testing.T) {
+	t.Run("CoopEventToOrganizationUsingCoopEvents", testCoopEventToOneSetOpOrganizationUsingOrganization)
+	t.Run("MemberToOrganizationUsingMembers", testMemberToOneSetOpOrganizationUsingOrganization)
+	t.Run("MembershipTypeToOrganizationUsingMembershipTypes", testMembershipTypeToOneSetOpOrganizationUsingOrganization)
+	t.Run("MembershipToCoopEventUsingCreatedByMemberships", testMembershipToOneSetOpCoopEventUsingCreatedByCoopEvent)
 	t.Run("MembershipToMemberUsingMemberships", testMembershipToOneSetOpMemberUsingMember)
 	t.Run("MembershipToMembershipTypeUsingMemberships", testMembershipToOneSetOpMembershipTypeUsingMembershipType)
+	t.Run("MembershipToOrganizationUsingMemberships", testMembershipToOneSetOpOrganizationUsingOrganization)
 	t.Run("ShiftAssignmentToCoopEventUsingCreatedByShiftAssignments", testShiftAssignmentToOneSetOpCoopEventUsingCreatedByCoopEvent)
 	t.Run("ShiftAssignmentToMemberUsingShiftAssignments", testShiftAssignmentToOneSetOpMemberUsingMember)
+	t.Run("ShiftAssignmentToOrganizationUsingShiftAssignments", testShiftAssignmentToOneSetOpOrganizationUsingOrganization)
 	t.Run("ShiftAssignmentToShiftUsingShiftAssignments", testShiftAssignmentToOneSetOpShiftUsingShift)
 	t.Run("ShiftAssignmentToShiftSlotUsingShiftAssignments", testShiftAssignmentToOneSetOpShiftSlotUsingShiftSlot)
+	t.Run("ShiftSlotToOrganizationUsingShiftSlots", testShiftSlotToOneSetOpOrganizationUsingOrganization)
 	t.Run("ShiftSlotToShiftUsingShiftSlots", testShiftSlotToOneSetOpShiftUsingShift)
+	t.Run("ShiftTermToOrganizationUsingShiftTerms", testShiftTermToOneSetOpOrganizationUsingOrganization)
+	t.Run("ShiftToOrganizationUsingShifts", testShiftToOneSetOpOrganizationUsingOrganization)
 	t.Run("ShiftToShiftTermUsingShifts", testShiftToOneSetOpShiftTermUsingShiftTerm)
 }
 
@@ -237,10 +266,21 @@ func TestOneToOneRemove(t *testing.T) {}
 // TestToManyAdd tests cannot be run in parallel
 // or deadlocks can occur.
 func TestToManyAdd(t *testing.T) {
+	t.Run("CoopEventToCreatedByMemberships", testCoopEventToManyAddOpCreatedByMemberships)
 	t.Run("CoopEventToCreatedByShiftAssignments", testCoopEventToManyAddOpCreatedByShiftAssignments)
+	t.Run("MemberToOrganizations", testMemberToManyAddOpOrganizations)
 	t.Run("MemberToMemberships", testMemberToManyAddOpMemberships)
 	t.Run("MemberToShiftAssignments", testMemberToManyAddOpShiftAssignments)
 	t.Run("MembershipTypeToMemberships", testMembershipTypeToManyAddOpMemberships)
+	t.Run("OrganizationToCoopEvents", testOrganizationToManyAddOpCoopEvents)
+	t.Run("OrganizationToMembers", testOrganizationToManyAddOpMembers)
+	t.Run("OrganizationToMembers", testOrganizationToManyAddOpMembers)
+	t.Run("OrganizationToMembershipTypes", testOrganizationToManyAddOpMembershipTypes)
+	t.Run("OrganizationToMemberships", testOrganizationToManyAddOpMemberships)
+	t.Run("OrganizationToShiftAssignments", testOrganizationToManyAddOpShiftAssignments)
+	t.Run("OrganizationToShiftSlots", testOrganizationToManyAddOpShiftSlots)
+	t.Run("OrganizationToShiftTerms", testOrganizationToManyAddOpShiftTerms)
+	t.Run("OrganizationToShifts", testOrganizationToManyAddOpShifts)
 	t.Run("ShiftSlotToShiftAssignments", testShiftSlotToManyAddOpShiftAssignments)
 	t.Run("ShiftTermToShifts", testShiftTermToManyAddOpShifts)
 	t.Run("ShiftToShiftAssignments", testShiftToManyAddOpShiftAssignments)
@@ -250,12 +290,16 @@ func TestToManyAdd(t *testing.T) {
 // TestToManySet tests cannot be run in parallel
 // or deadlocks can occur.
 func TestToManySet(t *testing.T) {
+	t.Run("MemberToOrganizations", testMemberToManySetOpOrganizations)
+	t.Run("OrganizationToMembers", testOrganizationToManySetOpMembers)
 	t.Run("ShiftTermToShifts", testShiftTermToManySetOpShifts)
 }
 
 // TestToManyRemove tests cannot be run in parallel
 // or deadlocks can occur.
 func TestToManyRemove(t *testing.T) {
+	t.Run("MemberToOrganizations", testMemberToManyRemoveOpOrganizations)
+	t.Run("OrganizationToMembers", testOrganizationToManyRemoveOpMembers)
 	t.Run("ShiftTermToShifts", testShiftTermToManyRemoveOpShifts)
 }
 
@@ -264,12 +308,12 @@ func TestReload(t *testing.T) {
 	t.Run("Members", testMembersReload)
 	t.Run("MembershipTypes", testMembershipTypesReload)
 	t.Run("Memberships", testMembershipsReload)
+	t.Run("Organizations", testOrganizationsReload)
 	t.Run("SchemaMigrations", testSchemaMigrationsReload)
 	t.Run("ShiftAssignments", testShiftAssignmentsReload)
 	t.Run("ShiftSlots", testShiftSlotsReload)
 	t.Run("ShiftTerms", testShiftTermsReload)
 	t.Run("Shifts", testShiftsReload)
-	t.Run("Test1s", testTest1sReload)
 }
 
 func TestReloadAll(t *testing.T) {
@@ -277,12 +321,12 @@ func TestReloadAll(t *testing.T) {
 	t.Run("Members", testMembersReloadAll)
 	t.Run("MembershipTypes", testMembershipTypesReloadAll)
 	t.Run("Memberships", testMembershipsReloadAll)
+	t.Run("Organizations", testOrganizationsReloadAll)
 	t.Run("SchemaMigrations", testSchemaMigrationsReloadAll)
 	t.Run("ShiftAssignments", testShiftAssignmentsReloadAll)
 	t.Run("ShiftSlots", testShiftSlotsReloadAll)
 	t.Run("ShiftTerms", testShiftTermsReloadAll)
 	t.Run("Shifts", testShiftsReloadAll)
-	t.Run("Test1s", testTest1sReloadAll)
 }
 
 func TestSelect(t *testing.T) {
@@ -290,12 +334,12 @@ func TestSelect(t *testing.T) {
 	t.Run("Members", testMembersSelect)
 	t.Run("MembershipTypes", testMembershipTypesSelect)
 	t.Run("Memberships", testMembershipsSelect)
+	t.Run("Organizations", testOrganizationsSelect)
 	t.Run("SchemaMigrations", testSchemaMigrationsSelect)
 	t.Run("ShiftAssignments", testShiftAssignmentsSelect)
 	t.Run("ShiftSlots", testShiftSlotsSelect)
 	t.Run("ShiftTerms", testShiftTermsSelect)
 	t.Run("Shifts", testShiftsSelect)
-	t.Run("Test1s", testTest1sSelect)
 }
 
 func TestUpdate(t *testing.T) {
@@ -303,12 +347,12 @@ func TestUpdate(t *testing.T) {
 	t.Run("Members", testMembersUpdate)
 	t.Run("MembershipTypes", testMembershipTypesUpdate)
 	t.Run("Memberships", testMembershipsUpdate)
+	t.Run("Organizations", testOrganizationsUpdate)
 	t.Run("SchemaMigrations", testSchemaMigrationsUpdate)
 	t.Run("ShiftAssignments", testShiftAssignmentsUpdate)
 	t.Run("ShiftSlots", testShiftSlotsUpdate)
 	t.Run("ShiftTerms", testShiftTermsUpdate)
 	t.Run("Shifts", testShiftsUpdate)
-	t.Run("Test1s", testTest1sUpdate)
 }
 
 func TestSliceUpdateAll(t *testing.T) {
@@ -316,10 +360,10 @@ func TestSliceUpdateAll(t *testing.T) {
 	t.Run("Members", testMembersSliceUpdateAll)
 	t.Run("MembershipTypes", testMembershipTypesSliceUpdateAll)
 	t.Run("Memberships", testMembershipsSliceUpdateAll)
+	t.Run("Organizations", testOrganizationsSliceUpdateAll)
 	t.Run("SchemaMigrations", testSchemaMigrationsSliceUpdateAll)
 	t.Run("ShiftAssignments", testShiftAssignmentsSliceUpdateAll)
 	t.Run("ShiftSlots", testShiftSlotsSliceUpdateAll)
 	t.Run("ShiftTerms", testShiftTermsSliceUpdateAll)
 	t.Run("Shifts", testShiftsSliceUpdateAll)
-	t.Run("Test1s", testTest1sSliceUpdateAll)
 }

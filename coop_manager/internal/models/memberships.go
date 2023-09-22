@@ -23,9 +23,10 @@ import (
 
 // Membership is an object representing the database table.
 type Membership struct {
-	ID               string    `boil:"id" json:"id" toml:"id" yaml:"id"`
 	MemberID         string    `boil:"member_id" json:"member_id" toml:"member_id" yaml:"member_id"`
 	MembershipTypeID string    `boil:"membership_type_id" json:"membership_type_id" toml:"membership_type_id" yaml:"membership_type_id"`
+	OrganizationID   string    `boil:"organization_id" json:"organization_id" toml:"organization_id" yaml:"organization_id"`
+	CreatedBy        string    `boil:"created_by" json:"created_by" toml:"created_by" yaml:"created_by"`
 	StartDate        time.Time `boil:"start_date" json:"start_date" toml:"start_date" yaml:"start_date"`
 	EndDate          time.Time `boil:"end_date" json:"end_date" toml:"end_date" yaml:"end_date"`
 	Status           string    `boil:"status" json:"status" toml:"status" yaml:"status"`
@@ -35,32 +36,36 @@ type Membership struct {
 }
 
 var MembershipColumns = struct {
-	ID               string
 	MemberID         string
 	MembershipTypeID string
+	OrganizationID   string
+	CreatedBy        string
 	StartDate        string
 	EndDate          string
 	Status           string
 }{
-	ID:               "id",
 	MemberID:         "member_id",
 	MembershipTypeID: "membership_type_id",
+	OrganizationID:   "organization_id",
+	CreatedBy:        "created_by",
 	StartDate:        "start_date",
 	EndDate:          "end_date",
 	Status:           "status",
 }
 
 var MembershipTableColumns = struct {
-	ID               string
 	MemberID         string
 	MembershipTypeID string
+	OrganizationID   string
+	CreatedBy        string
 	StartDate        string
 	EndDate          string
 	Status           string
 }{
-	ID:               "memberships.id",
 	MemberID:         "memberships.member_id",
 	MembershipTypeID: "memberships.membership_type_id",
+	OrganizationID:   "memberships.organization_id",
+	CreatedBy:        "memberships.created_by",
 	StartDate:        "memberships.start_date",
 	EndDate:          "memberships.end_date",
 	Status:           "memberships.status",
@@ -69,16 +74,18 @@ var MembershipTableColumns = struct {
 // Generated where
 
 var MembershipWhere = struct {
-	ID               whereHelperstring
 	MemberID         whereHelperstring
 	MembershipTypeID whereHelperstring
+	OrganizationID   whereHelperstring
+	CreatedBy        whereHelperstring
 	StartDate        whereHelpertime_Time
 	EndDate          whereHelpertime_Time
 	Status           whereHelperstring
 }{
-	ID:               whereHelperstring{field: "\"memberships\".\"id\""},
 	MemberID:         whereHelperstring{field: "\"memberships\".\"member_id\""},
 	MembershipTypeID: whereHelperstring{field: "\"memberships\".\"membership_type_id\""},
+	OrganizationID:   whereHelperstring{field: "\"memberships\".\"organization_id\""},
+	CreatedBy:        whereHelperstring{field: "\"memberships\".\"created_by\""},
 	StartDate:        whereHelpertime_Time{field: "\"memberships\".\"start_date\""},
 	EndDate:          whereHelpertime_Time{field: "\"memberships\".\"end_date\""},
 	Status:           whereHelperstring{field: "\"memberships\".\"status\""},
@@ -86,22 +93,35 @@ var MembershipWhere = struct {
 
 // MembershipRels is where relationship names are stored.
 var MembershipRels = struct {
-	Member         string
-	MembershipType string
+	CreatedByCoopEvent string
+	Member             string
+	MembershipType     string
+	Organization       string
 }{
-	Member:         "Member",
-	MembershipType: "MembershipType",
+	CreatedByCoopEvent: "CreatedByCoopEvent",
+	Member:             "Member",
+	MembershipType:     "MembershipType",
+	Organization:       "Organization",
 }
 
 // membershipR is where relationships are stored.
 type membershipR struct {
-	Member         *Member         `boil:"Member" json:"Member" toml:"Member" yaml:"Member"`
-	MembershipType *MembershipType `boil:"MembershipType" json:"MembershipType" toml:"MembershipType" yaml:"MembershipType"`
+	CreatedByCoopEvent *CoopEvent      `boil:"CreatedByCoopEvent" json:"CreatedByCoopEvent" toml:"CreatedByCoopEvent" yaml:"CreatedByCoopEvent"`
+	Member             *Member         `boil:"Member" json:"Member" toml:"Member" yaml:"Member"`
+	MembershipType     *MembershipType `boil:"MembershipType" json:"MembershipType" toml:"MembershipType" yaml:"MembershipType"`
+	Organization       *Organization   `boil:"Organization" json:"Organization" toml:"Organization" yaml:"Organization"`
 }
 
 // NewStruct creates a new relationship struct
 func (*membershipR) NewStruct() *membershipR {
 	return &membershipR{}
+}
+
+func (r *membershipR) GetCreatedByCoopEvent() *CoopEvent {
+	if r == nil {
+		return nil
+	}
+	return r.CreatedByCoopEvent
 }
 
 func (r *membershipR) GetMember() *Member {
@@ -118,14 +138,21 @@ func (r *membershipR) GetMembershipType() *MembershipType {
 	return r.MembershipType
 }
 
+func (r *membershipR) GetOrganization() *Organization {
+	if r == nil {
+		return nil
+	}
+	return r.Organization
+}
+
 // membershipL is where Load methods for each relationship are stored.
 type membershipL struct{}
 
 var (
-	membershipAllColumns            = []string{"id", "member_id", "membership_type_id", "start_date", "end_date", "status"}
-	membershipColumnsWithoutDefault = []string{"member_id", "membership_type_id", "start_date", "end_date", "status"}
-	membershipColumnsWithDefault    = []string{"id"}
-	membershipPrimaryKeyColumns     = []string{"id"}
+	membershipAllColumns            = []string{"member_id", "membership_type_id", "organization_id", "created_by", "start_date", "end_date", "status"}
+	membershipColumnsWithoutDefault = []string{"member_id", "membership_type_id", "organization_id", "created_by", "start_date", "end_date", "status"}
+	membershipColumnsWithDefault    = []string{}
+	membershipPrimaryKeyColumns     = []string{"member_id", "organization_id", "created_by"}
 	membershipGeneratedColumns      = []string{}
 )
 
@@ -427,6 +454,17 @@ func (q membershipQuery) Exists(ctx context.Context, exec boil.ContextExecutor) 
 	return count > 0, nil
 }
 
+// CreatedByCoopEvent pointed to by the foreign key.
+func (o *Membership) CreatedByCoopEvent(mods ...qm.QueryMod) coopEventQuery {
+	queryMods := []qm.QueryMod{
+		qm.Where("\"id\" = ?", o.CreatedBy),
+	}
+
+	queryMods = append(queryMods, mods...)
+
+	return CoopEvents(queryMods...)
+}
+
 // Member pointed to by the foreign key.
 func (o *Membership) Member(mods ...qm.QueryMod) memberQuery {
 	queryMods := []qm.QueryMod{
@@ -447,6 +485,137 @@ func (o *Membership) MembershipType(mods ...qm.QueryMod) membershipTypeQuery {
 	queryMods = append(queryMods, mods...)
 
 	return MembershipTypes(queryMods...)
+}
+
+// Organization pointed to by the foreign key.
+func (o *Membership) Organization(mods ...qm.QueryMod) organizationQuery {
+	queryMods := []qm.QueryMod{
+		qm.Where("\"id\" = ?", o.OrganizationID),
+	}
+
+	queryMods = append(queryMods, mods...)
+
+	return Organizations(queryMods...)
+}
+
+// LoadCreatedByCoopEvent allows an eager lookup of values, cached into the
+// loaded structs of the objects. This is for an N-1 relationship.
+func (membershipL) LoadCreatedByCoopEvent(ctx context.Context, e boil.ContextExecutor, singular bool, maybeMembership interface{}, mods queries.Applicator) error {
+	var slice []*Membership
+	var object *Membership
+
+	if singular {
+		var ok bool
+		object, ok = maybeMembership.(*Membership)
+		if !ok {
+			object = new(Membership)
+			ok = queries.SetFromEmbeddedStruct(&object, &maybeMembership)
+			if !ok {
+				return errors.New(fmt.Sprintf("failed to set %T from embedded struct %T", object, maybeMembership))
+			}
+		}
+	} else {
+		s, ok := maybeMembership.(*[]*Membership)
+		if ok {
+			slice = *s
+		} else {
+			ok = queries.SetFromEmbeddedStruct(&slice, maybeMembership)
+			if !ok {
+				return errors.New(fmt.Sprintf("failed to set %T from embedded struct %T", slice, maybeMembership))
+			}
+		}
+	}
+
+	args := make([]interface{}, 0, 1)
+	if singular {
+		if object.R == nil {
+			object.R = &membershipR{}
+		}
+		args = append(args, object.CreatedBy)
+
+	} else {
+	Outer:
+		for _, obj := range slice {
+			if obj.R == nil {
+				obj.R = &membershipR{}
+			}
+
+			for _, a := range args {
+				if a == obj.CreatedBy {
+					continue Outer
+				}
+			}
+
+			args = append(args, obj.CreatedBy)
+
+		}
+	}
+
+	if len(args) == 0 {
+		return nil
+	}
+
+	query := NewQuery(
+		qm.From(`coop_events`),
+		qm.WhereIn(`coop_events.id in ?`, args...),
+	)
+	if mods != nil {
+		mods.Apply(query)
+	}
+
+	results, err := query.QueryContext(ctx, e)
+	if err != nil {
+		return errors.Wrap(err, "failed to eager load CoopEvent")
+	}
+
+	var resultSlice []*CoopEvent
+	if err = queries.Bind(results, &resultSlice); err != nil {
+		return errors.Wrap(err, "failed to bind eager loaded slice CoopEvent")
+	}
+
+	if err = results.Close(); err != nil {
+		return errors.Wrap(err, "failed to close results of eager load for coop_events")
+	}
+	if err = results.Err(); err != nil {
+		return errors.Wrap(err, "error occurred during iteration of eager loaded relations for coop_events")
+	}
+
+	if len(coopEventAfterSelectHooks) != 0 {
+		for _, obj := range resultSlice {
+			if err := obj.doAfterSelectHooks(ctx, e); err != nil {
+				return err
+			}
+		}
+	}
+
+	if len(resultSlice) == 0 {
+		return nil
+	}
+
+	if singular {
+		foreign := resultSlice[0]
+		object.R.CreatedByCoopEvent = foreign
+		if foreign.R == nil {
+			foreign.R = &coopEventR{}
+		}
+		foreign.R.CreatedByMemberships = append(foreign.R.CreatedByMemberships, object)
+		return nil
+	}
+
+	for _, local := range slice {
+		for _, foreign := range resultSlice {
+			if local.CreatedBy == foreign.ID {
+				local.R.CreatedByCoopEvent = foreign
+				if foreign.R == nil {
+					foreign.R = &coopEventR{}
+				}
+				foreign.R.CreatedByMemberships = append(foreign.R.CreatedByMemberships, local)
+				break
+			}
+		}
+	}
+
+	return nil
 }
 
 // LoadMember allows an eager lookup of values, cached into the
@@ -689,6 +858,181 @@ func (membershipL) LoadMembershipType(ctx context.Context, e boil.ContextExecuto
 	return nil
 }
 
+// LoadOrganization allows an eager lookup of values, cached into the
+// loaded structs of the objects. This is for an N-1 relationship.
+func (membershipL) LoadOrganization(ctx context.Context, e boil.ContextExecutor, singular bool, maybeMembership interface{}, mods queries.Applicator) error {
+	var slice []*Membership
+	var object *Membership
+
+	if singular {
+		var ok bool
+		object, ok = maybeMembership.(*Membership)
+		if !ok {
+			object = new(Membership)
+			ok = queries.SetFromEmbeddedStruct(&object, &maybeMembership)
+			if !ok {
+				return errors.New(fmt.Sprintf("failed to set %T from embedded struct %T", object, maybeMembership))
+			}
+		}
+	} else {
+		s, ok := maybeMembership.(*[]*Membership)
+		if ok {
+			slice = *s
+		} else {
+			ok = queries.SetFromEmbeddedStruct(&slice, maybeMembership)
+			if !ok {
+				return errors.New(fmt.Sprintf("failed to set %T from embedded struct %T", slice, maybeMembership))
+			}
+		}
+	}
+
+	args := make([]interface{}, 0, 1)
+	if singular {
+		if object.R == nil {
+			object.R = &membershipR{}
+		}
+		args = append(args, object.OrganizationID)
+
+	} else {
+	Outer:
+		for _, obj := range slice {
+			if obj.R == nil {
+				obj.R = &membershipR{}
+			}
+
+			for _, a := range args {
+				if a == obj.OrganizationID {
+					continue Outer
+				}
+			}
+
+			args = append(args, obj.OrganizationID)
+
+		}
+	}
+
+	if len(args) == 0 {
+		return nil
+	}
+
+	query := NewQuery(
+		qm.From(`organizations`),
+		qm.WhereIn(`organizations.id in ?`, args...),
+	)
+	if mods != nil {
+		mods.Apply(query)
+	}
+
+	results, err := query.QueryContext(ctx, e)
+	if err != nil {
+		return errors.Wrap(err, "failed to eager load Organization")
+	}
+
+	var resultSlice []*Organization
+	if err = queries.Bind(results, &resultSlice); err != nil {
+		return errors.Wrap(err, "failed to bind eager loaded slice Organization")
+	}
+
+	if err = results.Close(); err != nil {
+		return errors.Wrap(err, "failed to close results of eager load for organizations")
+	}
+	if err = results.Err(); err != nil {
+		return errors.Wrap(err, "error occurred during iteration of eager loaded relations for organizations")
+	}
+
+	if len(organizationAfterSelectHooks) != 0 {
+		for _, obj := range resultSlice {
+			if err := obj.doAfterSelectHooks(ctx, e); err != nil {
+				return err
+			}
+		}
+	}
+
+	if len(resultSlice) == 0 {
+		return nil
+	}
+
+	if singular {
+		foreign := resultSlice[0]
+		object.R.Organization = foreign
+		if foreign.R == nil {
+			foreign.R = &organizationR{}
+		}
+		foreign.R.Memberships = append(foreign.R.Memberships, object)
+		return nil
+	}
+
+	for _, local := range slice {
+		for _, foreign := range resultSlice {
+			if local.OrganizationID == foreign.ID {
+				local.R.Organization = foreign
+				if foreign.R == nil {
+					foreign.R = &organizationR{}
+				}
+				foreign.R.Memberships = append(foreign.R.Memberships, local)
+				break
+			}
+		}
+	}
+
+	return nil
+}
+
+// SetCreatedByCoopEventG of the membership to the related item.
+// Sets o.R.CreatedByCoopEvent to related.
+// Adds o to related.R.CreatedByMemberships.
+// Uses the global database handle.
+func (o *Membership) SetCreatedByCoopEventG(ctx context.Context, insert bool, related *CoopEvent) error {
+	return o.SetCreatedByCoopEvent(ctx, boil.GetContextDB(), insert, related)
+}
+
+// SetCreatedByCoopEvent of the membership to the related item.
+// Sets o.R.CreatedByCoopEvent to related.
+// Adds o to related.R.CreatedByMemberships.
+func (o *Membership) SetCreatedByCoopEvent(ctx context.Context, exec boil.ContextExecutor, insert bool, related *CoopEvent) error {
+	var err error
+	if insert {
+		if err = related.Insert(ctx, exec, boil.Infer()); err != nil {
+			return errors.Wrap(err, "failed to insert into foreign table")
+		}
+	}
+
+	updateQuery := fmt.Sprintf(
+		"UPDATE \"memberships\" SET %s WHERE %s",
+		strmangle.SetParamNames("\"", "\"", 1, []string{"created_by"}),
+		strmangle.WhereClause("\"", "\"", 2, membershipPrimaryKeyColumns),
+	)
+	values := []interface{}{related.ID, o.MemberID, o.OrganizationID, o.CreatedBy}
+
+	if boil.IsDebug(ctx) {
+		writer := boil.DebugWriterFrom(ctx)
+		fmt.Fprintln(writer, updateQuery)
+		fmt.Fprintln(writer, values)
+	}
+	if _, err = exec.ExecContext(ctx, updateQuery, values...); err != nil {
+		return errors.Wrap(err, "failed to update local table")
+	}
+
+	o.CreatedBy = related.ID
+	if o.R == nil {
+		o.R = &membershipR{
+			CreatedByCoopEvent: related,
+		}
+	} else {
+		o.R.CreatedByCoopEvent = related
+	}
+
+	if related.R == nil {
+		related.R = &coopEventR{
+			CreatedByMemberships: MembershipSlice{o},
+		}
+	} else {
+		related.R.CreatedByMemberships = append(related.R.CreatedByMemberships, o)
+	}
+
+	return nil
+}
+
 // SetMemberG of the membership to the related item.
 // Sets o.R.Member to related.
 // Adds o to related.R.Memberships.
@@ -713,7 +1057,7 @@ func (o *Membership) SetMember(ctx context.Context, exec boil.ContextExecutor, i
 		strmangle.SetParamNames("\"", "\"", 1, []string{"member_id"}),
 		strmangle.WhereClause("\"", "\"", 2, membershipPrimaryKeyColumns),
 	)
-	values := []interface{}{related.ID, o.ID}
+	values := []interface{}{related.ID, o.MemberID, o.OrganizationID, o.CreatedBy}
 
 	if boil.IsDebug(ctx) {
 		writer := boil.DebugWriterFrom(ctx)
@@ -768,7 +1112,7 @@ func (o *Membership) SetMembershipType(ctx context.Context, exec boil.ContextExe
 		strmangle.SetParamNames("\"", "\"", 1, []string{"membership_type_id"}),
 		strmangle.WhereClause("\"", "\"", 2, membershipPrimaryKeyColumns),
 	)
-	values := []interface{}{related.ID, o.ID}
+	values := []interface{}{related.ID, o.MemberID, o.OrganizationID, o.CreatedBy}
 
 	if boil.IsDebug(ctx) {
 		writer := boil.DebugWriterFrom(ctx)
@@ -799,6 +1143,61 @@ func (o *Membership) SetMembershipType(ctx context.Context, exec boil.ContextExe
 	return nil
 }
 
+// SetOrganizationG of the membership to the related item.
+// Sets o.R.Organization to related.
+// Adds o to related.R.Memberships.
+// Uses the global database handle.
+func (o *Membership) SetOrganizationG(ctx context.Context, insert bool, related *Organization) error {
+	return o.SetOrganization(ctx, boil.GetContextDB(), insert, related)
+}
+
+// SetOrganization of the membership to the related item.
+// Sets o.R.Organization to related.
+// Adds o to related.R.Memberships.
+func (o *Membership) SetOrganization(ctx context.Context, exec boil.ContextExecutor, insert bool, related *Organization) error {
+	var err error
+	if insert {
+		if err = related.Insert(ctx, exec, boil.Infer()); err != nil {
+			return errors.Wrap(err, "failed to insert into foreign table")
+		}
+	}
+
+	updateQuery := fmt.Sprintf(
+		"UPDATE \"memberships\" SET %s WHERE %s",
+		strmangle.SetParamNames("\"", "\"", 1, []string{"organization_id"}),
+		strmangle.WhereClause("\"", "\"", 2, membershipPrimaryKeyColumns),
+	)
+	values := []interface{}{related.ID, o.MemberID, o.OrganizationID, o.CreatedBy}
+
+	if boil.IsDebug(ctx) {
+		writer := boil.DebugWriterFrom(ctx)
+		fmt.Fprintln(writer, updateQuery)
+		fmt.Fprintln(writer, values)
+	}
+	if _, err = exec.ExecContext(ctx, updateQuery, values...); err != nil {
+		return errors.Wrap(err, "failed to update local table")
+	}
+
+	o.OrganizationID = related.ID
+	if o.R == nil {
+		o.R = &membershipR{
+			Organization: related,
+		}
+	} else {
+		o.R.Organization = related
+	}
+
+	if related.R == nil {
+		related.R = &organizationR{
+			Memberships: MembershipSlice{o},
+		}
+	} else {
+		related.R.Memberships = append(related.R.Memberships, o)
+	}
+
+	return nil
+}
+
 // Memberships retrieves all the records using an executor.
 func Memberships(mods ...qm.QueryMod) membershipQuery {
 	mods = append(mods, qm.From("\"memberships\""))
@@ -811,13 +1210,13 @@ func Memberships(mods ...qm.QueryMod) membershipQuery {
 }
 
 // FindMembershipG retrieves a single record by ID.
-func FindMembershipG(ctx context.Context, iD string, selectCols ...string) (*Membership, error) {
-	return FindMembership(ctx, boil.GetContextDB(), iD, selectCols...)
+func FindMembershipG(ctx context.Context, memberID string, organizationID string, createdBy string, selectCols ...string) (*Membership, error) {
+	return FindMembership(ctx, boil.GetContextDB(), memberID, organizationID, createdBy, selectCols...)
 }
 
 // FindMembership retrieves a single record by ID with an executor.
 // If selectCols is empty Find will return all columns.
-func FindMembership(ctx context.Context, exec boil.ContextExecutor, iD string, selectCols ...string) (*Membership, error) {
+func FindMembership(ctx context.Context, exec boil.ContextExecutor, memberID string, organizationID string, createdBy string, selectCols ...string) (*Membership, error) {
 	membershipObj := &Membership{}
 
 	sel := "*"
@@ -825,10 +1224,10 @@ func FindMembership(ctx context.Context, exec boil.ContextExecutor, iD string, s
 		sel = strings.Join(strmangle.IdentQuoteSlice(dialect.LQ, dialect.RQ, selectCols), ",")
 	}
 	query := fmt.Sprintf(
-		"select %s from \"memberships\" where \"id\"=$1", sel,
+		"select %s from \"memberships\" where \"member_id\"=$1 AND \"organization_id\"=$2 AND \"created_by\"=$3", sel,
 	)
 
-	q := queries.Raw(query, iD)
+	q := queries.Raw(query, memberID, organizationID, createdBy)
 
 	err := q.Bind(ctx, exec, membershipObj)
 	if err != nil {
@@ -1212,7 +1611,7 @@ func (o *Membership) Delete(ctx context.Context, exec boil.ContextExecutor) (int
 	}
 
 	args := queries.ValuesFromMapping(reflect.Indirect(reflect.ValueOf(o)), membershipPrimaryKeyMapping)
-	sql := "DELETE FROM \"memberships\" WHERE \"id\"=$1"
+	sql := "DELETE FROM \"memberships\" WHERE \"member_id\"=$1 AND \"organization_id\"=$2 AND \"created_by\"=$3"
 
 	if boil.IsDebug(ctx) {
 		writer := boil.DebugWriterFrom(ctx)
@@ -1327,7 +1726,7 @@ func (o *Membership) ReloadG(ctx context.Context) error {
 // Reload refetches the object from the database
 // using the primary keys with an executor.
 func (o *Membership) Reload(ctx context.Context, exec boil.ContextExecutor) error {
-	ret, err := FindMembership(ctx, exec, o.ID)
+	ret, err := FindMembership(ctx, exec, o.MemberID, o.OrganizationID, o.CreatedBy)
 	if err != nil {
 		return err
 	}
@@ -1376,21 +1775,21 @@ func (o *MembershipSlice) ReloadAll(ctx context.Context, exec boil.ContextExecut
 }
 
 // MembershipExistsG checks if the Membership row exists.
-func MembershipExistsG(ctx context.Context, iD string) (bool, error) {
-	return MembershipExists(ctx, boil.GetContextDB(), iD)
+func MembershipExistsG(ctx context.Context, memberID string, organizationID string, createdBy string) (bool, error) {
+	return MembershipExists(ctx, boil.GetContextDB(), memberID, organizationID, createdBy)
 }
 
 // MembershipExists checks if the Membership row exists.
-func MembershipExists(ctx context.Context, exec boil.ContextExecutor, iD string) (bool, error) {
+func MembershipExists(ctx context.Context, exec boil.ContextExecutor, memberID string, organizationID string, createdBy string) (bool, error) {
 	var exists bool
-	sql := "select exists(select 1 from \"memberships\" where \"id\"=$1 limit 1)"
+	sql := "select exists(select 1 from \"memberships\" where \"member_id\"=$1 AND \"organization_id\"=$2 AND \"created_by\"=$3 limit 1)"
 
 	if boil.IsDebug(ctx) {
 		writer := boil.DebugWriterFrom(ctx)
 		fmt.Fprintln(writer, sql)
-		fmt.Fprintln(writer, iD)
+		fmt.Fprintln(writer, memberID, organizationID, createdBy)
 	}
-	row := exec.QueryRowContext(ctx, sql, iD)
+	row := exec.QueryRowContext(ctx, sql, memberID, organizationID, createdBy)
 
 	err := row.Scan(&exists)
 	if err != nil {
@@ -1402,5 +1801,5 @@ func MembershipExists(ctx context.Context, exec boil.ContextExecutor, iD string)
 
 // Exists checks if the Membership row exists.
 func (o *Membership) Exists(ctx context.Context, exec boil.ContextExecutor) (bool, error) {
-	return MembershipExists(ctx, exec, o.ID)
+	return MembershipExists(ctx, exec, o.MemberID, o.OrganizationID, o.CreatedBy)
 }

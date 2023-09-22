@@ -24,57 +24,62 @@ import (
 
 // CoopEvent is an object representing the database table.
 type CoopEvent struct {
-	ID         string     `boil:"id" json:"id" toml:"id" yaml:"id"`
-	SequenceID int64      `boil:"sequence_id" json:"sequence_id" toml:"sequence_id" yaml:"sequence_id"`
-	Type       string     `boil:"type" json:"type" toml:"type" yaml:"type"`
-	ScopeType  string     `boil:"scope_type" json:"scope_type" toml:"scope_type" yaml:"scope_type"`
-	ScopeID    string     `boil:"scope_id" json:"scope_id" toml:"scope_id" yaml:"scope_id"`
-	HappenedAt time.Time  `boil:"happened_at" json:"happened_at" toml:"happened_at" yaml:"happened_at"`
-	InsertedAt time.Time  `boil:"inserted_at" json:"inserted_at" toml:"inserted_at" yaml:"inserted_at"`
-	Data       types.JSON `boil:"data" json:"data" toml:"data" yaml:"data"`
+	ID             string     `boil:"id" json:"id" toml:"id" yaml:"id"`
+	OrganizationID string     `boil:"organization_id" json:"organization_id" toml:"organization_id" yaml:"organization_id"`
+	SequenceID     int64      `boil:"sequence_id" json:"sequence_id" toml:"sequence_id" yaml:"sequence_id"`
+	Type           string     `boil:"type" json:"type" toml:"type" yaml:"type"`
+	ScopeType      string     `boil:"scope_type" json:"scope_type" toml:"scope_type" yaml:"scope_type"`
+	ScopeID        string     `boil:"scope_id" json:"scope_id" toml:"scope_id" yaml:"scope_id"`
+	HappenedAt     time.Time  `boil:"happened_at" json:"happened_at" toml:"happened_at" yaml:"happened_at"`
+	InsertedAt     time.Time  `boil:"inserted_at" json:"inserted_at" toml:"inserted_at" yaml:"inserted_at"`
+	Data           types.JSON `boil:"data" json:"data" toml:"data" yaml:"data"`
 
 	R *coopEventR `boil:"-" json:"-" toml:"-" yaml:"-"`
 	L coopEventL  `boil:"-" json:"-" toml:"-" yaml:"-"`
 }
 
 var CoopEventColumns = struct {
-	ID         string
-	SequenceID string
-	Type       string
-	ScopeType  string
-	ScopeID    string
-	HappenedAt string
-	InsertedAt string
-	Data       string
+	ID             string
+	OrganizationID string
+	SequenceID     string
+	Type           string
+	ScopeType      string
+	ScopeID        string
+	HappenedAt     string
+	InsertedAt     string
+	Data           string
 }{
-	ID:         "id",
-	SequenceID: "sequence_id",
-	Type:       "type",
-	ScopeType:  "scope_type",
-	ScopeID:    "scope_id",
-	HappenedAt: "happened_at",
-	InsertedAt: "inserted_at",
-	Data:       "data",
+	ID:             "id",
+	OrganizationID: "organization_id",
+	SequenceID:     "sequence_id",
+	Type:           "type",
+	ScopeType:      "scope_type",
+	ScopeID:        "scope_id",
+	HappenedAt:     "happened_at",
+	InsertedAt:     "inserted_at",
+	Data:           "data",
 }
 
 var CoopEventTableColumns = struct {
-	ID         string
-	SequenceID string
-	Type       string
-	ScopeType  string
-	ScopeID    string
-	HappenedAt string
-	InsertedAt string
-	Data       string
+	ID             string
+	OrganizationID string
+	SequenceID     string
+	Type           string
+	ScopeType      string
+	ScopeID        string
+	HappenedAt     string
+	InsertedAt     string
+	Data           string
 }{
-	ID:         "coop_events.id",
-	SequenceID: "coop_events.sequence_id",
-	Type:       "coop_events.type",
-	ScopeType:  "coop_events.scope_type",
-	ScopeID:    "coop_events.scope_id",
-	HappenedAt: "coop_events.happened_at",
-	InsertedAt: "coop_events.inserted_at",
-	Data:       "coop_events.data",
+	ID:             "coop_events.id",
+	OrganizationID: "coop_events.organization_id",
+	SequenceID:     "coop_events.sequence_id",
+	Type:           "coop_events.type",
+	ScopeType:      "coop_events.scope_type",
+	ScopeID:        "coop_events.scope_id",
+	HappenedAt:     "coop_events.happened_at",
+	InsertedAt:     "coop_events.inserted_at",
+	Data:           "coop_events.data",
 }
 
 // Generated where
@@ -168,40 +173,62 @@ func (w whereHelpertypes_JSON) GTE(x types.JSON) qm.QueryMod {
 }
 
 var CoopEventWhere = struct {
-	ID         whereHelperstring
-	SequenceID whereHelperint64
-	Type       whereHelperstring
-	ScopeType  whereHelperstring
-	ScopeID    whereHelperstring
-	HappenedAt whereHelpertime_Time
-	InsertedAt whereHelpertime_Time
-	Data       whereHelpertypes_JSON
+	ID             whereHelperstring
+	OrganizationID whereHelperstring
+	SequenceID     whereHelperint64
+	Type           whereHelperstring
+	ScopeType      whereHelperstring
+	ScopeID        whereHelperstring
+	HappenedAt     whereHelpertime_Time
+	InsertedAt     whereHelpertime_Time
+	Data           whereHelpertypes_JSON
 }{
-	ID:         whereHelperstring{field: "\"coop_events\".\"id\""},
-	SequenceID: whereHelperint64{field: "\"coop_events\".\"sequence_id\""},
-	Type:       whereHelperstring{field: "\"coop_events\".\"type\""},
-	ScopeType:  whereHelperstring{field: "\"coop_events\".\"scope_type\""},
-	ScopeID:    whereHelperstring{field: "\"coop_events\".\"scope_id\""},
-	HappenedAt: whereHelpertime_Time{field: "\"coop_events\".\"happened_at\""},
-	InsertedAt: whereHelpertime_Time{field: "\"coop_events\".\"inserted_at\""},
-	Data:       whereHelpertypes_JSON{field: "\"coop_events\".\"data\""},
+	ID:             whereHelperstring{field: "\"coop_events\".\"id\""},
+	OrganizationID: whereHelperstring{field: "\"coop_events\".\"organization_id\""},
+	SequenceID:     whereHelperint64{field: "\"coop_events\".\"sequence_id\""},
+	Type:           whereHelperstring{field: "\"coop_events\".\"type\""},
+	ScopeType:      whereHelperstring{field: "\"coop_events\".\"scope_type\""},
+	ScopeID:        whereHelperstring{field: "\"coop_events\".\"scope_id\""},
+	HappenedAt:     whereHelpertime_Time{field: "\"coop_events\".\"happened_at\""},
+	InsertedAt:     whereHelpertime_Time{field: "\"coop_events\".\"inserted_at\""},
+	Data:           whereHelpertypes_JSON{field: "\"coop_events\".\"data\""},
 }
 
 // CoopEventRels is where relationship names are stored.
 var CoopEventRels = struct {
+	Organization              string
+	CreatedByMemberships      string
 	CreatedByShiftAssignments string
 }{
+	Organization:              "Organization",
+	CreatedByMemberships:      "CreatedByMemberships",
 	CreatedByShiftAssignments: "CreatedByShiftAssignments",
 }
 
 // coopEventR is where relationships are stored.
 type coopEventR struct {
+	Organization              *Organization        `boil:"Organization" json:"Organization" toml:"Organization" yaml:"Organization"`
+	CreatedByMemberships      MembershipSlice      `boil:"CreatedByMemberships" json:"CreatedByMemberships" toml:"CreatedByMemberships" yaml:"CreatedByMemberships"`
 	CreatedByShiftAssignments ShiftAssignmentSlice `boil:"CreatedByShiftAssignments" json:"CreatedByShiftAssignments" toml:"CreatedByShiftAssignments" yaml:"CreatedByShiftAssignments"`
 }
 
 // NewStruct creates a new relationship struct
 func (*coopEventR) NewStruct() *coopEventR {
 	return &coopEventR{}
+}
+
+func (r *coopEventR) GetOrganization() *Organization {
+	if r == nil {
+		return nil
+	}
+	return r.Organization
+}
+
+func (r *coopEventR) GetCreatedByMemberships() MembershipSlice {
+	if r == nil {
+		return nil
+	}
+	return r.CreatedByMemberships
 }
 
 func (r *coopEventR) GetCreatedByShiftAssignments() ShiftAssignmentSlice {
@@ -215,8 +242,8 @@ func (r *coopEventR) GetCreatedByShiftAssignments() ShiftAssignmentSlice {
 type coopEventL struct{}
 
 var (
-	coopEventAllColumns            = []string{"id", "sequence_id", "type", "scope_type", "scope_id", "happened_at", "inserted_at", "data"}
-	coopEventColumnsWithoutDefault = []string{"type", "scope_type", "scope_id", "happened_at", "data"}
+	coopEventAllColumns            = []string{"id", "organization_id", "sequence_id", "type", "scope_type", "scope_id", "happened_at", "inserted_at", "data"}
+	coopEventColumnsWithoutDefault = []string{"organization_id", "type", "scope_type", "scope_id", "happened_at", "data"}
 	coopEventColumnsWithDefault    = []string{"id", "sequence_id", "inserted_at"}
 	coopEventPrimaryKeyColumns     = []string{"id"}
 	coopEventGeneratedColumns      = []string{}
@@ -520,6 +547,31 @@ func (q coopEventQuery) Exists(ctx context.Context, exec boil.ContextExecutor) (
 	return count > 0, nil
 }
 
+// Organization pointed to by the foreign key.
+func (o *CoopEvent) Organization(mods ...qm.QueryMod) organizationQuery {
+	queryMods := []qm.QueryMod{
+		qm.Where("\"id\" = ?", o.OrganizationID),
+	}
+
+	queryMods = append(queryMods, mods...)
+
+	return Organizations(queryMods...)
+}
+
+// CreatedByMemberships retrieves all the membership's Memberships with an executor via created_by column.
+func (o *CoopEvent) CreatedByMemberships(mods ...qm.QueryMod) membershipQuery {
+	var queryMods []qm.QueryMod
+	if len(mods) != 0 {
+		queryMods = append(queryMods, mods...)
+	}
+
+	queryMods = append(queryMods,
+		qm.Where("\"memberships\".\"created_by\"=?", o.ID),
+	)
+
+	return Memberships(queryMods...)
+}
+
 // CreatedByShiftAssignments retrieves all the shift_assignment's ShiftAssignments with an executor via created_by column.
 func (o *CoopEvent) CreatedByShiftAssignments(mods ...qm.QueryMod) shiftAssignmentQuery {
 	var queryMods []qm.QueryMod
@@ -532,6 +584,240 @@ func (o *CoopEvent) CreatedByShiftAssignments(mods ...qm.QueryMod) shiftAssignme
 	)
 
 	return ShiftAssignments(queryMods...)
+}
+
+// LoadOrganization allows an eager lookup of values, cached into the
+// loaded structs of the objects. This is for an N-1 relationship.
+func (coopEventL) LoadOrganization(ctx context.Context, e boil.ContextExecutor, singular bool, maybeCoopEvent interface{}, mods queries.Applicator) error {
+	var slice []*CoopEvent
+	var object *CoopEvent
+
+	if singular {
+		var ok bool
+		object, ok = maybeCoopEvent.(*CoopEvent)
+		if !ok {
+			object = new(CoopEvent)
+			ok = queries.SetFromEmbeddedStruct(&object, &maybeCoopEvent)
+			if !ok {
+				return errors.New(fmt.Sprintf("failed to set %T from embedded struct %T", object, maybeCoopEvent))
+			}
+		}
+	} else {
+		s, ok := maybeCoopEvent.(*[]*CoopEvent)
+		if ok {
+			slice = *s
+		} else {
+			ok = queries.SetFromEmbeddedStruct(&slice, maybeCoopEvent)
+			if !ok {
+				return errors.New(fmt.Sprintf("failed to set %T from embedded struct %T", slice, maybeCoopEvent))
+			}
+		}
+	}
+
+	args := make([]interface{}, 0, 1)
+	if singular {
+		if object.R == nil {
+			object.R = &coopEventR{}
+		}
+		args = append(args, object.OrganizationID)
+
+	} else {
+	Outer:
+		for _, obj := range slice {
+			if obj.R == nil {
+				obj.R = &coopEventR{}
+			}
+
+			for _, a := range args {
+				if a == obj.OrganizationID {
+					continue Outer
+				}
+			}
+
+			args = append(args, obj.OrganizationID)
+
+		}
+	}
+
+	if len(args) == 0 {
+		return nil
+	}
+
+	query := NewQuery(
+		qm.From(`organizations`),
+		qm.WhereIn(`organizations.id in ?`, args...),
+	)
+	if mods != nil {
+		mods.Apply(query)
+	}
+
+	results, err := query.QueryContext(ctx, e)
+	if err != nil {
+		return errors.Wrap(err, "failed to eager load Organization")
+	}
+
+	var resultSlice []*Organization
+	if err = queries.Bind(results, &resultSlice); err != nil {
+		return errors.Wrap(err, "failed to bind eager loaded slice Organization")
+	}
+
+	if err = results.Close(); err != nil {
+		return errors.Wrap(err, "failed to close results of eager load for organizations")
+	}
+	if err = results.Err(); err != nil {
+		return errors.Wrap(err, "error occurred during iteration of eager loaded relations for organizations")
+	}
+
+	if len(organizationAfterSelectHooks) != 0 {
+		for _, obj := range resultSlice {
+			if err := obj.doAfterSelectHooks(ctx, e); err != nil {
+				return err
+			}
+		}
+	}
+
+	if len(resultSlice) == 0 {
+		return nil
+	}
+
+	if singular {
+		foreign := resultSlice[0]
+		object.R.Organization = foreign
+		if foreign.R == nil {
+			foreign.R = &organizationR{}
+		}
+		foreign.R.CoopEvents = append(foreign.R.CoopEvents, object)
+		return nil
+	}
+
+	for _, local := range slice {
+		for _, foreign := range resultSlice {
+			if local.OrganizationID == foreign.ID {
+				local.R.Organization = foreign
+				if foreign.R == nil {
+					foreign.R = &organizationR{}
+				}
+				foreign.R.CoopEvents = append(foreign.R.CoopEvents, local)
+				break
+			}
+		}
+	}
+
+	return nil
+}
+
+// LoadCreatedByMemberships allows an eager lookup of values, cached into the
+// loaded structs of the objects. This is for a 1-M or N-M relationship.
+func (coopEventL) LoadCreatedByMemberships(ctx context.Context, e boil.ContextExecutor, singular bool, maybeCoopEvent interface{}, mods queries.Applicator) error {
+	var slice []*CoopEvent
+	var object *CoopEvent
+
+	if singular {
+		var ok bool
+		object, ok = maybeCoopEvent.(*CoopEvent)
+		if !ok {
+			object = new(CoopEvent)
+			ok = queries.SetFromEmbeddedStruct(&object, &maybeCoopEvent)
+			if !ok {
+				return errors.New(fmt.Sprintf("failed to set %T from embedded struct %T", object, maybeCoopEvent))
+			}
+		}
+	} else {
+		s, ok := maybeCoopEvent.(*[]*CoopEvent)
+		if ok {
+			slice = *s
+		} else {
+			ok = queries.SetFromEmbeddedStruct(&slice, maybeCoopEvent)
+			if !ok {
+				return errors.New(fmt.Sprintf("failed to set %T from embedded struct %T", slice, maybeCoopEvent))
+			}
+		}
+	}
+
+	args := make([]interface{}, 0, 1)
+	if singular {
+		if object.R == nil {
+			object.R = &coopEventR{}
+		}
+		args = append(args, object.ID)
+	} else {
+	Outer:
+		for _, obj := range slice {
+			if obj.R == nil {
+				obj.R = &coopEventR{}
+			}
+
+			for _, a := range args {
+				if a == obj.ID {
+					continue Outer
+				}
+			}
+
+			args = append(args, obj.ID)
+		}
+	}
+
+	if len(args) == 0 {
+		return nil
+	}
+
+	query := NewQuery(
+		qm.From(`memberships`),
+		qm.WhereIn(`memberships.created_by in ?`, args...),
+	)
+	if mods != nil {
+		mods.Apply(query)
+	}
+
+	results, err := query.QueryContext(ctx, e)
+	if err != nil {
+		return errors.Wrap(err, "failed to eager load memberships")
+	}
+
+	var resultSlice []*Membership
+	if err = queries.Bind(results, &resultSlice); err != nil {
+		return errors.Wrap(err, "failed to bind eager loaded slice memberships")
+	}
+
+	if err = results.Close(); err != nil {
+		return errors.Wrap(err, "failed to close results in eager load on memberships")
+	}
+	if err = results.Err(); err != nil {
+		return errors.Wrap(err, "error occurred during iteration of eager loaded relations for memberships")
+	}
+
+	if len(membershipAfterSelectHooks) != 0 {
+		for _, obj := range resultSlice {
+			if err := obj.doAfterSelectHooks(ctx, e); err != nil {
+				return err
+			}
+		}
+	}
+	if singular {
+		object.R.CreatedByMemberships = resultSlice
+		for _, foreign := range resultSlice {
+			if foreign.R == nil {
+				foreign.R = &membershipR{}
+			}
+			foreign.R.CreatedByCoopEvent = object
+		}
+		return nil
+	}
+
+	for _, foreign := range resultSlice {
+		for _, local := range slice {
+			if local.ID == foreign.CreatedBy {
+				local.R.CreatedByMemberships = append(local.R.CreatedByMemberships, foreign)
+				if foreign.R == nil {
+					foreign.R = &membershipR{}
+				}
+				foreign.R.CreatedByCoopEvent = local
+				break
+			}
+		}
+	}
+
+	return nil
 }
 
 // LoadCreatedByShiftAssignments allows an eager lookup of values, cached into the
@@ -648,6 +934,123 @@ func (coopEventL) LoadCreatedByShiftAssignments(ctx context.Context, e boil.Cont
 	return nil
 }
 
+// SetOrganizationG of the coopEvent to the related item.
+// Sets o.R.Organization to related.
+// Adds o to related.R.CoopEvents.
+// Uses the global database handle.
+func (o *CoopEvent) SetOrganizationG(ctx context.Context, insert bool, related *Organization) error {
+	return o.SetOrganization(ctx, boil.GetContextDB(), insert, related)
+}
+
+// SetOrganization of the coopEvent to the related item.
+// Sets o.R.Organization to related.
+// Adds o to related.R.CoopEvents.
+func (o *CoopEvent) SetOrganization(ctx context.Context, exec boil.ContextExecutor, insert bool, related *Organization) error {
+	var err error
+	if insert {
+		if err = related.Insert(ctx, exec, boil.Infer()); err != nil {
+			return errors.Wrap(err, "failed to insert into foreign table")
+		}
+	}
+
+	updateQuery := fmt.Sprintf(
+		"UPDATE \"coop_events\" SET %s WHERE %s",
+		strmangle.SetParamNames("\"", "\"", 1, []string{"organization_id"}),
+		strmangle.WhereClause("\"", "\"", 2, coopEventPrimaryKeyColumns),
+	)
+	values := []interface{}{related.ID, o.ID}
+
+	if boil.IsDebug(ctx) {
+		writer := boil.DebugWriterFrom(ctx)
+		fmt.Fprintln(writer, updateQuery)
+		fmt.Fprintln(writer, values)
+	}
+	if _, err = exec.ExecContext(ctx, updateQuery, values...); err != nil {
+		return errors.Wrap(err, "failed to update local table")
+	}
+
+	o.OrganizationID = related.ID
+	if o.R == nil {
+		o.R = &coopEventR{
+			Organization: related,
+		}
+	} else {
+		o.R.Organization = related
+	}
+
+	if related.R == nil {
+		related.R = &organizationR{
+			CoopEvents: CoopEventSlice{o},
+		}
+	} else {
+		related.R.CoopEvents = append(related.R.CoopEvents, o)
+	}
+
+	return nil
+}
+
+// AddCreatedByMembershipsG adds the given related objects to the existing relationships
+// of the coop_event, optionally inserting them as new records.
+// Appends related to o.R.CreatedByMemberships.
+// Sets related.R.CreatedByCoopEvent appropriately.
+// Uses the global database handle.
+func (o *CoopEvent) AddCreatedByMembershipsG(ctx context.Context, insert bool, related ...*Membership) error {
+	return o.AddCreatedByMemberships(ctx, boil.GetContextDB(), insert, related...)
+}
+
+// AddCreatedByMemberships adds the given related objects to the existing relationships
+// of the coop_event, optionally inserting them as new records.
+// Appends related to o.R.CreatedByMemberships.
+// Sets related.R.CreatedByCoopEvent appropriately.
+func (o *CoopEvent) AddCreatedByMemberships(ctx context.Context, exec boil.ContextExecutor, insert bool, related ...*Membership) error {
+	var err error
+	for _, rel := range related {
+		if insert {
+			rel.CreatedBy = o.ID
+			if err = rel.Insert(ctx, exec, boil.Infer()); err != nil {
+				return errors.Wrap(err, "failed to insert into foreign table")
+			}
+		} else {
+			updateQuery := fmt.Sprintf(
+				"UPDATE \"memberships\" SET %s WHERE %s",
+				strmangle.SetParamNames("\"", "\"", 1, []string{"created_by"}),
+				strmangle.WhereClause("\"", "\"", 2, membershipPrimaryKeyColumns),
+			)
+			values := []interface{}{o.ID, rel.MemberID, rel.OrganizationID, rel.CreatedBy}
+
+			if boil.IsDebug(ctx) {
+				writer := boil.DebugWriterFrom(ctx)
+				fmt.Fprintln(writer, updateQuery)
+				fmt.Fprintln(writer, values)
+			}
+			if _, err = exec.ExecContext(ctx, updateQuery, values...); err != nil {
+				return errors.Wrap(err, "failed to update foreign table")
+			}
+
+			rel.CreatedBy = o.ID
+		}
+	}
+
+	if o.R == nil {
+		o.R = &coopEventR{
+			CreatedByMemberships: related,
+		}
+	} else {
+		o.R.CreatedByMemberships = append(o.R.CreatedByMemberships, related...)
+	}
+
+	for _, rel := range related {
+		if rel.R == nil {
+			rel.R = &membershipR{
+				CreatedByCoopEvent: o,
+			}
+		} else {
+			rel.R.CreatedByCoopEvent = o
+		}
+	}
+	return nil
+}
+
 // AddCreatedByShiftAssignmentsG adds the given related objects to the existing relationships
 // of the coop_event, optionally inserting them as new records.
 // Appends related to o.R.CreatedByShiftAssignments.
@@ -675,7 +1078,7 @@ func (o *CoopEvent) AddCreatedByShiftAssignments(ctx context.Context, exec boil.
 				strmangle.SetParamNames("\"", "\"", 1, []string{"created_by"}),
 				strmangle.WhereClause("\"", "\"", 2, shiftAssignmentPrimaryKeyColumns),
 			)
-			values := []interface{}{o.ID, rel.ID}
+			values := []interface{}{o.ID, rel.MemberID, rel.ShiftID, rel.ShiftSlotID, rel.OrganizationID}
 
 			if boil.IsDebug(ctx) {
 				writer := boil.DebugWriterFrom(ctx)

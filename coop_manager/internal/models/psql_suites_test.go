@@ -14,6 +14,8 @@ func TestUpsert(t *testing.T) {
 
 	t.Run("Memberships", testMembershipsUpsert)
 
+	t.Run("Organizations", testOrganizationsUpsert)
+
 	t.Run("SchemaMigrations", testSchemaMigrationsUpsert)
 
 	t.Run("ShiftAssignments", testShiftAssignmentsUpsert)
@@ -23,6 +25,4 @@ func TestUpsert(t *testing.T) {
 	t.Run("ShiftTerms", testShiftTermsUpsert)
 
 	t.Run("Shifts", testShiftsUpsert)
-
-	t.Run("Test1s", testTest1sUpsert)
 }

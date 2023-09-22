@@ -18,73 +18,91 @@ import (
 	"github.com/volatiletech/sqlboiler/v4/queries"
 	"github.com/volatiletech/sqlboiler/v4/queries/qm"
 	"github.com/volatiletech/sqlboiler/v4/queries/qmhelper"
+	"github.com/volatiletech/sqlboiler/v4/types"
 	"github.com/volatiletech/strmangle"
 )
 
 // MembershipType is an object representing the database table.
 type MembershipType struct {
-	ID        string    `boil:"id" json:"id" toml:"id" yaml:"id"`
-	CreatedAt time.Time `boil:"created_at" json:"created_at" toml:"created_at" yaml:"created_at"`
-	Name      string    `boil:"name" json:"name" toml:"name" yaml:"name"`
-	Level     string    `boil:"level" json:"level" toml:"level" yaml:"level"`
+	ID             string     `boil:"id" json:"id" toml:"id" yaml:"id"`
+	OrganizationID string     `boil:"organization_id" json:"organization_id" toml:"organization_id" yaml:"organization_id"`
+	CreatedAt      time.Time  `boil:"created_at" json:"created_at" toml:"created_at" yaml:"created_at"`
+	Name           string     `boil:"name" json:"name" toml:"name" yaml:"name"`
+	Data           types.JSON `boil:"data" json:"data" toml:"data" yaml:"data"`
 
 	R *membershipTypeR `boil:"-" json:"-" toml:"-" yaml:"-"`
 	L membershipTypeL  `boil:"-" json:"-" toml:"-" yaml:"-"`
 }
 
 var MembershipTypeColumns = struct {
-	ID        string
-	CreatedAt string
-	Name      string
-	Level     string
+	ID             string
+	OrganizationID string
+	CreatedAt      string
+	Name           string
+	Data           string
 }{
-	ID:        "id",
-	CreatedAt: "created_at",
-	Name:      "name",
-	Level:     "level",
+	ID:             "id",
+	OrganizationID: "organization_id",
+	CreatedAt:      "created_at",
+	Name:           "name",
+	Data:           "data",
 }
 
 var MembershipTypeTableColumns = struct {
-	ID        string
-	CreatedAt string
-	Name      string
-	Level     string
+	ID             string
+	OrganizationID string
+	CreatedAt      string
+	Name           string
+	Data           string
 }{
-	ID:        "membership_types.id",
-	CreatedAt: "membership_types.created_at",
-	Name:      "membership_types.name",
-	Level:     "membership_types.level",
+	ID:             "membership_types.id",
+	OrganizationID: "membership_types.organization_id",
+	CreatedAt:      "membership_types.created_at",
+	Name:           "membership_types.name",
+	Data:           "membership_types.data",
 }
 
 // Generated where
 
 var MembershipTypeWhere = struct {
-	ID        whereHelperstring
-	CreatedAt whereHelpertime_Time
-	Name      whereHelperstring
-	Level     whereHelperstring
+	ID             whereHelperstring
+	OrganizationID whereHelperstring
+	CreatedAt      whereHelpertime_Time
+	Name           whereHelperstring
+	Data           whereHelpertypes_JSON
 }{
-	ID:        whereHelperstring{field: "\"membership_types\".\"id\""},
-	CreatedAt: whereHelpertime_Time{field: "\"membership_types\".\"created_at\""},
-	Name:      whereHelperstring{field: "\"membership_types\".\"name\""},
-	Level:     whereHelperstring{field: "\"membership_types\".\"level\""},
+	ID:             whereHelperstring{field: "\"membership_types\".\"id\""},
+	OrganizationID: whereHelperstring{field: "\"membership_types\".\"organization_id\""},
+	CreatedAt:      whereHelpertime_Time{field: "\"membership_types\".\"created_at\""},
+	Name:           whereHelperstring{field: "\"membership_types\".\"name\""},
+	Data:           whereHelpertypes_JSON{field: "\"membership_types\".\"data\""},
 }
 
 // MembershipTypeRels is where relationship names are stored.
 var MembershipTypeRels = struct {
-	Memberships string
+	Organization string
+	Memberships  string
 }{
-	Memberships: "Memberships",
+	Organization: "Organization",
+	Memberships:  "Memberships",
 }
 
 // membershipTypeR is where relationships are stored.
 type membershipTypeR struct {
-	Memberships MembershipSlice `boil:"Memberships" json:"Memberships" toml:"Memberships" yaml:"Memberships"`
+	Organization *Organization   `boil:"Organization" json:"Organization" toml:"Organization" yaml:"Organization"`
+	Memberships  MembershipSlice `boil:"Memberships" json:"Memberships" toml:"Memberships" yaml:"Memberships"`
 }
 
 // NewStruct creates a new relationship struct
 func (*membershipTypeR) NewStruct() *membershipTypeR {
 	return &membershipTypeR{}
+}
+
+func (r *membershipTypeR) GetOrganization() *Organization {
+	if r == nil {
+		return nil
+	}
+	return r.Organization
 }
 
 func (r *membershipTypeR) GetMemberships() MembershipSlice {
@@ -98,9 +116,9 @@ func (r *membershipTypeR) GetMemberships() MembershipSlice {
 type membershipTypeL struct{}
 
 var (
-	membershipTypeAllColumns            = []string{"id", "created_at", "name", "level"}
-	membershipTypeColumnsWithoutDefault = []string{"name", "level"}
-	membershipTypeColumnsWithDefault    = []string{"id", "created_at"}
+	membershipTypeAllColumns            = []string{"id", "organization_id", "created_at", "name", "data"}
+	membershipTypeColumnsWithoutDefault = []string{"organization_id", "name"}
+	membershipTypeColumnsWithDefault    = []string{"id", "created_at", "data"}
 	membershipTypePrimaryKeyColumns     = []string{"id"}
 	membershipTypeGeneratedColumns      = []string{}
 )
@@ -403,6 +421,17 @@ func (q membershipTypeQuery) Exists(ctx context.Context, exec boil.ContextExecut
 	return count > 0, nil
 }
 
+// Organization pointed to by the foreign key.
+func (o *MembershipType) Organization(mods ...qm.QueryMod) organizationQuery {
+	queryMods := []qm.QueryMod{
+		qm.Where("\"id\" = ?", o.OrganizationID),
+	}
+
+	queryMods = append(queryMods, mods...)
+
+	return Organizations(queryMods...)
+}
+
 // Memberships retrieves all the membership's Memberships with an executor.
 func (o *MembershipType) Memberships(mods ...qm.QueryMod) membershipQuery {
 	var queryMods []qm.QueryMod
@@ -415,6 +444,126 @@ func (o *MembershipType) Memberships(mods ...qm.QueryMod) membershipQuery {
 	)
 
 	return Memberships(queryMods...)
+}
+
+// LoadOrganization allows an eager lookup of values, cached into the
+// loaded structs of the objects. This is for an N-1 relationship.
+func (membershipTypeL) LoadOrganization(ctx context.Context, e boil.ContextExecutor, singular bool, maybeMembershipType interface{}, mods queries.Applicator) error {
+	var slice []*MembershipType
+	var object *MembershipType
+
+	if singular {
+		var ok bool
+		object, ok = maybeMembershipType.(*MembershipType)
+		if !ok {
+			object = new(MembershipType)
+			ok = queries.SetFromEmbeddedStruct(&object, &maybeMembershipType)
+			if !ok {
+				return errors.New(fmt.Sprintf("failed to set %T from embedded struct %T", object, maybeMembershipType))
+			}
+		}
+	} else {
+		s, ok := maybeMembershipType.(*[]*MembershipType)
+		if ok {
+			slice = *s
+		} else {
+			ok = queries.SetFromEmbeddedStruct(&slice, maybeMembershipType)
+			if !ok {
+				return errors.New(fmt.Sprintf("failed to set %T from embedded struct %T", slice, maybeMembershipType))
+			}
+		}
+	}
+
+	args := make([]interface{}, 0, 1)
+	if singular {
+		if object.R == nil {
+			object.R = &membershipTypeR{}
+		}
+		args = append(args, object.OrganizationID)
+
+	} else {
+	Outer:
+		for _, obj := range slice {
+			if obj.R == nil {
+				obj.R = &membershipTypeR{}
+			}
+
+			for _, a := range args {
+				if a == obj.OrganizationID {
+					continue Outer
+				}
+			}
+
+			args = append(args, obj.OrganizationID)
+
+		}
+	}
+
+	if len(args) == 0 {
+		return nil
+	}
+
+	query := NewQuery(
+		qm.From(`organizations`),
+		qm.WhereIn(`organizations.id in ?`, args...),
+	)
+	if mods != nil {
+		mods.Apply(query)
+	}
+
+	results, err := query.QueryContext(ctx, e)
+	if err != nil {
+		return errors.Wrap(err, "failed to eager load Organization")
+	}
+
+	var resultSlice []*Organization
+	if err = queries.Bind(results, &resultSlice); err != nil {
+		return errors.Wrap(err, "failed to bind eager loaded slice Organization")
+	}
+
+	if err = results.Close(); err != nil {
+		return errors.Wrap(err, "failed to close results of eager load for organizations")
+	}
+	if err = results.Err(); err != nil {
+		return errors.Wrap(err, "error occurred during iteration of eager loaded relations for organizations")
+	}
+
+	if len(organizationAfterSelectHooks) != 0 {
+		for _, obj := range resultSlice {
+			if err := obj.doAfterSelectHooks(ctx, e); err != nil {
+				return err
+			}
+		}
+	}
+
+	if len(resultSlice) == 0 {
+		return nil
+	}
+
+	if singular {
+		foreign := resultSlice[0]
+		object.R.Organization = foreign
+		if foreign.R == nil {
+			foreign.R = &organizationR{}
+		}
+		foreign.R.MembershipTypes = append(foreign.R.MembershipTypes, object)
+		return nil
+	}
+
+	for _, local := range slice {
+		for _, foreign := range resultSlice {
+			if local.OrganizationID == foreign.ID {
+				local.R.Organization = foreign
+				if foreign.R == nil {
+					foreign.R = &organizationR{}
+				}
+				foreign.R.MembershipTypes = append(foreign.R.MembershipTypes, local)
+				break
+			}
+		}
+	}
+
+	return nil
 }
 
 // LoadMemberships allows an eager lookup of values, cached into the
@@ -531,6 +680,61 @@ func (membershipTypeL) LoadMemberships(ctx context.Context, e boil.ContextExecut
 	return nil
 }
 
+// SetOrganizationG of the membershipType to the related item.
+// Sets o.R.Organization to related.
+// Adds o to related.R.MembershipTypes.
+// Uses the global database handle.
+func (o *MembershipType) SetOrganizationG(ctx context.Context, insert bool, related *Organization) error {
+	return o.SetOrganization(ctx, boil.GetContextDB(), insert, related)
+}
+
+// SetOrganization of the membershipType to the related item.
+// Sets o.R.Organization to related.
+// Adds o to related.R.MembershipTypes.
+func (o *MembershipType) SetOrganization(ctx context.Context, exec boil.ContextExecutor, insert bool, related *Organization) error {
+	var err error
+	if insert {
+		if err = related.Insert(ctx, exec, boil.Infer()); err != nil {
+			return errors.Wrap(err, "failed to insert into foreign table")
+		}
+	}
+
+	updateQuery := fmt.Sprintf(
+		"UPDATE \"membership_types\" SET %s WHERE %s",
+		strmangle.SetParamNames("\"", "\"", 1, []string{"organization_id"}),
+		strmangle.WhereClause("\"", "\"", 2, membershipTypePrimaryKeyColumns),
+	)
+	values := []interface{}{related.ID, o.ID}
+
+	if boil.IsDebug(ctx) {
+		writer := boil.DebugWriterFrom(ctx)
+		fmt.Fprintln(writer, updateQuery)
+		fmt.Fprintln(writer, values)
+	}
+	if _, err = exec.ExecContext(ctx, updateQuery, values...); err != nil {
+		return errors.Wrap(err, "failed to update local table")
+	}
+
+	o.OrganizationID = related.ID
+	if o.R == nil {
+		o.R = &membershipTypeR{
+			Organization: related,
+		}
+	} else {
+		o.R.Organization = related
+	}
+
+	if related.R == nil {
+		related.R = &organizationR{
+			MembershipTypes: MembershipTypeSlice{o},
+		}
+	} else {
+		related.R.MembershipTypes = append(related.R.MembershipTypes, o)
+	}
+
+	return nil
+}
+
 // AddMembershipsG adds the given related objects to the existing relationships
 // of the membership_type, optionally inserting them as new records.
 // Appends related to o.R.Memberships.
@@ -558,7 +762,7 @@ func (o *MembershipType) AddMemberships(ctx context.Context, exec boil.ContextEx
 				strmangle.SetParamNames("\"", "\"", 1, []string{"membership_type_id"}),
 				strmangle.WhereClause("\"", "\"", 2, membershipPrimaryKeyColumns),
 			)
-			values := []interface{}{o.ID, rel.ID}
+			values := []interface{}{o.ID, rel.MemberID, rel.OrganizationID, rel.CreatedBy}
 
 			if boil.IsDebug(ctx) {
 				writer := boil.DebugWriterFrom(ctx)

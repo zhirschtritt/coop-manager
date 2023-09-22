@@ -9,3 +9,13 @@ output = "internal/models"
   pass   = "postgres"
   blacklist = ["migrations"]
   sslmode = "disable"
+
+[[types]]
+  [types.match]
+    type = "types.uuid"
+    nullable = false
+  [types.replace]
+    type = "uuid.UUID"
+  [types.imports]
+    third_party = ['"github.com/google/uuid"']
+

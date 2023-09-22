@@ -24,42 +24,47 @@ import (
 
 // ShiftTerm is an object representing the database table.
 type ShiftTerm struct {
-	ID            string      `boil:"id" json:"id" toml:"id" yaml:"id"`
-	Name          string      `boil:"name" json:"name" toml:"name" yaml:"name"`
-	StartDate     time.Time   `boil:"start_date" json:"start_date" toml:"start_date" yaml:"start_date"`
-	EndDate       time.Time   `boil:"end_date" json:"end_date" toml:"end_date" yaml:"end_date"`
-	RepeatPattern null.String `boil:"repeat_pattern" json:"repeat_pattern,omitempty" toml:"repeat_pattern" yaml:"repeat_pattern,omitempty"`
+	ID             string      `boil:"id" json:"id" toml:"id" yaml:"id"`
+	OrganizationID string      `boil:"organization_id" json:"organization_id" toml:"organization_id" yaml:"organization_id"`
+	Name           string      `boil:"name" json:"name" toml:"name" yaml:"name"`
+	StartDate      time.Time   `boil:"start_date" json:"start_date" toml:"start_date" yaml:"start_date"`
+	EndDate        time.Time   `boil:"end_date" json:"end_date" toml:"end_date" yaml:"end_date"`
+	RepeatPattern  null.String `boil:"repeat_pattern" json:"repeat_pattern,omitempty" toml:"repeat_pattern" yaml:"repeat_pattern,omitempty"`
 
 	R *shiftTermR `boil:"-" json:"-" toml:"-" yaml:"-"`
 	L shiftTermL  `boil:"-" json:"-" toml:"-" yaml:"-"`
 }
 
 var ShiftTermColumns = struct {
-	ID            string
-	Name          string
-	StartDate     string
-	EndDate       string
-	RepeatPattern string
+	ID             string
+	OrganizationID string
+	Name           string
+	StartDate      string
+	EndDate        string
+	RepeatPattern  string
 }{
-	ID:            "id",
-	Name:          "name",
-	StartDate:     "start_date",
-	EndDate:       "end_date",
-	RepeatPattern: "repeat_pattern",
+	ID:             "id",
+	OrganizationID: "organization_id",
+	Name:           "name",
+	StartDate:      "start_date",
+	EndDate:        "end_date",
+	RepeatPattern:  "repeat_pattern",
 }
 
 var ShiftTermTableColumns = struct {
-	ID            string
-	Name          string
-	StartDate     string
-	EndDate       string
-	RepeatPattern string
+	ID             string
+	OrganizationID string
+	Name           string
+	StartDate      string
+	EndDate        string
+	RepeatPattern  string
 }{
-	ID:            "shift_terms.id",
-	Name:          "shift_terms.name",
-	StartDate:     "shift_terms.start_date",
-	EndDate:       "shift_terms.end_date",
-	RepeatPattern: "shift_terms.repeat_pattern",
+	ID:             "shift_terms.id",
+	OrganizationID: "shift_terms.organization_id",
+	Name:           "shift_terms.name",
+	StartDate:      "shift_terms.start_date",
+	EndDate:        "shift_terms.end_date",
+	RepeatPattern:  "shift_terms.repeat_pattern",
 }
 
 // Generated where
@@ -103,34 +108,46 @@ func (w whereHelpernull_String) IsNull() qm.QueryMod    { return qmhelper.WhereI
 func (w whereHelpernull_String) IsNotNull() qm.QueryMod { return qmhelper.WhereIsNotNull(w.field) }
 
 var ShiftTermWhere = struct {
-	ID            whereHelperstring
-	Name          whereHelperstring
-	StartDate     whereHelpertime_Time
-	EndDate       whereHelpertime_Time
-	RepeatPattern whereHelpernull_String
+	ID             whereHelperstring
+	OrganizationID whereHelperstring
+	Name           whereHelperstring
+	StartDate      whereHelpertime_Time
+	EndDate        whereHelpertime_Time
+	RepeatPattern  whereHelpernull_String
 }{
-	ID:            whereHelperstring{field: "\"shift_terms\".\"id\""},
-	Name:          whereHelperstring{field: "\"shift_terms\".\"name\""},
-	StartDate:     whereHelpertime_Time{field: "\"shift_terms\".\"start_date\""},
-	EndDate:       whereHelpertime_Time{field: "\"shift_terms\".\"end_date\""},
-	RepeatPattern: whereHelpernull_String{field: "\"shift_terms\".\"repeat_pattern\""},
+	ID:             whereHelperstring{field: "\"shift_terms\".\"id\""},
+	OrganizationID: whereHelperstring{field: "\"shift_terms\".\"organization_id\""},
+	Name:           whereHelperstring{field: "\"shift_terms\".\"name\""},
+	StartDate:      whereHelpertime_Time{field: "\"shift_terms\".\"start_date\""},
+	EndDate:        whereHelpertime_Time{field: "\"shift_terms\".\"end_date\""},
+	RepeatPattern:  whereHelpernull_String{field: "\"shift_terms\".\"repeat_pattern\""},
 }
 
 // ShiftTermRels is where relationship names are stored.
 var ShiftTermRels = struct {
-	Shifts string
+	Organization string
+	Shifts       string
 }{
-	Shifts: "Shifts",
+	Organization: "Organization",
+	Shifts:       "Shifts",
 }
 
 // shiftTermR is where relationships are stored.
 type shiftTermR struct {
-	Shifts ShiftSlice `boil:"Shifts" json:"Shifts" toml:"Shifts" yaml:"Shifts"`
+	Organization *Organization `boil:"Organization" json:"Organization" toml:"Organization" yaml:"Organization"`
+	Shifts       ShiftSlice    `boil:"Shifts" json:"Shifts" toml:"Shifts" yaml:"Shifts"`
 }
 
 // NewStruct creates a new relationship struct
 func (*shiftTermR) NewStruct() *shiftTermR {
 	return &shiftTermR{}
+}
+
+func (r *shiftTermR) GetOrganization() *Organization {
+	if r == nil {
+		return nil
+	}
+	return r.Organization
 }
 
 func (r *shiftTermR) GetShifts() ShiftSlice {
@@ -144,8 +161,8 @@ func (r *shiftTermR) GetShifts() ShiftSlice {
 type shiftTermL struct{}
 
 var (
-	shiftTermAllColumns            = []string{"id", "name", "start_date", "end_date", "repeat_pattern"}
-	shiftTermColumnsWithoutDefault = []string{"name", "start_date", "end_date"}
+	shiftTermAllColumns            = []string{"id", "organization_id", "name", "start_date", "end_date", "repeat_pattern"}
+	shiftTermColumnsWithoutDefault = []string{"organization_id", "name", "start_date", "end_date"}
 	shiftTermColumnsWithDefault    = []string{"id", "repeat_pattern"}
 	shiftTermPrimaryKeyColumns     = []string{"id"}
 	shiftTermGeneratedColumns      = []string{}
@@ -449,6 +466,17 @@ func (q shiftTermQuery) Exists(ctx context.Context, exec boil.ContextExecutor) (
 	return count > 0, nil
 }
 
+// Organization pointed to by the foreign key.
+func (o *ShiftTerm) Organization(mods ...qm.QueryMod) organizationQuery {
+	queryMods := []qm.QueryMod{
+		qm.Where("\"id\" = ?", o.OrganizationID),
+	}
+
+	queryMods = append(queryMods, mods...)
+
+	return Organizations(queryMods...)
+}
+
 // Shifts retrieves all the shift's Shifts with an executor.
 func (o *ShiftTerm) Shifts(mods ...qm.QueryMod) shiftQuery {
 	var queryMods []qm.QueryMod
@@ -461,6 +489,126 @@ func (o *ShiftTerm) Shifts(mods ...qm.QueryMod) shiftQuery {
 	)
 
 	return Shifts(queryMods...)
+}
+
+// LoadOrganization allows an eager lookup of values, cached into the
+// loaded structs of the objects. This is for an N-1 relationship.
+func (shiftTermL) LoadOrganization(ctx context.Context, e boil.ContextExecutor, singular bool, maybeShiftTerm interface{}, mods queries.Applicator) error {
+	var slice []*ShiftTerm
+	var object *ShiftTerm
+
+	if singular {
+		var ok bool
+		object, ok = maybeShiftTerm.(*ShiftTerm)
+		if !ok {
+			object = new(ShiftTerm)
+			ok = queries.SetFromEmbeddedStruct(&object, &maybeShiftTerm)
+			if !ok {
+				return errors.New(fmt.Sprintf("failed to set %T from embedded struct %T", object, maybeShiftTerm))
+			}
+		}
+	} else {
+		s, ok := maybeShiftTerm.(*[]*ShiftTerm)
+		if ok {
+			slice = *s
+		} else {
+			ok = queries.SetFromEmbeddedStruct(&slice, maybeShiftTerm)
+			if !ok {
+				return errors.New(fmt.Sprintf("failed to set %T from embedded struct %T", slice, maybeShiftTerm))
+			}
+		}
+	}
+
+	args := make([]interface{}, 0, 1)
+	if singular {
+		if object.R == nil {
+			object.R = &shiftTermR{}
+		}
+		args = append(args, object.OrganizationID)
+
+	} else {
+	Outer:
+		for _, obj := range slice {
+			if obj.R == nil {
+				obj.R = &shiftTermR{}
+			}
+
+			for _, a := range args {
+				if a == obj.OrganizationID {
+					continue Outer
+				}
+			}
+
+			args = append(args, obj.OrganizationID)
+
+		}
+	}
+
+	if len(args) == 0 {
+		return nil
+	}
+
+	query := NewQuery(
+		qm.From(`organizations`),
+		qm.WhereIn(`organizations.id in ?`, args...),
+	)
+	if mods != nil {
+		mods.Apply(query)
+	}
+
+	results, err := query.QueryContext(ctx, e)
+	if err != nil {
+		return errors.Wrap(err, "failed to eager load Organization")
+	}
+
+	var resultSlice []*Organization
+	if err = queries.Bind(results, &resultSlice); err != nil {
+		return errors.Wrap(err, "failed to bind eager loaded slice Organization")
+	}
+
+	if err = results.Close(); err != nil {
+		return errors.Wrap(err, "failed to close results of eager load for organizations")
+	}
+	if err = results.Err(); err != nil {
+		return errors.Wrap(err, "error occurred during iteration of eager loaded relations for organizations")
+	}
+
+	if len(organizationAfterSelectHooks) != 0 {
+		for _, obj := range resultSlice {
+			if err := obj.doAfterSelectHooks(ctx, e); err != nil {
+				return err
+			}
+		}
+	}
+
+	if len(resultSlice) == 0 {
+		return nil
+	}
+
+	if singular {
+		foreign := resultSlice[0]
+		object.R.Organization = foreign
+		if foreign.R == nil {
+			foreign.R = &organizationR{}
+		}
+		foreign.R.ShiftTerms = append(foreign.R.ShiftTerms, object)
+		return nil
+	}
+
+	for _, local := range slice {
+		for _, foreign := range resultSlice {
+			if local.OrganizationID == foreign.ID {
+				local.R.Organization = foreign
+				if foreign.R == nil {
+					foreign.R = &organizationR{}
+				}
+				foreign.R.ShiftTerms = append(foreign.R.ShiftTerms, local)
+				break
+			}
+		}
+	}
+
+	return nil
 }
 
 // LoadShifts allows an eager lookup of values, cached into the
@@ -572,6 +720,61 @@ func (shiftTermL) LoadShifts(ctx context.Context, e boil.ContextExecutor, singul
 				break
 			}
 		}
+	}
+
+	return nil
+}
+
+// SetOrganizationG of the shiftTerm to the related item.
+// Sets o.R.Organization to related.
+// Adds o to related.R.ShiftTerms.
+// Uses the global database handle.
+func (o *ShiftTerm) SetOrganizationG(ctx context.Context, insert bool, related *Organization) error {
+	return o.SetOrganization(ctx, boil.GetContextDB(), insert, related)
+}
+
+// SetOrganization of the shiftTerm to the related item.
+// Sets o.R.Organization to related.
+// Adds o to related.R.ShiftTerms.
+func (o *ShiftTerm) SetOrganization(ctx context.Context, exec boil.ContextExecutor, insert bool, related *Organization) error {
+	var err error
+	if insert {
+		if err = related.Insert(ctx, exec, boil.Infer()); err != nil {
+			return errors.Wrap(err, "failed to insert into foreign table")
+		}
+	}
+
+	updateQuery := fmt.Sprintf(
+		"UPDATE \"shift_terms\" SET %s WHERE %s",
+		strmangle.SetParamNames("\"", "\"", 1, []string{"organization_id"}),
+		strmangle.WhereClause("\"", "\"", 2, shiftTermPrimaryKeyColumns),
+	)
+	values := []interface{}{related.ID, o.ID}
+
+	if boil.IsDebug(ctx) {
+		writer := boil.DebugWriterFrom(ctx)
+		fmt.Fprintln(writer, updateQuery)
+		fmt.Fprintln(writer, values)
+	}
+	if _, err = exec.ExecContext(ctx, updateQuery, values...); err != nil {
+		return errors.Wrap(err, "failed to update local table")
+	}
+
+	o.OrganizationID = related.ID
+	if o.R == nil {
+		o.R = &shiftTermR{
+			Organization: related,
+		}
+	} else {
+		o.R.Organization = related
+	}
+
+	if related.R == nil {
+		related.R = &organizationR{
+			ShiftTerms: ShiftTermSlice{o},
+		}
+	} else {
+		related.R.ShiftTerms = append(related.R.ShiftTerms, o)
 	}
 
 	return nil

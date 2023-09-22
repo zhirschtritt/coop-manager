@@ -24,64 +24,74 @@ import (
 
 // ShiftSlot is an object representing the database table.
 type ShiftSlot struct {
-	ID      string     `boil:"id" json:"id" toml:"id" yaml:"id"`
-	ShiftID string     `boil:"shift_id" json:"shift_id" toml:"shift_id" yaml:"shift_id"`
-	Name    string     `boil:"name" json:"name" toml:"name" yaml:"name"`
-	Data    types.JSON `boil:"data" json:"data" toml:"data" yaml:"data"`
+	ID             string     `boil:"id" json:"id" toml:"id" yaml:"id"`
+	OrganizationID string     `boil:"organization_id" json:"organization_id" toml:"organization_id" yaml:"organization_id"`
+	ShiftID        string     `boil:"shift_id" json:"shift_id" toml:"shift_id" yaml:"shift_id"`
+	Name           string     `boil:"name" json:"name" toml:"name" yaml:"name"`
+	Data           types.JSON `boil:"data" json:"data" toml:"data" yaml:"data"`
 
 	R *shiftSlotR `boil:"-" json:"-" toml:"-" yaml:"-"`
 	L shiftSlotL  `boil:"-" json:"-" toml:"-" yaml:"-"`
 }
 
 var ShiftSlotColumns = struct {
-	ID      string
-	ShiftID string
-	Name    string
-	Data    string
+	ID             string
+	OrganizationID string
+	ShiftID        string
+	Name           string
+	Data           string
 }{
-	ID:      "id",
-	ShiftID: "shift_id",
-	Name:    "name",
-	Data:    "data",
+	ID:             "id",
+	OrganizationID: "organization_id",
+	ShiftID:        "shift_id",
+	Name:           "name",
+	Data:           "data",
 }
 
 var ShiftSlotTableColumns = struct {
-	ID      string
-	ShiftID string
-	Name    string
-	Data    string
+	ID             string
+	OrganizationID string
+	ShiftID        string
+	Name           string
+	Data           string
 }{
-	ID:      "shift_slots.id",
-	ShiftID: "shift_slots.shift_id",
-	Name:    "shift_slots.name",
-	Data:    "shift_slots.data",
+	ID:             "shift_slots.id",
+	OrganizationID: "shift_slots.organization_id",
+	ShiftID:        "shift_slots.shift_id",
+	Name:           "shift_slots.name",
+	Data:           "shift_slots.data",
 }
 
 // Generated where
 
 var ShiftSlotWhere = struct {
-	ID      whereHelperstring
-	ShiftID whereHelperstring
-	Name    whereHelperstring
-	Data    whereHelpertypes_JSON
+	ID             whereHelperstring
+	OrganizationID whereHelperstring
+	ShiftID        whereHelperstring
+	Name           whereHelperstring
+	Data           whereHelpertypes_JSON
 }{
-	ID:      whereHelperstring{field: "\"shift_slots\".\"id\""},
-	ShiftID: whereHelperstring{field: "\"shift_slots\".\"shift_id\""},
-	Name:    whereHelperstring{field: "\"shift_slots\".\"name\""},
-	Data:    whereHelpertypes_JSON{field: "\"shift_slots\".\"data\""},
+	ID:             whereHelperstring{field: "\"shift_slots\".\"id\""},
+	OrganizationID: whereHelperstring{field: "\"shift_slots\".\"organization_id\""},
+	ShiftID:        whereHelperstring{field: "\"shift_slots\".\"shift_id\""},
+	Name:           whereHelperstring{field: "\"shift_slots\".\"name\""},
+	Data:           whereHelpertypes_JSON{field: "\"shift_slots\".\"data\""},
 }
 
 // ShiftSlotRels is where relationship names are stored.
 var ShiftSlotRels = struct {
+	Organization     string
 	Shift            string
 	ShiftAssignments string
 }{
+	Organization:     "Organization",
 	Shift:            "Shift",
 	ShiftAssignments: "ShiftAssignments",
 }
 
 // shiftSlotR is where relationships are stored.
 type shiftSlotR struct {
+	Organization     *Organization        `boil:"Organization" json:"Organization" toml:"Organization" yaml:"Organization"`
 	Shift            *Shift               `boil:"Shift" json:"Shift" toml:"Shift" yaml:"Shift"`
 	ShiftAssignments ShiftAssignmentSlice `boil:"ShiftAssignments" json:"ShiftAssignments" toml:"ShiftAssignments" yaml:"ShiftAssignments"`
 }
@@ -89,6 +99,13 @@ type shiftSlotR struct {
 // NewStruct creates a new relationship struct
 func (*shiftSlotR) NewStruct() *shiftSlotR {
 	return &shiftSlotR{}
+}
+
+func (r *shiftSlotR) GetOrganization() *Organization {
+	if r == nil {
+		return nil
+	}
+	return r.Organization
 }
 
 func (r *shiftSlotR) GetShift() *Shift {
@@ -109,8 +126,8 @@ func (r *shiftSlotR) GetShiftAssignments() ShiftAssignmentSlice {
 type shiftSlotL struct{}
 
 var (
-	shiftSlotAllColumns            = []string{"id", "shift_id", "name", "data"}
-	shiftSlotColumnsWithoutDefault = []string{"shift_id", "name"}
+	shiftSlotAllColumns            = []string{"id", "organization_id", "shift_id", "name", "data"}
+	shiftSlotColumnsWithoutDefault = []string{"organization_id", "shift_id", "name"}
 	shiftSlotColumnsWithDefault    = []string{"id", "data"}
 	shiftSlotPrimaryKeyColumns     = []string{"id"}
 	shiftSlotGeneratedColumns      = []string{}
@@ -414,6 +431,17 @@ func (q shiftSlotQuery) Exists(ctx context.Context, exec boil.ContextExecutor) (
 	return count > 0, nil
 }
 
+// Organization pointed to by the foreign key.
+func (o *ShiftSlot) Organization(mods ...qm.QueryMod) organizationQuery {
+	queryMods := []qm.QueryMod{
+		qm.Where("\"id\" = ?", o.OrganizationID),
+	}
+
+	queryMods = append(queryMods, mods...)
+
+	return Organizations(queryMods...)
+}
+
 // Shift pointed to by the foreign key.
 func (o *ShiftSlot) Shift(mods ...qm.QueryMod) shiftQuery {
 	queryMods := []qm.QueryMod{
@@ -437,6 +465,126 @@ func (o *ShiftSlot) ShiftAssignments(mods ...qm.QueryMod) shiftAssignmentQuery {
 	)
 
 	return ShiftAssignments(queryMods...)
+}
+
+// LoadOrganization allows an eager lookup of values, cached into the
+// loaded structs of the objects. This is for an N-1 relationship.
+func (shiftSlotL) LoadOrganization(ctx context.Context, e boil.ContextExecutor, singular bool, maybeShiftSlot interface{}, mods queries.Applicator) error {
+	var slice []*ShiftSlot
+	var object *ShiftSlot
+
+	if singular {
+		var ok bool
+		object, ok = maybeShiftSlot.(*ShiftSlot)
+		if !ok {
+			object = new(ShiftSlot)
+			ok = queries.SetFromEmbeddedStruct(&object, &maybeShiftSlot)
+			if !ok {
+				return errors.New(fmt.Sprintf("failed to set %T from embedded struct %T", object, maybeShiftSlot))
+			}
+		}
+	} else {
+		s, ok := maybeShiftSlot.(*[]*ShiftSlot)
+		if ok {
+			slice = *s
+		} else {
+			ok = queries.SetFromEmbeddedStruct(&slice, maybeShiftSlot)
+			if !ok {
+				return errors.New(fmt.Sprintf("failed to set %T from embedded struct %T", slice, maybeShiftSlot))
+			}
+		}
+	}
+
+	args := make([]interface{}, 0, 1)
+	if singular {
+		if object.R == nil {
+			object.R = &shiftSlotR{}
+		}
+		args = append(args, object.OrganizationID)
+
+	} else {
+	Outer:
+		for _, obj := range slice {
+			if obj.R == nil {
+				obj.R = &shiftSlotR{}
+			}
+
+			for _, a := range args {
+				if a == obj.OrganizationID {
+					continue Outer
+				}
+			}
+
+			args = append(args, obj.OrganizationID)
+
+		}
+	}
+
+	if len(args) == 0 {
+		return nil
+	}
+
+	query := NewQuery(
+		qm.From(`organizations`),
+		qm.WhereIn(`organizations.id in ?`, args...),
+	)
+	if mods != nil {
+		mods.Apply(query)
+	}
+
+	results, err := query.QueryContext(ctx, e)
+	if err != nil {
+		return errors.Wrap(err, "failed to eager load Organization")
+	}
+
+	var resultSlice []*Organization
+	if err = queries.Bind(results, &resultSlice); err != nil {
+		return errors.Wrap(err, "failed to bind eager loaded slice Organization")
+	}
+
+	if err = results.Close(); err != nil {
+		return errors.Wrap(err, "failed to close results of eager load for organizations")
+	}
+	if err = results.Err(); err != nil {
+		return errors.Wrap(err, "error occurred during iteration of eager loaded relations for organizations")
+	}
+
+	if len(organizationAfterSelectHooks) != 0 {
+		for _, obj := range resultSlice {
+			if err := obj.doAfterSelectHooks(ctx, e); err != nil {
+				return err
+			}
+		}
+	}
+
+	if len(resultSlice) == 0 {
+		return nil
+	}
+
+	if singular {
+		foreign := resultSlice[0]
+		object.R.Organization = foreign
+		if foreign.R == nil {
+			foreign.R = &organizationR{}
+		}
+		foreign.R.ShiftSlots = append(foreign.R.ShiftSlots, object)
+		return nil
+	}
+
+	for _, local := range slice {
+		for _, foreign := range resultSlice {
+			if local.OrganizationID == foreign.ID {
+				local.R.Organization = foreign
+				if foreign.R == nil {
+					foreign.R = &organizationR{}
+				}
+				foreign.R.ShiftSlots = append(foreign.R.ShiftSlots, local)
+				break
+			}
+		}
+	}
+
+	return nil
 }
 
 // LoadShift allows an eager lookup of values, cached into the
@@ -673,6 +821,61 @@ func (shiftSlotL) LoadShiftAssignments(ctx context.Context, e boil.ContextExecut
 	return nil
 }
 
+// SetOrganizationG of the shiftSlot to the related item.
+// Sets o.R.Organization to related.
+// Adds o to related.R.ShiftSlots.
+// Uses the global database handle.
+func (o *ShiftSlot) SetOrganizationG(ctx context.Context, insert bool, related *Organization) error {
+	return o.SetOrganization(ctx, boil.GetContextDB(), insert, related)
+}
+
+// SetOrganization of the shiftSlot to the related item.
+// Sets o.R.Organization to related.
+// Adds o to related.R.ShiftSlots.
+func (o *ShiftSlot) SetOrganization(ctx context.Context, exec boil.ContextExecutor, insert bool, related *Organization) error {
+	var err error
+	if insert {
+		if err = related.Insert(ctx, exec, boil.Infer()); err != nil {
+			return errors.Wrap(err, "failed to insert into foreign table")
+		}
+	}
+
+	updateQuery := fmt.Sprintf(
+		"UPDATE \"shift_slots\" SET %s WHERE %s",
+		strmangle.SetParamNames("\"", "\"", 1, []string{"organization_id"}),
+		strmangle.WhereClause("\"", "\"", 2, shiftSlotPrimaryKeyColumns),
+	)
+	values := []interface{}{related.ID, o.ID}
+
+	if boil.IsDebug(ctx) {
+		writer := boil.DebugWriterFrom(ctx)
+		fmt.Fprintln(writer, updateQuery)
+		fmt.Fprintln(writer, values)
+	}
+	if _, err = exec.ExecContext(ctx, updateQuery, values...); err != nil {
+		return errors.Wrap(err, "failed to update local table")
+	}
+
+	o.OrganizationID = related.ID
+	if o.R == nil {
+		o.R = &shiftSlotR{
+			Organization: related,
+		}
+	} else {
+		o.R.Organization = related
+	}
+
+	if related.R == nil {
+		related.R = &organizationR{
+			ShiftSlots: ShiftSlotSlice{o},
+		}
+	} else {
+		related.R.ShiftSlots = append(related.R.ShiftSlots, o)
+	}
+
+	return nil
+}
+
 // SetShiftG of the shiftSlot to the related item.
 // Sets o.R.Shift to related.
 // Adds o to related.R.ShiftSlots.
@@ -755,7 +958,7 @@ func (o *ShiftSlot) AddShiftAssignments(ctx context.Context, exec boil.ContextEx
 				strmangle.SetParamNames("\"", "\"", 1, []string{"shift_slot_id"}),
 				strmangle.WhereClause("\"", "\"", 2, shiftAssignmentPrimaryKeyColumns),
 			)
-			values := []interface{}{o.ID, rel.ID}
+			values := []interface{}{o.ID, rel.MemberID, rel.ShiftID, rel.ShiftSlotID, rel.OrganizationID}
 
 			if boil.IsDebug(ctx) {
 				writer := boil.DebugWriterFrom(ctx)

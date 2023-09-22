@@ -4,25 +4,27 @@
 package models
 
 var TableNames = struct {
-	CoopEvents       string
-	Members          string
-	MembershipTypes  string
-	Memberships      string
-	SchemaMigrations string
-	ShiftAssignments string
-	ShiftSlots       string
-	ShiftTerms       string
-	Shifts           string
-	Test1            string
+	CoopEvents          string
+	MemberOrganizations string
+	Members             string
+	MembershipTypes     string
+	Memberships         string
+	Organizations       string
+	SchemaMigrations    string
+	ShiftAssignments    string
+	ShiftSlots          string
+	ShiftTerms          string
+	Shifts              string
 }{
-	CoopEvents:       "coop_events",
-	Members:          "members",
-	MembershipTypes:  "membership_types",
-	Memberships:      "memberships",
-	SchemaMigrations: "schema_migrations",
-	ShiftAssignments: "shift_assignments",
-	ShiftSlots:       "shift_slots",
-	ShiftTerms:       "shift_terms",
-	Shifts:           "shifts",
-	Test1:            "test1",
+	CoopEvents:          "coop_events",
+	MemberOrganizations: "member_organizations",
+	Members:             "members",
+	MembershipTypes:     "membership_types",
+	Memberships:         "memberships",
+	Organizations:       "organizations",
+	SchemaMigrations:    "schema_migrations",
+	ShiftAssignments:    "shift_assignments",
+	ShiftSlots:          "shift_slots",
+	ShiftTerms:          "shift_terms",
+	Shifts:              "shifts",
 }

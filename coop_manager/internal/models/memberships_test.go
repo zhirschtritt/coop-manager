@@ -149,7 +149,7 @@ func testMembershipsExists(t *testing.T) {
 		t.Error(err)
 	}
 
-	e, err := MembershipExists(ctx, tx, o.ID)
+	e, err := MembershipExists(ctx, tx, o.MemberID, o.OrganizationID, o.CreatedBy)
 	if err != nil {
 		t.Errorf("Unable to check if Membership exists: %s", err)
 	}
@@ -175,7 +175,7 @@ func testMembershipsFind(t *testing.T) {
 		t.Error(err)
 	}
 
-	membershipFound, err := FindMembership(ctx, tx, o.ID)
+	membershipFound, err := FindMembership(ctx, tx, o.MemberID, o.OrganizationID, o.CreatedBy)
 	if err != nil {
 		t.Error(err)
 	}
@@ -494,6 +494,67 @@ func testMembershipsInsertWhitelist(t *testing.T) {
 	}
 }
 
+func testMembershipToOneCoopEventUsingCreatedByCoopEvent(t *testing.T) {
+	ctx := context.Background()
+	tx := MustTx(boil.BeginTx(ctx, nil))
+	defer func() { _ = tx.Rollback() }()
+
+	var local Membership
+	var foreign CoopEvent
+
+	seed := randomize.NewSeed()
+	if err := randomize.Struct(seed, &local, membershipDBTypes, false, membershipColumnsWithDefault...); err != nil {
+		t.Errorf("Unable to randomize Membership struct: %s", err)
+	}
+	if err := randomize.Struct(seed, &foreign, coopEventDBTypes, false, coopEventColumnsWithDefault...); err != nil {
+		t.Errorf("Unable to randomize CoopEvent struct: %s", err)
+	}
+
+	if err := foreign.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+
+	local.CreatedBy = foreign.ID
+	if err := local.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+
+	check, err := local.CreatedByCoopEvent().One(ctx, tx)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if check.ID != foreign.ID {
+		t.Errorf("want: %v, got %v", foreign.ID, check.ID)
+	}
+
+	ranAfterSelectHook := false
+	AddCoopEventHook(boil.AfterSelectHook, func(ctx context.Context, e boil.ContextExecutor, o *CoopEvent) error {
+		ranAfterSelectHook = true
+		return nil
+	})
+
+	slice := MembershipSlice{&local}
+	if err = local.L.LoadCreatedByCoopEvent(ctx, tx, false, (*[]*Membership)(&slice), nil); err != nil {
+		t.Fatal(err)
+	}
+	if local.R.CreatedByCoopEvent == nil {
+		t.Error("struct should have been eager loaded")
+	}
+
+	local.R.CreatedByCoopEvent = nil
+	if err = local.L.LoadCreatedByCoopEvent(ctx, tx, true, &local, nil); err != nil {
+		t.Fatal(err)
+	}
+	if local.R.CreatedByCoopEvent == nil {
+		t.Error("struct should have been eager loaded")
+	}
+
+	if !ranAfterSelectHook {
+		t.Error("failed to run AfterSelect hook for relationship")
+	}
+}
+
 func testMembershipToOneMemberUsingMember(t *testing.T) {
 	ctx := context.Background()
 	tx := MustTx(boil.BeginTx(ctx, nil))
@@ -616,6 +677,120 @@ func testMembershipToOneMembershipTypeUsingMembershipType(t *testing.T) {
 	}
 }
 
+func testMembershipToOneOrganizationUsingOrganization(t *testing.T) {
+	ctx := context.Background()
+	tx := MustTx(boil.BeginTx(ctx, nil))
+	defer func() { _ = tx.Rollback() }()
+
+	var local Membership
+	var foreign Organization
+
+	seed := randomize.NewSeed()
+	if err := randomize.Struct(seed, &local, membershipDBTypes, false, membershipColumnsWithDefault...); err != nil {
+		t.Errorf("Unable to randomize Membership struct: %s", err)
+	}
+	if err := randomize.Struct(seed, &foreign, organizationDBTypes, false, organizationColumnsWithDefault...); err != nil {
+		t.Errorf("Unable to randomize Organization struct: %s", err)
+	}
+
+	if err := foreign.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+
+	local.OrganizationID = foreign.ID
+	if err := local.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+
+	check, err := local.Organization().One(ctx, tx)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if check.ID != foreign.ID {
+		t.Errorf("want: %v, got %v", foreign.ID, check.ID)
+	}
+
+	ranAfterSelectHook := false
+	AddOrganizationHook(boil.AfterSelectHook, func(ctx context.Context, e boil.ContextExecutor, o *Organization) error {
+		ranAfterSelectHook = true
+		return nil
+	})
+
+	slice := MembershipSlice{&local}
+	if err = local.L.LoadOrganization(ctx, tx, false, (*[]*Membership)(&slice), nil); err != nil {
+		t.Fatal(err)
+	}
+	if local.R.Organization == nil {
+		t.Error("struct should have been eager loaded")
+	}
+
+	local.R.Organization = nil
+	if err = local.L.LoadOrganization(ctx, tx, true, &local, nil); err != nil {
+		t.Fatal(err)
+	}
+	if local.R.Organization == nil {
+		t.Error("struct should have been eager loaded")
+	}
+
+	if !ranAfterSelectHook {
+		t.Error("failed to run AfterSelect hook for relationship")
+	}
+}
+
+func testMembershipToOneSetOpCoopEventUsingCreatedByCoopEvent(t *testing.T) {
+	var err error
+
+	ctx := context.Background()
+	tx := MustTx(boil.BeginTx(ctx, nil))
+	defer func() { _ = tx.Rollback() }()
+
+	var a Membership
+	var b, c CoopEvent
+
+	seed := randomize.NewSeed()
+	if err = randomize.Struct(seed, &a, membershipDBTypes, false, strmangle.SetComplement(membershipPrimaryKeyColumns, membershipColumnsWithoutDefault)...); err != nil {
+		t.Fatal(err)
+	}
+	if err = randomize.Struct(seed, &b, coopEventDBTypes, false, strmangle.SetComplement(coopEventPrimaryKeyColumns, coopEventColumnsWithoutDefault)...); err != nil {
+		t.Fatal(err)
+	}
+	if err = randomize.Struct(seed, &c, coopEventDBTypes, false, strmangle.SetComplement(coopEventPrimaryKeyColumns, coopEventColumnsWithoutDefault)...); err != nil {
+		t.Fatal(err)
+	}
+
+	if err := a.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+	if err = b.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+
+	for i, x := range []*CoopEvent{&b, &c} {
+		err = a.SetCreatedByCoopEvent(ctx, tx, i != 0, x)
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		if a.R.CreatedByCoopEvent != x {
+			t.Error("relationship struct not set to correct value")
+		}
+
+		if x.R.CreatedByMemberships[0] != &a {
+			t.Error("failed to append to foreign relationship struct")
+		}
+		if a.CreatedBy != x.ID {
+			t.Error("foreign key was wrong value", a.CreatedBy)
+		}
+
+		if exists, err := MembershipExists(ctx, tx, a.MemberID, a.OrganizationID, a.CreatedBy); err != nil {
+			t.Fatal(err)
+		} else if !exists {
+			t.Error("want 'a' to exist")
+		}
+
+	}
+}
 func testMembershipToOneSetOpMemberUsingMember(t *testing.T) {
 	var err error
 
@@ -661,16 +836,12 @@ func testMembershipToOneSetOpMemberUsingMember(t *testing.T) {
 			t.Error("foreign key was wrong value", a.MemberID)
 		}
 
-		zero := reflect.Zero(reflect.TypeOf(a.MemberID))
-		reflect.Indirect(reflect.ValueOf(&a.MemberID)).Set(zero)
-
-		if err = a.Reload(ctx, tx); err != nil {
-			t.Fatal("failed to reload", err)
+		if exists, err := MembershipExists(ctx, tx, a.MemberID, a.OrganizationID, a.CreatedBy); err != nil {
+			t.Fatal(err)
+		} else if !exists {
+			t.Error("want 'a' to exist")
 		}
 
-		if a.MemberID != x.ID {
-			t.Error("foreign key was wrong value", a.MemberID, x.ID)
-		}
 	}
 }
 func testMembershipToOneSetOpMembershipTypeUsingMembershipType(t *testing.T) {
@@ -728,6 +899,59 @@ func testMembershipToOneSetOpMembershipTypeUsingMembershipType(t *testing.T) {
 		if a.MembershipTypeID != x.ID {
 			t.Error("foreign key was wrong value", a.MembershipTypeID, x.ID)
 		}
+	}
+}
+func testMembershipToOneSetOpOrganizationUsingOrganization(t *testing.T) {
+	var err error
+
+	ctx := context.Background()
+	tx := MustTx(boil.BeginTx(ctx, nil))
+	defer func() { _ = tx.Rollback() }()
+
+	var a Membership
+	var b, c Organization
+
+	seed := randomize.NewSeed()
+	if err = randomize.Struct(seed, &a, membershipDBTypes, false, strmangle.SetComplement(membershipPrimaryKeyColumns, membershipColumnsWithoutDefault)...); err != nil {
+		t.Fatal(err)
+	}
+	if err = randomize.Struct(seed, &b, organizationDBTypes, false, strmangle.SetComplement(organizationPrimaryKeyColumns, organizationColumnsWithoutDefault)...); err != nil {
+		t.Fatal(err)
+	}
+	if err = randomize.Struct(seed, &c, organizationDBTypes, false, strmangle.SetComplement(organizationPrimaryKeyColumns, organizationColumnsWithoutDefault)...); err != nil {
+		t.Fatal(err)
+	}
+
+	if err := a.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+	if err = b.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+
+	for i, x := range []*Organization{&b, &c} {
+		err = a.SetOrganization(ctx, tx, i != 0, x)
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		if a.R.Organization != x {
+			t.Error("relationship struct not set to correct value")
+		}
+
+		if x.R.Memberships[0] != &a {
+			t.Error("failed to append to foreign relationship struct")
+		}
+		if a.OrganizationID != x.ID {
+			t.Error("foreign key was wrong value", a.OrganizationID)
+		}
+
+		if exists, err := MembershipExists(ctx, tx, a.MemberID, a.OrganizationID, a.CreatedBy); err != nil {
+			t.Fatal(err)
+		} else if !exists {
+			t.Error("want 'a' to exist")
+		}
+
 	}
 }
 
@@ -805,7 +1029,7 @@ func testMembershipsSelect(t *testing.T) {
 }
 
 var (
-	membershipDBTypes = map[string]string{`ID`: `uuid`, `MemberID`: `uuid`, `MembershipTypeID`: `uuid`, `StartDate`: `timestamp with time zone`, `EndDate`: `timestamp with time zone`, `Status`: `text`}
+	membershipDBTypes = map[string]string{`MemberID`: `uuid`, `MembershipTypeID`: `uuid`, `OrganizationID`: `uuid`, `CreatedBy`: `uuid`, `StartDate`: `timestamp with time zone`, `EndDate`: `timestamp with time zone`, `Status`: `text`}
 	_                 = bytes.MinRead
 )
 

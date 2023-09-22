@@ -494,6 +494,84 @@ func testCoopEventsInsertWhitelist(t *testing.T) {
 	}
 }
 
+func testCoopEventToManyCreatedByMemberships(t *testing.T) {
+	var err error
+	ctx := context.Background()
+	tx := MustTx(boil.BeginTx(ctx, nil))
+	defer func() { _ = tx.Rollback() }()
+
+	var a CoopEvent
+	var b, c Membership
+
+	seed := randomize.NewSeed()
+	if err = randomize.Struct(seed, &a, coopEventDBTypes, true, coopEventColumnsWithDefault...); err != nil {
+		t.Errorf("Unable to randomize CoopEvent struct: %s", err)
+	}
+
+	if err := a.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+
+	if err = randomize.Struct(seed, &b, membershipDBTypes, false, membershipColumnsWithDefault...); err != nil {
+		t.Fatal(err)
+	}
+	if err = randomize.Struct(seed, &c, membershipDBTypes, false, membershipColumnsWithDefault...); err != nil {
+		t.Fatal(err)
+	}
+
+	b.CreatedBy = a.ID
+	c.CreatedBy = a.ID
+
+	if err = b.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+	if err = c.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+
+	check, err := a.CreatedByMemberships().All(ctx, tx)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	bFound, cFound := false, false
+	for _, v := range check {
+		if v.CreatedBy == b.CreatedBy {
+			bFound = true
+		}
+		if v.CreatedBy == c.CreatedBy {
+			cFound = true
+		}
+	}
+
+	if !bFound {
+		t.Error("expected to find b")
+	}
+	if !cFound {
+		t.Error("expected to find c")
+	}
+
+	slice := CoopEventSlice{&a}
+	if err = a.L.LoadCreatedByMemberships(ctx, tx, false, (*[]*CoopEvent)(&slice), nil); err != nil {
+		t.Fatal(err)
+	}
+	if got := len(a.R.CreatedByMemberships); got != 2 {
+		t.Error("number of eager loaded records wrong, got:", got)
+	}
+
+	a.R.CreatedByMemberships = nil
+	if err = a.L.LoadCreatedByMemberships(ctx, tx, true, &a, nil); err != nil {
+		t.Fatal(err)
+	}
+	if got := len(a.R.CreatedByMemberships); got != 2 {
+		t.Error("number of eager loaded records wrong, got:", got)
+	}
+
+	if t.Failed() {
+		t.Logf("%#v", check)
+	}
+}
+
 func testCoopEventToManyCreatedByShiftAssignments(t *testing.T) {
 	var err error
 	ctx := context.Background()
@@ -572,6 +650,81 @@ func testCoopEventToManyCreatedByShiftAssignments(t *testing.T) {
 	}
 }
 
+func testCoopEventToManyAddOpCreatedByMemberships(t *testing.T) {
+	var err error
+
+	ctx := context.Background()
+	tx := MustTx(boil.BeginTx(ctx, nil))
+	defer func() { _ = tx.Rollback() }()
+
+	var a CoopEvent
+	var b, c, d, e Membership
+
+	seed := randomize.NewSeed()
+	if err = randomize.Struct(seed, &a, coopEventDBTypes, false, strmangle.SetComplement(coopEventPrimaryKeyColumns, coopEventColumnsWithoutDefault)...); err != nil {
+		t.Fatal(err)
+	}
+	foreigners := []*Membership{&b, &c, &d, &e}
+	for _, x := range foreigners {
+		if err = randomize.Struct(seed, x, membershipDBTypes, false, strmangle.SetComplement(membershipPrimaryKeyColumns, membershipColumnsWithoutDefault)...); err != nil {
+			t.Fatal(err)
+		}
+	}
+
+	if err := a.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+	if err = b.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+	if err = c.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+
+	foreignersSplitByInsertion := [][]*Membership{
+		{&b, &c},
+		{&d, &e},
+	}
+
+	for i, x := range foreignersSplitByInsertion {
+		err = a.AddCreatedByMemberships(ctx, tx, i != 0, x...)
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		first := x[0]
+		second := x[1]
+
+		if a.ID != first.CreatedBy {
+			t.Error("foreign key was wrong value", a.ID, first.CreatedBy)
+		}
+		if a.ID != second.CreatedBy {
+			t.Error("foreign key was wrong value", a.ID, second.CreatedBy)
+		}
+
+		if first.R.CreatedByCoopEvent != &a {
+			t.Error("relationship was not added properly to the foreign slice")
+		}
+		if second.R.CreatedByCoopEvent != &a {
+			t.Error("relationship was not added properly to the foreign slice")
+		}
+
+		if a.R.CreatedByMemberships[i*2] != first {
+			t.Error("relationship struct slice not set to correct value")
+		}
+		if a.R.CreatedByMemberships[i*2+1] != second {
+			t.Error("relationship struct slice not set to correct value")
+		}
+
+		count, err := a.CreatedByMemberships().Count(ctx, tx)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if want := int64((i + 1) * 2); count != want {
+			t.Error("want", want, "got", count)
+		}
+	}
+}
 func testCoopEventToManyAddOpCreatedByShiftAssignments(t *testing.T) {
 	var err error
 
@@ -644,6 +797,124 @@ func testCoopEventToManyAddOpCreatedByShiftAssignments(t *testing.T) {
 		}
 		if want := int64((i + 1) * 2); count != want {
 			t.Error("want", want, "got", count)
+		}
+	}
+}
+func testCoopEventToOneOrganizationUsingOrganization(t *testing.T) {
+	ctx := context.Background()
+	tx := MustTx(boil.BeginTx(ctx, nil))
+	defer func() { _ = tx.Rollback() }()
+
+	var local CoopEvent
+	var foreign Organization
+
+	seed := randomize.NewSeed()
+	if err := randomize.Struct(seed, &local, coopEventDBTypes, false, coopEventColumnsWithDefault...); err != nil {
+		t.Errorf("Unable to randomize CoopEvent struct: %s", err)
+	}
+	if err := randomize.Struct(seed, &foreign, organizationDBTypes, false, organizationColumnsWithDefault...); err != nil {
+		t.Errorf("Unable to randomize Organization struct: %s", err)
+	}
+
+	if err := foreign.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+
+	local.OrganizationID = foreign.ID
+	if err := local.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+
+	check, err := local.Organization().One(ctx, tx)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if check.ID != foreign.ID {
+		t.Errorf("want: %v, got %v", foreign.ID, check.ID)
+	}
+
+	ranAfterSelectHook := false
+	AddOrganizationHook(boil.AfterSelectHook, func(ctx context.Context, e boil.ContextExecutor, o *Organization) error {
+		ranAfterSelectHook = true
+		return nil
+	})
+
+	slice := CoopEventSlice{&local}
+	if err = local.L.LoadOrganization(ctx, tx, false, (*[]*CoopEvent)(&slice), nil); err != nil {
+		t.Fatal(err)
+	}
+	if local.R.Organization == nil {
+		t.Error("struct should have been eager loaded")
+	}
+
+	local.R.Organization = nil
+	if err = local.L.LoadOrganization(ctx, tx, true, &local, nil); err != nil {
+		t.Fatal(err)
+	}
+	if local.R.Organization == nil {
+		t.Error("struct should have been eager loaded")
+	}
+
+	if !ranAfterSelectHook {
+		t.Error("failed to run AfterSelect hook for relationship")
+	}
+}
+
+func testCoopEventToOneSetOpOrganizationUsingOrganization(t *testing.T) {
+	var err error
+
+	ctx := context.Background()
+	tx := MustTx(boil.BeginTx(ctx, nil))
+	defer func() { _ = tx.Rollback() }()
+
+	var a CoopEvent
+	var b, c Organization
+
+	seed := randomize.NewSeed()
+	if err = randomize.Struct(seed, &a, coopEventDBTypes, false, strmangle.SetComplement(coopEventPrimaryKeyColumns, coopEventColumnsWithoutDefault)...); err != nil {
+		t.Fatal(err)
+	}
+	if err = randomize.Struct(seed, &b, organizationDBTypes, false, strmangle.SetComplement(organizationPrimaryKeyColumns, organizationColumnsWithoutDefault)...); err != nil {
+		t.Fatal(err)
+	}
+	if err = randomize.Struct(seed, &c, organizationDBTypes, false, strmangle.SetComplement(organizationPrimaryKeyColumns, organizationColumnsWithoutDefault)...); err != nil {
+		t.Fatal(err)
+	}
+
+	if err := a.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+	if err = b.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+
+	for i, x := range []*Organization{&b, &c} {
+		err = a.SetOrganization(ctx, tx, i != 0, x)
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		if a.R.Organization != x {
+			t.Error("relationship struct not set to correct value")
+		}
+
+		if x.R.CoopEvents[0] != &a {
+			t.Error("failed to append to foreign relationship struct")
+		}
+		if a.OrganizationID != x.ID {
+			t.Error("foreign key was wrong value", a.OrganizationID)
+		}
+
+		zero := reflect.Zero(reflect.TypeOf(a.OrganizationID))
+		reflect.Indirect(reflect.ValueOf(&a.OrganizationID)).Set(zero)
+
+		if err = a.Reload(ctx, tx); err != nil {
+			t.Fatal("failed to reload", err)
+		}
+
+		if a.OrganizationID != x.ID {
+			t.Error("foreign key was wrong value", a.OrganizationID, x.ID)
 		}
 	}
 }
@@ -722,7 +993,7 @@ func testCoopEventsSelect(t *testing.T) {
 }
 
 var (
-	coopEventDBTypes = map[string]string{`ID`: `uuid`, `SequenceID`: `bigint`, `Type`: `text`, `ScopeType`: `text`, `ScopeID`: `text`, `HappenedAt`: `timestamp with time zone`, `InsertedAt`: `timestamp with time zone`, `Data`: `jsonb`}
+	coopEventDBTypes = map[string]string{`ID`: `uuid`, `OrganizationID`: `uuid`, `SequenceID`: `bigint`, `Type`: `text`, `ScopeType`: `text`, `ScopeID`: `text`, `HappenedAt`: `timestamp with time zone`, `InsertedAt`: `timestamp with time zone`, `Data`: `jsonb`}
 	_                = bytes.MinRead
 )
 

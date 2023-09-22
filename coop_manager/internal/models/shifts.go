@@ -24,59 +24,68 @@ import (
 
 // Shift is an object representing the database table.
 type Shift struct {
-	ID          string      `boil:"id" json:"id" toml:"id" yaml:"id"`
-	StartAt     time.Time   `boil:"start_at" json:"start_at" toml:"start_at" yaml:"start_at"`
-	EndAt       time.Time   `boil:"end_at" json:"end_at" toml:"end_at" yaml:"end_at"`
-	ShiftTermID null.String `boil:"shift_term_id" json:"shift_term_id,omitempty" toml:"shift_term_id" yaml:"shift_term_id,omitempty"`
+	ID             string      `boil:"id" json:"id" toml:"id" yaml:"id"`
+	OrganizationID string      `boil:"organization_id" json:"organization_id" toml:"organization_id" yaml:"organization_id"`
+	StartAt        time.Time   `boil:"start_at" json:"start_at" toml:"start_at" yaml:"start_at"`
+	EndAt          time.Time   `boil:"end_at" json:"end_at" toml:"end_at" yaml:"end_at"`
+	ShiftTermID    null.String `boil:"shift_term_id" json:"shift_term_id,omitempty" toml:"shift_term_id" yaml:"shift_term_id,omitempty"`
 
 	R *shiftR `boil:"-" json:"-" toml:"-" yaml:"-"`
 	L shiftL  `boil:"-" json:"-" toml:"-" yaml:"-"`
 }
 
 var ShiftColumns = struct {
-	ID          string
-	StartAt     string
-	EndAt       string
-	ShiftTermID string
+	ID             string
+	OrganizationID string
+	StartAt        string
+	EndAt          string
+	ShiftTermID    string
 }{
-	ID:          "id",
-	StartAt:     "start_at",
-	EndAt:       "end_at",
-	ShiftTermID: "shift_term_id",
+	ID:             "id",
+	OrganizationID: "organization_id",
+	StartAt:        "start_at",
+	EndAt:          "end_at",
+	ShiftTermID:    "shift_term_id",
 }
 
 var ShiftTableColumns = struct {
-	ID          string
-	StartAt     string
-	EndAt       string
-	ShiftTermID string
+	ID             string
+	OrganizationID string
+	StartAt        string
+	EndAt          string
+	ShiftTermID    string
 }{
-	ID:          "shifts.id",
-	StartAt:     "shifts.start_at",
-	EndAt:       "shifts.end_at",
-	ShiftTermID: "shifts.shift_term_id",
+	ID:             "shifts.id",
+	OrganizationID: "shifts.organization_id",
+	StartAt:        "shifts.start_at",
+	EndAt:          "shifts.end_at",
+	ShiftTermID:    "shifts.shift_term_id",
 }
 
 // Generated where
 
 var ShiftWhere = struct {
-	ID          whereHelperstring
-	StartAt     whereHelpertime_Time
-	EndAt       whereHelpertime_Time
-	ShiftTermID whereHelpernull_String
+	ID             whereHelperstring
+	OrganizationID whereHelperstring
+	StartAt        whereHelpertime_Time
+	EndAt          whereHelpertime_Time
+	ShiftTermID    whereHelpernull_String
 }{
-	ID:          whereHelperstring{field: "\"shifts\".\"id\""},
-	StartAt:     whereHelpertime_Time{field: "\"shifts\".\"start_at\""},
-	EndAt:       whereHelpertime_Time{field: "\"shifts\".\"end_at\""},
-	ShiftTermID: whereHelpernull_String{field: "\"shifts\".\"shift_term_id\""},
+	ID:             whereHelperstring{field: "\"shifts\".\"id\""},
+	OrganizationID: whereHelperstring{field: "\"shifts\".\"organization_id\""},
+	StartAt:        whereHelpertime_Time{field: "\"shifts\".\"start_at\""},
+	EndAt:          whereHelpertime_Time{field: "\"shifts\".\"end_at\""},
+	ShiftTermID:    whereHelpernull_String{field: "\"shifts\".\"shift_term_id\""},
 }
 
 // ShiftRels is where relationship names are stored.
 var ShiftRels = struct {
+	Organization     string
 	ShiftTerm        string
 	ShiftAssignments string
 	ShiftSlots       string
 }{
+	Organization:     "Organization",
 	ShiftTerm:        "ShiftTerm",
 	ShiftAssignments: "ShiftAssignments",
 	ShiftSlots:       "ShiftSlots",
@@ -84,6 +93,7 @@ var ShiftRels = struct {
 
 // shiftR is where relationships are stored.
 type shiftR struct {
+	Organization     *Organization        `boil:"Organization" json:"Organization" toml:"Organization" yaml:"Organization"`
 	ShiftTerm        *ShiftTerm           `boil:"ShiftTerm" json:"ShiftTerm" toml:"ShiftTerm" yaml:"ShiftTerm"`
 	ShiftAssignments ShiftAssignmentSlice `boil:"ShiftAssignments" json:"ShiftAssignments" toml:"ShiftAssignments" yaml:"ShiftAssignments"`
 	ShiftSlots       ShiftSlotSlice       `boil:"ShiftSlots" json:"ShiftSlots" toml:"ShiftSlots" yaml:"ShiftSlots"`
@@ -92,6 +102,13 @@ type shiftR struct {
 // NewStruct creates a new relationship struct
 func (*shiftR) NewStruct() *shiftR {
 	return &shiftR{}
+}
+
+func (r *shiftR) GetOrganization() *Organization {
+	if r == nil {
+		return nil
+	}
+	return r.Organization
 }
 
 func (r *shiftR) GetShiftTerm() *ShiftTerm {
@@ -119,8 +136,8 @@ func (r *shiftR) GetShiftSlots() ShiftSlotSlice {
 type shiftL struct{}
 
 var (
-	shiftAllColumns            = []string{"id", "start_at", "end_at", "shift_term_id"}
-	shiftColumnsWithoutDefault = []string{"start_at", "end_at"}
+	shiftAllColumns            = []string{"id", "organization_id", "start_at", "end_at", "shift_term_id"}
+	shiftColumnsWithoutDefault = []string{"organization_id", "start_at", "end_at"}
 	shiftColumnsWithDefault    = []string{"id", "shift_term_id"}
 	shiftPrimaryKeyColumns     = []string{"id"}
 	shiftGeneratedColumns      = []string{}
@@ -424,6 +441,17 @@ func (q shiftQuery) Exists(ctx context.Context, exec boil.ContextExecutor) (bool
 	return count > 0, nil
 }
 
+// Organization pointed to by the foreign key.
+func (o *Shift) Organization(mods ...qm.QueryMod) organizationQuery {
+	queryMods := []qm.QueryMod{
+		qm.Where("\"id\" = ?", o.OrganizationID),
+	}
+
+	queryMods = append(queryMods, mods...)
+
+	return Organizations(queryMods...)
+}
+
 // ShiftTerm pointed to by the foreign key.
 func (o *Shift) ShiftTerm(mods ...qm.QueryMod) shiftTermQuery {
 	queryMods := []qm.QueryMod{
@@ -461,6 +489,126 @@ func (o *Shift) ShiftSlots(mods ...qm.QueryMod) shiftSlotQuery {
 	)
 
 	return ShiftSlots(queryMods...)
+}
+
+// LoadOrganization allows an eager lookup of values, cached into the
+// loaded structs of the objects. This is for an N-1 relationship.
+func (shiftL) LoadOrganization(ctx context.Context, e boil.ContextExecutor, singular bool, maybeShift interface{}, mods queries.Applicator) error {
+	var slice []*Shift
+	var object *Shift
+
+	if singular {
+		var ok bool
+		object, ok = maybeShift.(*Shift)
+		if !ok {
+			object = new(Shift)
+			ok = queries.SetFromEmbeddedStruct(&object, &maybeShift)
+			if !ok {
+				return errors.New(fmt.Sprintf("failed to set %T from embedded struct %T", object, maybeShift))
+			}
+		}
+	} else {
+		s, ok := maybeShift.(*[]*Shift)
+		if ok {
+			slice = *s
+		} else {
+			ok = queries.SetFromEmbeddedStruct(&slice, maybeShift)
+			if !ok {
+				return errors.New(fmt.Sprintf("failed to set %T from embedded struct %T", slice, maybeShift))
+			}
+		}
+	}
+
+	args := make([]interface{}, 0, 1)
+	if singular {
+		if object.R == nil {
+			object.R = &shiftR{}
+		}
+		args = append(args, object.OrganizationID)
+
+	} else {
+	Outer:
+		for _, obj := range slice {
+			if obj.R == nil {
+				obj.R = &shiftR{}
+			}
+
+			for _, a := range args {
+				if a == obj.OrganizationID {
+					continue Outer
+				}
+			}
+
+			args = append(args, obj.OrganizationID)
+
+		}
+	}
+
+	if len(args) == 0 {
+		return nil
+	}
+
+	query := NewQuery(
+		qm.From(`organizations`),
+		qm.WhereIn(`organizations.id in ?`, args...),
+	)
+	if mods != nil {
+		mods.Apply(query)
+	}
+
+	results, err := query.QueryContext(ctx, e)
+	if err != nil {
+		return errors.Wrap(err, "failed to eager load Organization")
+	}
+
+	var resultSlice []*Organization
+	if err = queries.Bind(results, &resultSlice); err != nil {
+		return errors.Wrap(err, "failed to bind eager loaded slice Organization")
+	}
+
+	if err = results.Close(); err != nil {
+		return errors.Wrap(err, "failed to close results of eager load for organizations")
+	}
+	if err = results.Err(); err != nil {
+		return errors.Wrap(err, "error occurred during iteration of eager loaded relations for organizations")
+	}
+
+	if len(organizationAfterSelectHooks) != 0 {
+		for _, obj := range resultSlice {
+			if err := obj.doAfterSelectHooks(ctx, e); err != nil {
+				return err
+			}
+		}
+	}
+
+	if len(resultSlice) == 0 {
+		return nil
+	}
+
+	if singular {
+		foreign := resultSlice[0]
+		object.R.Organization = foreign
+		if foreign.R == nil {
+			foreign.R = &organizationR{}
+		}
+		foreign.R.Shifts = append(foreign.R.Shifts, object)
+		return nil
+	}
+
+	for _, local := range slice {
+		for _, foreign := range resultSlice {
+			if local.OrganizationID == foreign.ID {
+				local.R.Organization = foreign
+				if foreign.R == nil {
+					foreign.R = &organizationR{}
+				}
+				foreign.R.Shifts = append(foreign.R.Shifts, local)
+				break
+			}
+		}
+	}
+
+	return nil
 }
 
 // LoadShiftTerm allows an eager lookup of values, cached into the
@@ -815,6 +963,61 @@ func (shiftL) LoadShiftSlots(ctx context.Context, e boil.ContextExecutor, singul
 	return nil
 }
 
+// SetOrganizationG of the shift to the related item.
+// Sets o.R.Organization to related.
+// Adds o to related.R.Shifts.
+// Uses the global database handle.
+func (o *Shift) SetOrganizationG(ctx context.Context, insert bool, related *Organization) error {
+	return o.SetOrganization(ctx, boil.GetContextDB(), insert, related)
+}
+
+// SetOrganization of the shift to the related item.
+// Sets o.R.Organization to related.
+// Adds o to related.R.Shifts.
+func (o *Shift) SetOrganization(ctx context.Context, exec boil.ContextExecutor, insert bool, related *Organization) error {
+	var err error
+	if insert {
+		if err = related.Insert(ctx, exec, boil.Infer()); err != nil {
+			return errors.Wrap(err, "failed to insert into foreign table")
+		}
+	}
+
+	updateQuery := fmt.Sprintf(
+		"UPDATE \"shifts\" SET %s WHERE %s",
+		strmangle.SetParamNames("\"", "\"", 1, []string{"organization_id"}),
+		strmangle.WhereClause("\"", "\"", 2, shiftPrimaryKeyColumns),
+	)
+	values := []interface{}{related.ID, o.ID}
+
+	if boil.IsDebug(ctx) {
+		writer := boil.DebugWriterFrom(ctx)
+		fmt.Fprintln(writer, updateQuery)
+		fmt.Fprintln(writer, values)
+	}
+	if _, err = exec.ExecContext(ctx, updateQuery, values...); err != nil {
+		return errors.Wrap(err, "failed to update local table")
+	}
+
+	o.OrganizationID = related.ID
+	if o.R == nil {
+		o.R = &shiftR{
+			Organization: related,
+		}
+	} else {
+		o.R.Organization = related
+	}
+
+	if related.R == nil {
+		related.R = &organizationR{
+			Shifts: ShiftSlice{o},
+		}
+	} else {
+		related.R.Shifts = append(related.R.Shifts, o)
+	}
+
+	return nil
+}
+
 // SetShiftTermG of the shift to the related item.
 // Sets o.R.ShiftTerm to related.
 // Adds o to related.R.Shifts.
@@ -938,7 +1141,7 @@ func (o *Shift) AddShiftAssignments(ctx context.Context, exec boil.ContextExecut
 				strmangle.SetParamNames("\"", "\"", 1, []string{"shift_id"}),
 				strmangle.WhereClause("\"", "\"", 2, shiftAssignmentPrimaryKeyColumns),
 			)
-			values := []interface{}{o.ID, rel.ID}
+			values := []interface{}{o.ID, rel.MemberID, rel.ShiftID, rel.ShiftSlotID, rel.OrganizationID}
 
 			if boil.IsDebug(ctx) {
 				writer := boil.DebugWriterFrom(ctx)
