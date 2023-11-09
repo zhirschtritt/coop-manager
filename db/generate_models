@@ -1,0 +1,24 @@
+#! /usr/bin/env bash
+
+conn_url=$(encore db conn-uri core)
+
+regex="^([^:]+)://([^:]+):([^@]+)@([^:/]+):([^/]+)/([^?]+)"
+if [[ $conn_url =~ $regex ]]; then
+    export PSQL_DBNAME=${BASH_REMATCH[6]}
+    export PSQL_USER=${BASH_REMATCH[2]}
+    export PSQL_PASS=${BASH_REMATCH[3]}
+    export PSQL_HOST=${BASH_REMATCH[4]}
+    export PSQL_PORT=${BASH_REMATCH[5]}
+
+    echo "Generating models for: $PSQL_DB"
+    echo "User: $PSQL_USER"
+    echo "Pass: $PSQL_PASS"
+    echo "Host: $PSQL_HOST"
+    echo "Port: $PSQL_PORT"
+    
+    export PSQL_SSLMODE=disable
+    
+    go run -mod=mod github.com/volatiletech/sqlboiler/v4 psql --output=models --add-panic-variants --no-tests --wipe
+else
+    echo "Invalid DB URL"
+fi

@@ -1,0 +1,16 @@
+{
+	"Encore api endpoint": {
+	  "prefix": "enapi",
+	  "description": "Encore api defintion and types",
+	  "body": [
+		"type $1Request struct {}",
+		"",
+		"type $1Response struct {}",
+		"",
+		"//encore:api $2",
+		"func $1(ctx context.Context, req *$1Request) (*$1Response, error) {",
+		"\treturn nil, nil",
+		"}"
+	  ]
+	}
+  }
