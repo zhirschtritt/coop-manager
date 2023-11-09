@@ -1,0 +1,48 @@
+{
+	"name": "web",
+	"private": true,
+	"sideEffects": false,
+	"type": "module",
+	"scripts": {
+		"build": "remix build",
+		"dev": "remix dev --manual",
+		"start": "remix-serve ./build/index.js",
+		"typecheck": "tsc",
+		"format": "prettier --write ./app",
+		"format:repo": "run-s format lint",
+		"lint": "eslint --cache --cache-location ./node_modules/.cache/eslint .",
+		"generate-client:staging": "encore gen client coop-manager-m6k2 --output=./app/lib/client.ts --env=staging",
+		"generate-client:local": "encore gen client coop-manager-m6k2 --output=./app/lib/client.ts --env=local"
+	},
+	"dependencies": {
+		"@mantine/core": "7.1.7",
+		"@mantine/hooks": "7.1.7",
+		"@remix-run/css-bundle": "2.2.0",
+		"@remix-run/node": "2.2.0",
+		"@remix-run/react": "2.2.0",
+		"@remix-run/serve": "2.2.0",
+		"isbot": "3.6.8",
+		"react": "18.2.0",
+		"react-dom": "18.2.0",
+		"remix-auth": "3.6.0",
+		"remix-auth-oauth2": "1.11.0",
+		"remix-auth-oauth2-pkce": "^1.8.0"
+	},
+	"devDependencies": {
+		"@remix-run/dev": "^2.2.0",
+		"@remix-run/eslint-config": "^2.2.0",
+		"@types/react": "^18.2.20",
+		"@types/react-dom": "^18.2.7",
+		"eslint": "^8.52.0",
+		"eslint-config-prettier": "^9.0.0",
+		"npm-run-all": "^4.1.5",
+		"postcss": "^8.4.31",
+		"postcss-preset-mantine": "^1.9.0",
+		"postcss-simple-vars": "^7.0.1",
+		"prettier": "^3.0.3",
+		"typescript": "^5.2.0"
+	},
+	"engines": {
+		"node": ">=18.0.0"
+	}
+}

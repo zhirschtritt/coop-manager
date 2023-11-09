@@ -7,13 +7,11 @@ import (
 
 	"encore.dev/beta/auth"
 	"encore.dev/beta/errs"
-	"github.com/samber/lo"
 	"github.com/zitadel/oidc/pkg/oidc"
 	"github.com/zitadel/zitadel-go/v2/pkg/client/management"
 	"github.com/zitadel/zitadel-go/v2/pkg/client/middleware"
 	"github.com/zitadel/zitadel-go/v2/pkg/client/zitadel"
 	pb "github.com/zitadel/zitadel-go/v2/pkg/client/zitadel/management"
-	"github.com/zitadel/zitadel-go/v2/pkg/client/zitadel/user"
 )
 
 type Role string
@@ -30,51 +28,40 @@ type UserData struct {
 	UserName  string `json:"userName"`
 	FirstName string `json:"firstName"`
 	LastName  string `json:"lastName"`
-	Email     string `json:"email"`
-	Phone     string `json:"phone"`
+	Email     string `json:"email,omitempty"`
+	Phone     string `json:"phone,omitempty"`
 	Roles     []Role `json:"roles"`
 	OrgId     string `json:"orgId"`
 	OrgName   string `json:"orgName"`
 }
 
-type MeResponse struct {
-	UserData *UserData `json:"providerData"`
-}
-
-//encore:api auth path=/users/me
-func Me(ctx context.Context) (*MeResponse, error) {
-	return &MeResponse{UserData: auth.Data().(*UserData)}, nil
-}
-
 type GetUserResponse struct {
-	ID       string `json:"id"`
-	UserName string `json:"name"`
-	Type     string `json:"isMachine"`
-	Email    string `json:"email"`
-	Phone    string `json:"phone"`
-}
-
-//encore:api private method=GET path=/users/by-name/:loginName
-func (s *UserService) GetUserByLogin(ctx context.Context, loginName string) (*GetUserResponse, error) {
-	res, err := s.zitadelClient.GetUserByLoginNameGlobal(ctx, &pb.GetUserByLoginNameGlobalRequest{
-		LoginName: auth.Data().(*UserData).UserName,
-	})
-	if err != nil {
-		return nil, err
-	}
-
-	return &GetUserResponse{
-		ID:       res.User.Id,
-		UserName: res.User.UserName,
-		Type:     lo.Ternary(res.User.GetType() == &user.User_Human{}, "HUMAN", "MACHINE"),
-		Email:    res.User.GetHuman().GetEmail().Email,
-		Phone:    res.User.GetHuman().GetPhone().Phone,
-	}, nil
+	UserData *UserData `json:"providerData"`
 }
 
 //encore:service
 type UserService struct {
 	zitadelClient *management.Client
+}
+
+// TODO: when required, work on return type for fully fleshed out (and json serializable) user object
+// //encore:api private method=GET path=/users/by-name/:userName
+// func (s UserService) GetUserByUserName(ctx context.Context, userName string) (*user.User, error) {
+// 	res, err := s.zitadelClient.GetUserByLoginNameGlobal(ctx, &pb.GetUserByLoginNameGlobalRequest{
+// 		LoginName: userName,
+// 	})
+// 	if err != nil {
+// 		return nil, err
+// 	}
+
+// 	return res.User.Details(), nil
+// }
+
+//encore:api auth method=GET path=/users/me
+func (s UserService) GetMyUser(ctx context.Context) (*GetUserResponse, error) {
+	return &GetUserResponse{
+		UserData: auth.Data().(*UserData),
+	}, nil
 }
 
 func initUserService() (*UserService, error) {

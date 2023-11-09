@@ -10,6 +10,7 @@ import (
 	"encore.app/db"
 	"encore.app/db/models"
 	"encore.dev"
+	"encore.dev/rlog"
 	"encore.dev/storage/sqldb"
 	"github.com/volatiletech/sqlboiler/v4/boil"
 	"github.com/volatiletech/sqlboiler/v4/types"
@@ -22,9 +23,10 @@ var secrets struct {
 var coredb = sqldb.Named("core").Stdlib()
 
 func init() {
-	if encore.Meta().Environment.Cloud != encore.CloudLocal {
+	if encore.Meta().Environment.Type != encore.EnvDevelopment {
 		return
 	}
+	rlog.Debug("seed init")
 
 	ctx := context.Background()
 

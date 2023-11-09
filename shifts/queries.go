@@ -21,8 +21,8 @@ type GetShiftsRequest struct {
 		To   time.Time `json:"to" validate:"required"`
 	} `json:"query" validate:"required"`
 
-	Limit  *int    `json:"limit" validate:"omitempty,gt=0,lte=100"`
-	Cursor *string `json:"cursor" validate:"omitempty,base64"`
+	Limit  *int    `json:"limit" encore:"optional" validate:"omitempty,gt=0,lte=100"`
+	Cursor *string `json:"cursor" encore:"optional" validate:"omitempty,base64"`
 }
 
 func (req GetShiftsRequest) Validate() error {

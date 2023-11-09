@@ -10,6 +10,13 @@
             "request": "attach",
             "mode": "local",
             "processId": 0
-        }
+        },
+        {
+            "command": "npm run dev",
+            "name": "Debug Web",
+            "request": "launch",
+            "type": "node-terminal",
+            "cwd": "${workspaceFolder}/web"
+          },
     ]
 }

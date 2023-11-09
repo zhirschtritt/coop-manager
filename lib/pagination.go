@@ -9,7 +9,7 @@ import (
 )
 
 type PaginationMeta struct {
-	NextPageCursor *string `json:"nextPageCursor"`
+	NextPageCursor *string `json:"nextPageCursor" encore:"optional"`
 }
 
 type CursorSingleContext struct {

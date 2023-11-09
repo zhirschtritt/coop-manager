@@ -1,5 +1,9 @@
 {
     "cSpell.words": [
         "resourceowner"
-    ]
+    ],
+    "typescript.tsdk": "node_modules/typescript/lib",
+    "search.exclude": {
+        "**/node_modules": false
+    }
 }
