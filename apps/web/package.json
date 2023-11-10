@@ -39,7 +39,7 @@
     "apollo-env": "^0.10.0",
     "apollo-server": "^3.11.1",
     "apollo-server-express": "^3.11.1",
-    "axios": "^0.21.1",
+    "axios": "^1.6.0",
     "date-fns": "^2.22.1",
     "dayjs": "^1.10.7",
     "framer-motion": "^4.1.13",
